@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:DreamingPhoenix"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Styles/Scheme/ColorSchemeDreamland.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Window/CustomWindow.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
