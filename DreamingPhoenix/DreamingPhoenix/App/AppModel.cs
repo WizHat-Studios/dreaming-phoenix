@@ -1,0 +1,50 @@
+﻿using DreamingPhoenix.AudioHandling;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+namespace DreamingPhoenix.App
+{
+    public class AppModel : INotifyPropertyChanged
+    {
+
+        private static AppModel instance;
+
+        /// <summary>
+        /// Instance of the Singleton Implementation
+        /// </summary>
+        public static AppModel Instance
+        {
+            get 
+            {
+                if (instance == null)
+                    instance = new AppModel();
+
+                return instance;
+            }
+        }
+
+        private ObservableCollection<Audio> audioList;
+
+        /// <summary>
+        /// List containing all audio configurations with tracks and effects
+        /// </summary>
+        public ObservableCollection<Audio> AudioList
+        {
+            get { return audioList; }
+            set { audioList = value; NotifyPropertyChanged(); }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+    }
+}
