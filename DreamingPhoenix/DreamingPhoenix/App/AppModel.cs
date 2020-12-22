@@ -39,6 +39,19 @@ namespace DreamingPhoenix.App
         }
 
 
+        private AppOptions options;
+
+        /// <summary>
+        /// Options of the application
+        /// </summary>
+        public AppOptions Options
+        {
+            get { return options; }
+            set { options = value; NotifyPropertyChanged(); }
+        }
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
