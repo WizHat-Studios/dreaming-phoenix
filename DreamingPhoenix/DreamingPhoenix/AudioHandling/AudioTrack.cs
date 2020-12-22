@@ -17,7 +17,6 @@ namespace DreamingPhoenix.AudioHandling
             set { nextAudioTrack = value; NotifyPropertyChanged(); }
         }
 
-
         private float fadeOutSpeed;
 
         /// <summary>
@@ -29,5 +28,13 @@ namespace DreamingPhoenix.AudioHandling
             set { fadeOutSpeed = value; NotifyPropertyChanged(); }
         }
 
+        /// <summary>
+        /// Creates a new Audio
+        /// </summary>
+        /// <param name="audioFile">Audio File Path</param>
+        /// <param name="name">Audio Name</param>
+        public AudioTrack(string audioFile, string name) : base(audioFile, name)
+        {
+        }
     }
 }

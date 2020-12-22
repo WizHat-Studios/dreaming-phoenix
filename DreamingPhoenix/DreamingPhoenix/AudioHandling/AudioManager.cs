@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 
 namespace DreamingPhoenix.AudioHandling
 {
     public class AudioManager : INotifyPropertyChanged
     {
 
-        private ObservableCollection<PlayableAudio> currentlyPlayingSoundEffects;
+        private ObservableCollection<PlayableAudio> currentlyPlayingSoundEffects = new ObservableCollection<PlayableAudio>();
 
         /// <summary>
         /// List of all currently playing sound effects
@@ -18,10 +19,14 @@ namespace DreamingPhoenix.AudioHandling
         public ObservableCollection<PlayableAudio> CurrentlyPlayingSoundEffects
         {
             get { return currentlyPlayingSoundEffects; }
-            set { currentlyPlayingSoundEffects = value; NotifyPropertyChanged(); }
+            set
+            {
+                currentlyPlayingSoundEffects = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private PlayableAudio currentlyPlayingAudioTrack;
+        private PlayableAudio currentlyPlayingAudioTrack = new PlayableAudio(null);
 
         /// <summary>
         /// The audio track which is currently played by the application
@@ -29,7 +34,11 @@ namespace DreamingPhoenix.AudioHandling
         public PlayableAudio CurrentlyPlayingAudioTrack
         {
             get { return currentlyPlayingAudioTrack; }
-            set { currentlyPlayingAudioTrack = value; NotifyPropertyChanged(); }
+            set
+            {
+                currentlyPlayingAudioTrack = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public void PlayAudio(Audio audioToPlay)
@@ -49,15 +58,15 @@ namespace DreamingPhoenix.AudioHandling
 
         private void PlaySoundEffect(SoundEffect soundEffectToPlay)
         {
-            currentlyPlayingSoundEffects.Add(new PlayableAudio(soundEffectToPlay));
+            PlayableAudio audio = new PlayableAudio(soundEffectToPlay);
+            currentlyPlayingSoundEffects.Add(audio);
         }
 
         private void PlayAudioTrack(AudioTrack audioTrackToPlay)
         {
             // TODO Stop CurrentlyPlayingAudioTrack
-            CurrentlyPlayingAudioTrack = new PlayableAudio(audioTrackToPlay);
+            CurrentlyPlayingAudioTrack.Play(audioTrackToPlay);
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)

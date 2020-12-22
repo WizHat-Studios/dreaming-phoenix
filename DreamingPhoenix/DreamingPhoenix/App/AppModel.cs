@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace DreamingPhoenix.App
+namespace DreamingPhoenix
 {
     public class AppModel : INotifyPropertyChanged
     {
@@ -50,7 +50,7 @@ namespace DreamingPhoenix.App
             set { options = value; NotifyPropertyChanged(); }
         }
 
-
+        public AudioManager AudioMgt { get; set; } = new AudioManager();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace DreamingPhoenix.App
+namespace DreamingPhoenix
 {
     public class AppOptions : INotifyPropertyChanged
     {

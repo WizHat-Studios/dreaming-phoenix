@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
@@ -73,6 +74,19 @@ namespace DreamingPhoenix.AudioHandling
         {
             get { return hotkeyModifiers; }
             set { hotkeyModifiers = value; NotifyPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Creates a new Audio
+        /// </summary>
+        /// <param name="audioFile">Audio File Path</param>
+        /// <param name="name">Audio Name</param>
+        protected Audio(string audioFile, string name)
+        {
+            if (!File.Exists(audioFile))
+                throw new FileNotFoundException("Audio File not found", audioFile);
+            AudioFile = audioFile;
+            Name = name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
