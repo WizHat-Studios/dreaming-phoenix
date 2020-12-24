@@ -36,5 +36,10 @@ namespace DreamingPhoenix.AudioHandling
         public AudioTrack(string audioFile, string name) : base(audioFile, name)
         {
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

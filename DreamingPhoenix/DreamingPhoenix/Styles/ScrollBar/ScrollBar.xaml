@@ -63,7 +63,8 @@
                             <Track.Thumb>
                                 <Thumb x:Name="Thumb"
                                     Background="{TemplateBinding Foreground}"
-                                    Style="{DynamicResource ScrollBarTrackThumb}" />
+                                       />
+                                <!--="{DynamicResource ScrollBarTrackThumb}" />-->
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
                                 <RepeatButton x:Name="PageUp"

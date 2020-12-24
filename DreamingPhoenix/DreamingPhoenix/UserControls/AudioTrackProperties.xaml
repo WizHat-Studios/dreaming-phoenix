@@ -4,38 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
-             mc:Ignorable="d" d:Width="500" d:Height="500" >
+             xmlns:combobox="clr-namespace:DreamingPhoenix.Styles.ComboBox"
+             xmlns:dp="clr-namespace:DreamingPhoenix"
+             mc:Ignorable="d" d:Width="500" d:Height="500">
     <Grid Background="{DynamicResource BackgroundB}">
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
             <StackPanel>
-                <Label Content="AUDIOTRACK PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,10,0,20"/>
+                <Label Content="AUDIOTRACK PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" 
+                       FontWeight="Bold" FontSize="15" Margin="0,10,0,20" />
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <TextBox Text="{Binding Track.Name, Mode=TwoWay}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0"/>
+                    <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90"
+                           Margin="10,0,0,0" FontSize="13" />
+                    <TextBox Text="{Binding Track.Name, Mode=TwoWay}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="VOLUME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <Label Content="100%" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
-                    <Slider Value="{Binding Track.Volume, Mode=TwoWay}" Height="20" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                    <Label Content="VOLUME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Label Content="100%" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" 
+                           HorizontalContentAlignment="Right" Margin="0,0,10,0" />
+                    <Slider Value="{Binding Track.Volume, Mode=TwoWay}" Height="20" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" 
+                            DockPanel.Dock="Right" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="FADE SPEED" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <Label Content="10 sec" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
-                    <Slider Value="{Binding Track.FadeOutSpeed, Mode=TwoWay}" Height="20" Minimum="0" Maximum="10000" SmallChange="100" LargeChange="1000" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                    <Label Content="FADE SPEED" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Label Content="10 sec" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" 
+                           Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0" />
+                    <Slider Value="{Binding Track.FadeOutSpeed, Mode=TwoWay}" Height="20" Minimum="0" Maximum="10000" SmallChange="100" 
+                            LargeChange="1000" DockPanel.Dock="Right" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <ComboBox Height="20" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <combobox:SearchComboBox x:Name="cmb_nextAudioTrack" Style="{StaticResource ComboBox}" 
+                                             Height="25" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                                             IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
+                                             IsReadOnly="False" StaysOpenOnEdit="True" Loaded="cmb_nextAudioTrack_Loaded"
+                                             SelectionChanged="cmb_nextAudioTrack_SelectionChanged">
+                        <combobox:SearchComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                            </ItemsPanelTemplate>
+                        </combobox:SearchComboBox.ItemsPanel>
+                    </combobox:SearchComboBox>
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="AUDIO FILE" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
+                    <Label Content="AUDIO FILE" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
                     <Button Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"/>
+                    <TextBox Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0" />
                 </DockPanel>
 
             </StackPanel>
@@ -43,8 +67,8 @@
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
             <Button Height="50" Width="50" Content="D" HorizontalAlignment="Right" Margin="0,0,70,0"/>
-            <Button Height="50" Width="50" Content="P" HorizontalAlignment="Right" Margin="0,0,10,0"/>
-            <ToggleButton Height="50" Width="50" Content="R" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Button Height="50" Width="50" Content="P" HorizontalAlignment="Right" Margin="0,0,10,0" />
+            <ToggleButton Height="50" Width="50" Content="R" HorizontalAlignment="Left" Margin="10,0,0,0" />
         </Grid>
     </Grid>
 </UserControl>
