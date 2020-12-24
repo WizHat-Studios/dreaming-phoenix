@@ -27,7 +27,7 @@ namespace DreamingPhoenix
             }
         }
 
-        private ObservableCollection<Audio> audioList;
+        private ObservableCollection<Audio> audioList = new ObservableCollection<Audio>();
 
         /// <summary>
         /// List containing all audio configurations with tracks and effects
@@ -39,7 +39,7 @@ namespace DreamingPhoenix
         }
 
 
-        private AppOptions options;
+        private AppOptions options = new AppOptions();
 
         /// <summary>
         /// Options of the application
@@ -50,7 +50,7 @@ namespace DreamingPhoenix
             set { options = value; NotifyPropertyChanged(); }
         }
 
-        public AudioManager AudioMgt { get; set; } = new AudioManager();
+        public AudioManager AudioManager { get; set; } = new AudioManager();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

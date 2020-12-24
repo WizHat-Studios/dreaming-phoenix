@@ -68,6 +68,19 @@ namespace DreamingPhoenix.AudioHandling
             CurrentlyPlayingAudioTrack.Play(audioTrackToPlay);
         }
 
+        public void StopAllAudio()
+        {
+            foreach (PlayableAudio audio in CurrentlyPlayingSoundEffects)
+            {
+                audio.ForceStop();
+            }
+
+            CurrentlyPlayingSoundEffects.Clear();
+
+            CurrentlyPlayingAudioTrack.ForceStop();
+            CurrentlyPlayingAudioTrack = new PlayableAudio(null);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {

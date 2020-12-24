@@ -18,7 +18,6 @@ namespace DreamingPhoenix.AudioHandling
         private WaveOutEvent outputDevice;
         private FadeInOutSampleProvider fade;
         private event EventHandler OnFadedOut;
-        private bool isInFadeOut;
         private float volume;
 
         public float Volume
@@ -61,8 +60,8 @@ namespace DreamingPhoenix.AudioHandling
 
         public void Play(Audio audio)
         {
-            if (isInFadeOut)
-                return;
+            // Clear all subscribers from event
+            OnFadedOut = null;
 
             if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
             {
@@ -84,12 +83,16 @@ namespace DreamingPhoenix.AudioHandling
             if (audioOptions.GetType() != typeof(AudioTrack))
                 return;
 
-            isInFadeOut = true;
             fade.BeginFadeOut(((AudioTrack)audioOptions).FadeOutSpeed);
             await Task.Delay(Convert.ToInt32(((AudioTrack)audioOptions).FadeOutSpeed));
             outputDevice.Stop();
-            isInFadeOut = false;
             OnFadedOut?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ForceStop()
+        {
+            outputDevice.Stop();
+            OnFadedOut = null;
         }
 
         private void OnAudioStopped(object sender, StoppedEventArgs e)
