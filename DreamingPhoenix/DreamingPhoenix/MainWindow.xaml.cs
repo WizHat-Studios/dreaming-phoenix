@@ -21,7 +21,7 @@ namespace DreamingPhoenix
     public partial class MainWindow : Window
     {
 
-        public AudioHandling.AudioTrack a1 { get; set; } = new AudioHandling.AudioTrack(@"D:\Music\Soundboard\Files\Directed by Robert B. Weide- theme meme.mp3", "Theme"); 
+        public AudioHandling.AudioTrack a1 { get; set; } = new AudioHandling.AudioTrack(@"D:\WizHat Studios\Sounds\Music1.mp3", "Jackpot"); 
         public AudioHandling.AudioTrack a2;
         public AudioHandling.SoundEffect s1;
 
@@ -36,11 +36,11 @@ namespace DreamingPhoenix
             a1.Volume = 0.1f;
             a1.FadeOutSpeed = 5000;
 
-            a2 = new AudioHandling.AudioTrack(@"D:\Music\Soundboard\Files\Discord Call Ringtone Remix - Discord Call Ringtone Remix.mp3", "Discord");
+            a2 = new AudioHandling.AudioTrack(@"D:\WizHat Studios\Sounds\Music2.mp3", "Feels");
             a2.Volume = 0.1f;
             a2.FadeOutSpeed = 5000;
 
-            s1 = new AudioHandling.SoundEffect(@"D:\Music\Soundboard\Files\Discord Call Ringtone Remix - Discord Call Ringtone Remix.mp3", "Discord");
+            s1 = new AudioHandling.SoundEffect(@"D:\WizHat Studios\Sounds\Sound1.mp3", "Puzzle");
 
             AppModelInstance.AudioList.Add(a1);
             AppModelInstance.AudioList.Add(a2);
@@ -54,6 +54,14 @@ namespace DreamingPhoenix
 
             grid_selectedAudioProperties.Children.Clear();
             grid_selectedAudioProperties.Children.Add(new UserControls.AudioTrackProperties(a1));
+        }
+
+        private void PlayAudioTrack_Click(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).DataContext == null)
+                return;
+            AudioHandling.AudioTrack track = (AudioHandling.AudioTrack)((Button)sender).DataContext;
+            AppModel.Instance.AudioManager.PlayAudio(track);
         }
     }
 }

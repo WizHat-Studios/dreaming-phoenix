@@ -8,8 +8,9 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:converters="clr-namespace:DreamingPhoenix.Converter"  
         mc:Ignorable="d"
-        Title="Dreaming Phoenix" Height="450" Width="800" Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}" Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}">
-
+        Title="Dreaming Phoenix" Height="450" Width="800"
+        Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
+        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}">
     <Window.Resources>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
         <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
@@ -24,14 +25,19 @@
         </Grid.ColumnDefinitions>
 
         <Grid Background="{DynamicResource BackgroundC}">
-            <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" 
+                     Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.Resources>
                     <DataTemplate DataType="{x:Type audio:AudioTrack}">
                         <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                             <Grid>
-                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="16" Style="{StaticResource TransparentTextBox}"/>
-                                <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
-                                <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"/>
+                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                         FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
+                                <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                        Click="PlayAudioTrack_Click"/>
 
                                 <Grid  Margin="5,35,5,5">
                                     <Grid.ColumnDefinitions>
@@ -42,7 +48,8 @@
                                     <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
                                         <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
                                             <Label fa:Awesome.Content="VolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20"/>
-                                            <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0"/>
+                                            <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" 
+                                                    SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0"/>
                                             </Grid>
                                     </Border>
 
@@ -51,17 +58,40 @@
                                             <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
                                         </Grid>
                                     </Border>
-
-
                                 </Grid>
-
                             </Grid>
                         </Border>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type audio:SoundEffect}">
                         <Border Height="50" Background="{DynamicResource BackgroundB}" CornerRadius="5">
                             <Grid >
+                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                                         FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
+                                <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"/>
 
+                                <Grid  Margin="5,35,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="250"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
+                                        <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
+                                            <Label fa:Awesome.Content="VolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20"/>
+                                            <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" 
+                                                    SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
+                                        <Grid>
+                                            <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -78,8 +108,19 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <Label Content="CURRENTLY PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top" FontSize="9" Margin="10,10,10,0"/>
-                <TextBlock Text="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions.Name, Converter={StaticResource ObjectToPlayingStringConverter}}" Foreground="{DynamicResource ForegroundDefault}" Height="30" VerticalAlignment="Top" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis" Padding="4" FontWeight="Bold"/>
+                <Label Content="CURRENTLY PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top" 
+                       FontSize="9" Margin="10,10,10,0"/>
+                <TextBlock Foreground="{DynamicResource ForegroundDefault}" 
+                           Height="30" VerticalAlignment="Top" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis" 
+                           Padding="4" FontWeight="Bold">
+                    <TextBlock.Text>
+                        <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions"  UpdateSourceTrigger="PropertyChanged">
+                            <Binding.Converter>
+                                <converters:ObjectToPlayingStringConverter />
+                            </Binding.Converter>
+                        </Binding>
+                    </TextBlock.Text>
+                </TextBlock>
 
                 <Grid Margin="10" VerticalAlignment="Bottom" Height="20">
                     <Grid.ColumnDefinitions>
@@ -87,9 +128,11 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas" HorizontalContentAlignment="Center"/>
+                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas" 
+                           HorizontalContentAlignment="Center"/>
                     <ProgressBar Height="10" VerticalAlignment="Center" Value="20" Grid.Column="1"/>
-                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" Grid.Column="2" HorizontalContentAlignment="Center" FontFamily="Consolas"/>
+                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" Grid.Column="2" 
+                           HorizontalContentAlignment="Center" FontFamily="Consolas"/>
                 </Grid>
                 
                 <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
@@ -102,8 +145,10 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <Label Content="SOUND EFFECTS PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top" FontSize="9" Margin="0,5,0,0" HorizontalContentAlignment="Center"/>
-                <ListBox Background="{x:Null}" Margin="0,30,0,0" BorderBrush="{x:Null}" ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch">
+                <Label Content="SOUND EFFECTS PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top" 
+                       FontSize="9" Margin="0,5,0,0" HorizontalContentAlignment="Center"/>
+                <ListBox Background="{x:Null}" Margin="0,30,0,0" BorderBrush="{x:Null}"
+                         ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="30" Margin="2,1,2,1" Background="{DynamicResource BackgroundF}">

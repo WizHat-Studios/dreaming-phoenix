@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -33,13 +34,16 @@ namespace DreamingPhoenix.AudioHandling
         public Audio AudioOptions
         {
             get { return audioOptions; }
-            set { audioOptions = value; NotifyPropertyChanged(); }
+            set
+            {
+                audioOptions = value;
+                NotifyPropertyChanged();
+            }
         }
-
 
         public PlayableAudio(Audio audioOptions)
         {
-            this.audioOptions = audioOptions;
+            this.AudioOptions = audioOptions;
         }
 
         /// <summary>
@@ -63,6 +67,7 @@ namespace DreamingPhoenix.AudioHandling
                 outputDevice.Init(audioFileReader);
             }
             outputDevice.Play();
+            Debug.WriteLine(string.Format("Playing Audio \"{0}\"", audioOptions.Name));
         }
 
         public void Play(Audio audio)
@@ -77,7 +82,7 @@ namespace DreamingPhoenix.AudioHandling
             }
             else
             {
-                audioOptions = audio;
+                AudioOptions = audio;
                 Play();
             }
         }

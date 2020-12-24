@@ -28,6 +28,11 @@ namespace DreamingPhoenix.AudioHandling
             set { fadeOutSpeed = value; NotifyPropertyChanged(); }
         }
 
+        public AudioTrack()
+        {
+        }
+
+
         /// <summary>
         /// Creates a new Audio
         /// </summary>

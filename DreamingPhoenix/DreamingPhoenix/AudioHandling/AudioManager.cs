@@ -26,7 +26,7 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
-        private PlayableAudio currentlyPlayingAudioTrack = new PlayableAudio(null);
+        private PlayableAudio currentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
 
         /// <summary>
         /// The audio track which is currently played by the application

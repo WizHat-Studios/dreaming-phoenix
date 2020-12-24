@@ -76,6 +76,10 @@ namespace DreamingPhoenix.AudioHandling
             set { hotkeyModifiers = value; NotifyPropertyChanged(); }
         }
 
+        protected Audio()
+        {
+        }
+
         /// <summary>
         /// Creates a new Audio
         /// </summary>
@@ -89,8 +93,13 @@ namespace DreamingPhoenix.AudioHandling
             Name = name;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public static readonly Audio Default = new AudioTrack()
+        {
+            Name = "",
+            AudioFile = ""
+        };
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
