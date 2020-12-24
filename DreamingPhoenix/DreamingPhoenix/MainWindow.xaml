@@ -4,7 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DreamingPhoenix"
+        xmlns:audio="clr-namespace:DreamingPhoenix.AudioHandling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}" Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}">
-    <Grid Background="{DynamicResource BackgroundC}" Margin="0,30,0,0"/>
+        Title="Dreaming Phoenix" Height="450" Width="800" Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}" Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}">
+    <Grid Background="{DynamicResource BackgroundC}" Margin="0,30,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="1*" MinWidth="315"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="{DynamicResource BackgroundC}">
+            <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch">
+                <ListBox.Resources>
+                    <DataTemplate DataType="{x:Type audio:AudioTrack}">
+                        <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Grid>
+                                <TextBox Text="{Binding Name}" Height="35" Margin="5,3,0,0" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Style="{StaticResource TransparentTextBox}"/>
+
+                                <Grid  Margin="5,35,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Grid.Column="0">
+                                        <Grid>
+                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="7,5,0,0">
+                                                <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,0,50,0"/>
+                                                <TextBlock Text="{Binding Volume}" Margin="3" Foreground="{DynamicResource ForegroundDefault}" HorizontalAlignment="Right" Width="40"/>
+                                            </Grid>
+                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="7,24,0,0">
+                                                <Slider Value="{Binding FadeOutSpeed, Mode=TwoWay}" Height="30" VerticalAlignment="Top" Minimum="0" Maximum="10000" SmallChange="100" LargeChange="1000" Margin="0,0,50,0"/>
+                                                <TextBlock Text="{Binding FadeOutSpeed}" Margin="3" Foreground="{DynamicResource ForegroundDefault}" HorizontalAlignment="Right"  Width="40"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Grid.Column="1">
+                                        <Grid>
+                                            <ComboBox Margin="7,7,7,7" Width="240" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                                            <Button Width="120" Margin="7,7,7,7" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </Border>
+
+
+                                </Grid>
+
+                                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="25" Width="25" Margin="0,7.5,7.5,0"/>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type audio:SoundEffect}">
+                        <Border Height="50" Background="{DynamicResource BackgroundB}" CornerRadius="5">
+                            <Grid >
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.Resources>
+            </ListBox>
+        </Grid>
+        <GridSplitter Grid.Column="1" Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch"/>
+        <Grid Grid.Column="2" Background="{DynamicResource BackgroundB}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <GridSplitter Grid.Row="2" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch"/>
+            <Grid x:Name="grid_selectedAudioProperties" Grid.Row="3"/>
+        </Grid>
+
+    </Grid>
 </Window>

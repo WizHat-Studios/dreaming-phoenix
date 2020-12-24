@@ -40,6 +40,7 @@
                               DockPanel.Dock="Left"
                               FontSize="12"
                               Foreground="{TemplateBinding Foreground}"
+                              FontFamily="{DynamicResource Phoenix}"         
                               Text="{TemplateBinding Title}" />
 
                             <Button x:Name="btnClose"
