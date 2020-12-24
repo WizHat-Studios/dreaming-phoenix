@@ -14,9 +14,11 @@
                 <ResourceDictionary Source="./Styles/ProgressBar/ProgressBar.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Slider/Slider.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ScrollBar/ScrollBar.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ListBox/ListBox.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -4,13 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\DreamingPhoenix.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Fonts\PhoenixFont-Regular.otf" />
+    <None Remove="Images\DreamingPhoenix.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="NAudio" Version="2.0.0-beta1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
@@ -19,6 +22,7 @@
     <Resource Include="Fonts\PhoenixFont-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="Images\DreamingPhoenix.ico" />
   </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@ namespace DreamingPhoenix
 
         public AudioHandling.AudioTrack a1 { get; set; } = new AudioHandling.AudioTrack(@"D:\Music\Soundboard\Files\Directed by Robert B. Weide- theme meme.mp3", "Theme"); 
         public AudioHandling.AudioTrack a2;
+        public AudioHandling.SoundEffect s1;
 
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
 
@@ -39,8 +40,16 @@ namespace DreamingPhoenix
             a2.Volume = 0.1f;
             a2.FadeOutSpeed = 5000;
 
+            s1 = new AudioHandling.SoundEffect(@"D:\Music\Soundboard\Files\Discord Call Ringtone Remix - Discord Call Ringtone Remix.mp3", "Discord");
+
             AppModelInstance.AudioList.Add(a1);
             AppModelInstance.AudioList.Add(a2);
+
+            // AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack = new AudioHandling.PlayableAudio(a1);
+
+            AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects.Add(new AudioHandling.PlayableAudio(s1));
+            AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects.Add(new AudioHandling.PlayableAudio(s1));
+            AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects.Add(new AudioHandling.PlayableAudio(s1));
             // AppModelInstance.AudioList.Add(new AudioHandling.SoundEffect(@"D:\Music\Soundboard\Files\badumtss.swf.mp3", "Badummmts"));
 
             grid_selectedAudioProperties.Children.Clear();
