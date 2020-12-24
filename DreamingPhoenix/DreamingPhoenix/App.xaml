@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ScrollBar/ScrollBar.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ComboBox/ComboBox.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
