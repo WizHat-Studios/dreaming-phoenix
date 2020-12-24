@@ -30,6 +30,13 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        public Audio AudioOptions
+        {
+            get { return audioOptions; }
+            set { audioOptions = value; NotifyPropertyChanged(); }
+        }
+
+
         public PlayableAudio(Audio audioOptions)
         {
             this.audioOptions = audioOptions;
