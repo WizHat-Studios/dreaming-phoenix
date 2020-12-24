@@ -5,8 +5,8 @@
     <SolidColorBrush x:Key="AccentA" Color="#FFF5940C"></SolidColorBrush>
     <SolidColorBrush x:Key="AccentB" Color="#FFD4620B"></SolidColorBrush>
     <SolidColorBrush x:Key="AccentC" Color="#FFEB4200"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentD" Color="#FFD4250B"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentE" Color="#FFF50C14"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentD" Color="#FFEE2D02"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentE" Color="#FFC50208"></SolidColorBrush>
 
     <SolidColorBrush x:Key="BackgroundA" Color="#FF1B1B1B"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundB" Color="#FF1D1D1D"></SolidColorBrush>
