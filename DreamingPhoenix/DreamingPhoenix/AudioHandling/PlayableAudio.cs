@@ -109,6 +109,9 @@ namespace DreamingPhoenix.AudioHandling
 
         private void OnAudioStopped(object sender, StoppedEventArgs e)
         {
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
+                return;
+
             if (audioOptions.GetType() != typeof(AudioTrack))
                 return;
 

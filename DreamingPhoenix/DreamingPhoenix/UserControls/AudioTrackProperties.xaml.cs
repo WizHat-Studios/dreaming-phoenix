@@ -42,7 +42,7 @@ namespace DreamingPhoenix.UserControls
             InitializeComponent();
             this.DataContext = this;
             Track = audioTrack;
-            Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack)).ToList();
+            Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
         }
 
         private void cmb_nextAudioTrack_Loaded(object sender, RoutedEventArgs e)
@@ -62,6 +62,25 @@ namespace DreamingPhoenix.UserControls
         private void NotifyPropertyChanged([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            if (Track == null)
+                return;
+
+            AppModel.Instance.AudioManager.PlayAudio(Track);
+        }
+
+        private void RemoveNextTrack_Click(object sender, RoutedEventArgs e)
+        {
+            Track.NextAudioTrack = null;
+            cmb_nextAudioTrack.SelectedItem = null;
+        }
+
+        private void DeleteTrack_Click(object sender, RoutedEventArgs e)
+        {
+            AppModel.Instance.AudioList.Remove(Track);
         }
     }
 }

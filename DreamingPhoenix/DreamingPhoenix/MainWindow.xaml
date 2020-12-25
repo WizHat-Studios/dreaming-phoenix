@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="Dreaming Phoenix" Height="450" Width="800"
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
-        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}">
+        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}" Closing="Window_Closing">
     <Window.Resources>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
         <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
@@ -25,9 +25,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid Background="{DynamicResource BackgroundC}">
-            <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" 
+            <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged" 
                      Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
+                        <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
+                    </Style>
                     <DataTemplate DataType="{x:Type audio:AudioTrack}">
                         <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                             <Grid>
@@ -98,7 +101,7 @@
                 </ListBox.Resources>
             </ListBox>
         </Grid>
-        <GridSplitter Grid.Column="1" Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch"/>
         <Grid Grid.Column="2" Background="{DynamicResource BackgroundB}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="140"/>
@@ -136,7 +139,7 @@
                 </Grid>
                 
                 <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
-                    <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0"/>
+                    <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"  Margin="0,0,15,0"/>
                     <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"  Margin="0,0,15,0"/>
                 </StackPanel>

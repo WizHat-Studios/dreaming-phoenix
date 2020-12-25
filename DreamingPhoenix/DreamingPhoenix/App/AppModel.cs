@@ -52,6 +52,24 @@ namespace DreamingPhoenix
 
         public AudioManager AudioManager { get; set; } = new AudioManager();
 
+        public void SaveData()
+        {
+            Persistence.PersistentData persistentData = new Persistence.PersistentData() { AudioList = new List<Audio>(AudioList) };
+            new Persistence.PersistenceJsonDataManager().Save(persistentData);
+        }
+
+        public void LoadData()
+        {
+            Persistence.PersistentData data = new Persistence.PersistenceJsonDataManager().Load();
+            AudioList.Clear();
+            data.AudioList.ForEach(x => AudioList.Add(x));
+        }
+
+        public AppModel()
+        {
+            LoadData();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)

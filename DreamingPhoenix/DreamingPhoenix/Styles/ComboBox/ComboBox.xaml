@@ -8,18 +8,18 @@
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
             <Border x:Name="Border" Grid.ColumnSpan="2" Background="{DynamicResource BackgroundC}"
-                    BorderBrush="{DynamicResource BackgroundG}" BorderThickness="1" />
-            <Border Grid.Column="0" Margin="1" Background="{DynamicResource BackgroundC}"
+                    BorderBrush="{DynamicResource BackgroundC}" BorderThickness="1" CornerRadius="3" />
+            <Border Grid.Column="0" Margin="1" Background="{DynamicResource BackgroundB}"
                     BorderBrush="{DynamicResource BackgroundG}" BorderThickness="0,0,1,0" />
             <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Data="M 0 0 L 4 4 L 8 0 Z" Fill="{DynamicResource ForegroundDefault}" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Border" Property="Background" Value="LightGray" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="Gray" />
-                <Setter Property="Foreground" Value="DarkGray" />
-                <Setter TargetName="Arrow" Property="Fill" Value="DarkGray" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BackgroundC}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource BackgroundC}" />
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundDefault}" />
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource ForegroundDefault}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -93,7 +93,7 @@
                                         <Condition Property="IsMouseOver" Value="True"/>
                                         <Condition Property="IsKeyboardFocused" Value="False"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                     <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                 </MultiTrigger>
                                 <MultiTrigger>
@@ -102,7 +102,7 @@
                                         <Condition Property="IsMouseOver" Value="False"/>
                                         <Condition Property="IsKeyboardFocused" Value="True"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                     <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                 </MultiTrigger>
                                 <MultiTrigger>
@@ -110,7 +110,7 @@
                                         <Condition Property="IsSelected" Value="True"/>
                                         <Condition Property="IsMouseOver" Value="True"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                     <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentD}"/>
                                 </MultiTrigger>
                                 <MultiTrigger>
@@ -119,7 +119,7 @@
                                         <Condition Property="IsMouseOver" Value="False"/>
                                         <Condition Property="IsKeyboardFocused" Value="False"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource AccentC}"/>
                                     <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentC}"/>
                                 </MultiTrigger>
                                 <MultiTrigger>

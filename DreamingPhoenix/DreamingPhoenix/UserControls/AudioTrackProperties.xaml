@@ -51,8 +51,9 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <combobox:SearchComboBox x:Name="cmb_nextAudioTrack" Style="{StaticResource ComboBox}" 
-                                             Height="25" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Awesome.Content="Times" FontSize="16" Click="RemoveNextTrack_Click"/>
+                    <combobox:SearchComboBox x:Name="cmb_nextAudioTrack" Style="{StaticResource ComboBox}"
+                                             Height="25" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
                                              IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
                                              IsReadOnly="False" StaysOpenOnEdit="True" Loaded="cmb_nextAudioTrack_Loaded"
                                              SelectionChanged="cmb_nextAudioTrack_SelectionChanged">
@@ -62,6 +63,7 @@
                             </ItemsPanelTemplate>
                         </combobox:SearchComboBox.ItemsPanel>
                     </combobox:SearchComboBox>
+               
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
@@ -76,9 +78,9 @@
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0" Style="{StaticResource TransparentRedButton}" FontSize="20"/>
-            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"  Style="{StaticResource TransparentButton}" FontSize="20"/>
-            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay}" FontSize="20"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0" Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteTrack_Click"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"  Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
+            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"/>
         </Grid>
     </Grid>
 </UserControl>
