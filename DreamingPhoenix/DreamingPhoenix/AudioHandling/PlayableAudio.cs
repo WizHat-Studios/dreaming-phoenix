@@ -164,9 +164,11 @@ namespace DreamingPhoenix.AudioHandling
                 await Task.Delay(Convert.ToInt32(((AudioTrack)AudioOptions).FadeOutSpeed));
             }
             outputDevice.Stop();
-            timerThread.Interrupt();
             if (isAudioTrack)
+            {
+                timerThread.Interrupt();
                 OnFadedOut?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void ForceStop()
@@ -205,7 +207,7 @@ namespace DreamingPhoenix.AudioHandling
                     Thread.Sleep(1000);
                 }
             }
-            catch(ThreadInterruptedException) { }
+            catch (ThreadInterruptedException) { }
         }
 
         private void RestartThread()
