@@ -79,9 +79,13 @@
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0" Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteTrack_Click"/>
-            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"  Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
-            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0"
+                    Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteTrack_Click"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"
+                    Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
+            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0"
+                          Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          FontSize="20"/>
         </Grid>
     </Grid>
 </UserControl>

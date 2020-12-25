@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DreamingPhoenix.Styles">
 
-    <SolidColorBrush x:Key="AccentA" Color="#FFF5940C"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentB" Color="#FFD4620B"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentC" Color="#FFEB4200"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentD" Color="#FFEE2D02"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentE" Color="#FFC50208"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentA" Color="#FFFF9A0D"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentB" Color="#FFE86B0C"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentC" Color="#FFFF4800"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentD" Color="#FFD4260B"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentE" Color="#FFAB0911"></SolidColorBrush>
 
     <SolidColorBrush x:Key="BackgroundA" Color="#FF1B1B1B"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundB" Color="#FF1D1D1D"></SolidColorBrush>

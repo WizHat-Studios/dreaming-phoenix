@@ -20,7 +20,6 @@ namespace DreamingPhoenix
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
 
         public MainWindow()
@@ -35,6 +34,21 @@ namespace DreamingPhoenix
                 return;
             AudioHandling.AudioTrack track = (AudioHandling.AudioTrack)((Button)sender).DataContext;
             AppModel.Instance.AudioManager.PlayAudio(track);
+        }
+
+        private void PlaySoundEffect_Click(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).DataContext == null)
+                return;
+            AudioHandling.SoundEffect sound = (AudioHandling.SoundEffect)((Button)sender).DataContext;
+            AppModel.Instance.AudioManager.PlayAudio(sound);
+        }
+
+        private async void StopSoundEffect_Click(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).DataContext == null)
+                return;
+            await ((AudioHandling.PlayableAudio)((Button)sender).DataContext).Stop();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -54,13 +68,12 @@ namespace DreamingPhoenix
                     grid_selectedAudioProperties.Children.Add(new UserControls.AudioTrackProperties(at));
                     break;
                 case AudioHandling.SoundEffect se:
+                    grid_selectedAudioProperties.Children.Clear();
+                    grid_selectedAudioProperties.Children.Add(new UserControls.SoundEffectProperties(se));
                     break;
                 default:
                     throw new NotSupportedException("The given type is not supported for adjustable settings");
             }
-
-
-
         }
 
         protected void SelectCurrentItem(object sender, KeyboardFocusChangedEventArgs e)

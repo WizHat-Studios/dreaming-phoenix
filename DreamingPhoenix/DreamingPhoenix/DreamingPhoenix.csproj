@@ -25,4 +25,10 @@
     <EmbeddedResource Include="Images\DreamingPhoenix.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="UserControls\SoundEffectProperties.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

@@ -59,7 +59,12 @@ namespace DreamingPhoenix.AudioHandling
         private void PlaySoundEffect(SoundEffect soundEffectToPlay)
         {
             PlayableAudio audio = new PlayableAudio(soundEffectToPlay);
-            currentlyPlayingSoundEffects.Add(audio);
+            audio.AudioStopped += (s, e) =>
+            {
+                CurrentlyPlayingSoundEffects.Remove(audio);
+            };
+            CurrentlyPlayingSoundEffects.Add(audio);
+            audio.Play();
         }
 
         private void PlayAudioTrack(AudioTrack audioTrackToPlay)

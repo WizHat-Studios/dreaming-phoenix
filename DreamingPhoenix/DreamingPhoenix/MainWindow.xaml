@@ -66,14 +66,15 @@
                         </Border>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type audio:SoundEffect}">
-                        <Border Height="50" Background="{DynamicResource BackgroundB}" CornerRadius="5">
-                            <Grid >
-                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                        <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Grid>
+                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                          FontSize="16" Style="{StaticResource TransparentTextBox}"/>
                                 <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
                                         Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
                                 <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
-                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"/>
+                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                        Click="PlaySoundEffect_Click"/>
 
                                 <Grid  Margin="5,35,5,5">
                                     <Grid.ColumnDefinitions>
@@ -156,14 +157,15 @@
                         <DataTemplate>
                             <Grid Height="30" Margin="2,1,2,1" Background="{DynamicResource BackgroundF}">
                                 <Label Content="{Binding Path=AudioOptions.Name}" Foreground="{DynamicResource ForegroundDefault}" Margin="10,0,0,0"/>
-                                <Button HorizontalAlignment="Right" fa:Awesome.Content="Times" Style="{StaticResource TransparentRedButton}" Margin="0,0,10,0"/>
+                                <Button HorizontalAlignment="Right" fa:Awesome.Content="Times" Style="{StaticResource TransparentRedButton}" Margin="0,0,10,0"
+                                        Click="StopSoundEffect_Click"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
 
-            <GridSplitter Grid.Row="2" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Row="2" Background="{DynamicResource BackgroundC}" HorizontalAlignment="Stretch"/>
             <Grid x:Name="grid_selectedAudioProperties" Grid.Row="3"/>
         </Grid>
 

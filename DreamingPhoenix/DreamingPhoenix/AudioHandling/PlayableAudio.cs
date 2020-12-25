@@ -15,6 +15,8 @@ namespace DreamingPhoenix.AudioHandling
 {
     public class PlayableAudio : INotifyPropertyChanged
     {
+        public event EventHandler AudioStopped;
+
         private Audio audioOptions;
 
         public Audio AudioOptions
@@ -89,6 +91,7 @@ namespace DreamingPhoenix.AudioHandling
             Volume = AudioOptions.Volume;
 
             outputDevice.PlaybackStopped += OnAudioStopped;
+            outputDevice.PlaybackStopped += (s, e) => AudioStopped?.Invoke(this, EventArgs.Empty);
             outputDevice.Volume = Volume;
 
             if (isAudioTrack)
@@ -129,14 +132,17 @@ namespace DreamingPhoenix.AudioHandling
         /// </summary>
         public async Task Stop()
         {
-            if (AudioOptions.GetType() != typeof(AudioTrack))
-                return;
+            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
 
-            fade.BeginFadeOut(((AudioTrack)AudioOptions).FadeOutSpeed);
-            await Task.Delay(Convert.ToInt32(((AudioTrack)AudioOptions).FadeOutSpeed));
+            if (isAudioTrack)
+            {
+                fade.BeginFadeOut(((AudioTrack)AudioOptions).FadeOutSpeed);
+                await Task.Delay(Convert.ToInt32(((AudioTrack)AudioOptions).FadeOutSpeed));
+            }
             outputDevice.Stop();
             //timerThread.Interrupt();
-            OnFadedOut?.Invoke(this, EventArgs.Empty);
+            if (isAudioTrack)
+                OnFadedOut?.Invoke(this, EventArgs.Empty);
         }
 
         public void ForceStop()
