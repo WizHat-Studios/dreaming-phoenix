@@ -13,7 +13,7 @@
                         Background="{DynamicResource AccentD}"/>
                         <Border
                         Name="PART_Indicator"
-                        CornerRadius="5,0,0,5"
+                        CornerRadius="5,5,5,5"
                         Background="{DynamicResource AccentE}"
                         HorizontalAlignment="Left" />
                     </Grid>

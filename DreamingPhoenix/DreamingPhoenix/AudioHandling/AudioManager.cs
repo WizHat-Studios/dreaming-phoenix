@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DreamingPhoenix.AudioHandling
 {
@@ -56,6 +58,14 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        public async Task<bool> PausePlayAudioTrack()
+        {
+            if (CurrentlyPlayingAudioTrack == null || CurrentlyPlayingAudioTrack.AudioReader == null)
+                return false;
+            await CurrentlyPlayingAudioTrack.PausePlay();
+            return true;
+        }
+
         private void PlaySoundEffect(SoundEffect soundEffectToPlay)
         {
             PlayableAudio audio = new PlayableAudio(soundEffectToPlay);
@@ -71,6 +81,11 @@ namespace DreamingPhoenix.AudioHandling
         {
             // TODO Stop CurrentlyPlayingAudioTrack
             CurrentlyPlayingAudioTrack.Play(audioTrackToPlay);
+        }
+
+        public async void StopAudio(PlayableAudio audio)
+        {
+            await audio.Stop();
         }
 
         public void StopAllAudio()

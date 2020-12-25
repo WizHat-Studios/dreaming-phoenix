@@ -15,6 +15,7 @@
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
         <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter"/>
+        <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
     </Window.Resources>
 
     <Grid Background="{DynamicResource BackgroundC}" Margin="0,30,0,0">
@@ -132,16 +133,21 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas" 
+                    <Label Content="{Binding ElementName=pgb_audioTrack, Path=Value, Converter={StaticResource DecimalToAudioTimeConverter}}"
+                           Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas" 
                            HorizontalContentAlignment="Center"/>
-                    <ProgressBar Height="10" VerticalAlignment="Center" Value="20" Grid.Column="1"/>
-                    <Label Content="00:00" Foreground="{DynamicResource ForegroundDefault}" FontSize="10" Grid.Column="2" 
+                    <ProgressBar Name="pgb_audioTrack" Height="10" VerticalAlignment="Center" Value="0" Grid.Column="1" Maximum="0"/>
+                    <Label Content="{Binding ElementName=pgb_audioTrack, Path=Maximum, Converter={StaticResource DecimalToAudioTimeConverter}}"
+                           Foreground="{DynamicResource ForegroundDefault}" FontSize="10" Grid.Column="2" 
                            HorizontalContentAlignment="Center" FontFamily="Consolas"/>
                 </Grid>
                 
                 <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
                     <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"  Margin="0,0,15,0"/>
+                    <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Pause" Width="20" FontSize="20"
+                            Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
+                    <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"
+                            Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" />
                     <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"  Margin="0,0,15,0"/>
                 </StackPanel>
 
