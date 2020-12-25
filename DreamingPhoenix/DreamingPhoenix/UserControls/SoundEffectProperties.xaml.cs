@@ -26,15 +26,6 @@ namespace DreamingPhoenix.UserControls
     {
         public SoundEffect Sound { get; set; }
 
-        private List<FileExtension> extensions = new List<FileExtension>()
-        {
-            new FileExtension("wav"),
-            new FileExtension("aiff"),
-            new FileExtension("mp3"),
-            new FileExtension("wma"),
-            new FileExtension("aac")
-        };
-
         public SoundEffectProperties(SoundEffect soundEffect)
         {
             InitializeComponent();
@@ -45,14 +36,14 @@ namespace DreamingPhoenix.UserControls
         private void tbx_soundFile_PreviewDragOver(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null && files[0] != "" && FileExtension.EndsWith(extensions, files[0]))
+            if (files != null && files[0] != "" && FileExtension.EndsWith(AppModel.Instance.ValidAudioExtensions, files[0]))
                 e.Handled = true;
         }
 
         private void tbx_soundFile_Drop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null && files[0] != "" && FileExtension.EndsWith(extensions, files[0]))
+            if (files != null && files[0] != "" && FileExtension.EndsWith(AppModel.Instance.ValidAudioExtensions, files[0]))
                 Sound.AudioFile = files[0];
         }
 
@@ -64,7 +55,7 @@ namespace DreamingPhoenix.UserControls
                 DefaultExt = "mp3",
                 CheckFileExists = true,
                 CheckPathExists = true,
-                Filter = "Audio Files|" + FileExtension.GetDialogExtensions(extensions)
+                Filter = "Audio Files|" + FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
             };
             FileDialog.Title = "Select Object File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
