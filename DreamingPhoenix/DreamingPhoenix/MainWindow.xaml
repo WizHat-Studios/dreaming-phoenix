@@ -39,7 +39,8 @@
                                     <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                              FontSize="16" Style="{StaticResource TransparentTextBox}"/>
                                     <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
-                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
+                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                            Click="RemoveAudio_Click" />
                                     <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
                                             Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                             Click="PlayAudioTrack_Click"/>
@@ -73,7 +74,8 @@
                                 <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                          FontSize="16" Style="{StaticResource TransparentTextBox}"/>
                                 <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
-                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
+                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                        Click="RemoveAudio_Click" />
                                 <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
                                         Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                         Click="PlaySoundEffect_Click"/>
