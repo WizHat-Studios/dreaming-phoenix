@@ -37,6 +37,15 @@ namespace DreamingPhoenix.UserControls
             }
         }
 
+        private List<FileExtension> extensions = new List<FileExtension>()
+        {
+            new FileExtension("wav"),
+            new FileExtension("aiff"),
+            new FileExtension("mp3"),
+            new FileExtension("wma"),
+            new FileExtension("aac")
+        };
+
         public AudioTrackProperties(AudioTrack audioTrack)
         {
             InitializeComponent();
@@ -56,6 +65,35 @@ namespace DreamingPhoenix.UserControls
                 return;
 
             Track.NextAudioTrack = (AudioTrack)cmb_nextAudioTrack.SelectedItem;
+        }
+
+        private void tbx_audioFile_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files[0] != "" && FileExtension.EndsWith(extensions, files[0]))
+                e.Handled = true;
+        }
+
+        private void tbx_audioFile_Drop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files[0] != "" && FileExtension.EndsWith(extensions, files[0]))
+                Track.AudioFile = files[0];
+        }
+
+        private void btn_selectFile_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog FileDialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                RestoreDirectory = true,
+                DefaultExt = "mp3",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                Filter = "Audio Files|" + FileExtension.GetDialogExtensions(extensions)
+            };
+            FileDialog.Title = "Select Object File";
+            if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Track.AudioFile = FileDialog.FileName;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
