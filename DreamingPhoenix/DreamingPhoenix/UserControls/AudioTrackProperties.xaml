@@ -67,18 +67,23 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="AUDIO FILE" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <Button Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
-                             VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0" />
+                    <Button Name="btn_selectFile" Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"
+                            Click="btn_selectFile_Click" />
+                    <TextBox Name="tbx_audioFile" Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"
+                             AllowDrop="True" Drop="tbx_audioFile_Drop" PreviewDragOver="tbx_audioFile_PreviewDragOver" />
                 </DockPanel>
 
             </StackPanel>
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0" Style="{StaticResource TransparentRedButton}" FontSize="20"/>
-            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"  Style="{StaticResource TransparentButton}" FontSize="20"/>
-            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay}" FontSize="20"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0" 
+                    Style="{StaticResource TransparentRedButton}" FontSize="20"/>
+            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0" 
+                    Style="{StaticResource TransparentButton}" FontSize="20"/>
+            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0" 
+                          Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay}" FontSize="20"/>
         </Grid>
     </Grid>
 </UserControl>
