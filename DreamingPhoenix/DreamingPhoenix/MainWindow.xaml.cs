@@ -68,5 +68,38 @@ namespace DreamingPhoenix
             ListBoxItem item = (ListBoxItem)sender;
             item.IsSelected = true;
         }
+
+
+        private void Window_PreviewDrop(object sender, DragEventArgs e)
+        {          
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (string file in files)
+            {
+                if (!AudioHandling.FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                {
+                    return;
+                }
+            }
+
+            uc_DropPanel.Visibility = Visibility.Visible;
+            uc_DropPanel.OnDrop(files.ToList());
+        }
+
+        private void Window_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (string file in files)
+            {
+                if (!AudioHandling.FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                {
+                    e.Handled = false;
+                    return;
+                }
+            }
+
+            e.Handled = true;
+        }
     }
 }
