@@ -52,6 +52,16 @@ namespace DreamingPhoenix
 
         public AudioManager AudioManager { get; set; } = new AudioManager();
 
+        public List<FileExtension> ValidAudioExtensions = new List<FileExtension>()
+        {
+            new FileExtension("wav"),
+            new FileExtension("aiff"),
+            new FileExtension("mp3"),
+            new FileExtension("wma"),
+            new FileExtension("aac")
+        };
+
+
         public void SaveData()
         {
             Persistence.PersistentData persistentData = new Persistence.PersistentData() { AudioList = new List<Audio>(AudioList) };

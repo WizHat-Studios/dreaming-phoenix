@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="./Styles/ComboBox/ComboBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ListBox/ListBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/TransparentToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/ConfirmAndRemoveButton.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
