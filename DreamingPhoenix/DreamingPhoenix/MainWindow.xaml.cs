@@ -145,5 +145,29 @@ namespace DreamingPhoenix
 
             e.Handled = true;
         }
+
+        private void AddNewAudio_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog FileDialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                RestoreDirectory = true,
+                DefaultExt = "mp3",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                Multiselect = true,
+                Filter = "Audio Files|" + AudioHandling.FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
+            };
+            FileDialog.Title = "Select Object File";
+            if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                uc_DropPanel.Visibility = Visibility.Visible;
+                uc_DropPanel.OnDrop(FileDialog.FileNames.ToList());
+            }
+        }
+
+        private void StopAllAudio_Click(object sender, RoutedEventArgs e)
+        {
+            AppModelInstance.AudioManager.StopAllAudio();
+        }
     }
 }

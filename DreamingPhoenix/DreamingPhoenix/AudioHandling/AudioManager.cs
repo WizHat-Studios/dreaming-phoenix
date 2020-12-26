@@ -98,7 +98,7 @@ namespace DreamingPhoenix.AudioHandling
             CurrentlyPlayingSoundEffects.Clear();
 
             CurrentlyPlayingAudioTrack.ForceStop();
-            CurrentlyPlayingAudioTrack = new PlayableAudio(null);
+            CurrentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
