@@ -7,8 +7,8 @@
         <ResourceDictionary>
             <FontFamily x:Key="Phoenix">pack://application:,,,/Fonts/#PhoenixFont</FontFamily>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="./Styles/Scheme/ColorSchemeDreamland.xaml"></ResourceDictionary>-->
-                <ResourceDictionary Source="./Styles/Scheme/ColorSchemePhoenix.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Scheme/ColorSchemeDreamland.xaml"></ResourceDictionary>
+                <!--<ResourceDictionary Source="./Styles/Scheme/ColorSchemePhoenix.xaml"></ResourceDictionary>-->
                 <ResourceDictionary Source="./Styles/Window/CustomWindow.xaml"></ResourceDictionary>
 
 
@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="./Styles/ListBox/ListBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/TransparentToggleButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/ConfirmAndRemoveButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/OnOffIndicatorToggleButton.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 
 namespace DreamingPhoenix
 {
@@ -64,7 +65,12 @@ namespace DreamingPhoenix
 
         public void SaveData()
         {
-            Persistence.PersistentData persistentData = new Persistence.PersistentData() { AudioList = new List<Audio>(AudioList) };
+            Persistence.PersistentData persistentData = new Persistence.PersistentData()
+            {
+                AudioList = new List<Audio>(AudioList),
+                CompactModeEnabled = !Options.ExtendedModeEnabled
+            };
+
             new Persistence.PersistenceJsonDataManager().Save(persistentData);
         }
 
@@ -73,6 +79,7 @@ namespace DreamingPhoenix
             Persistence.PersistentData data = new Persistence.PersistenceJsonDataManager().Load();
             AudioList.Clear();
             data.AudioList.ForEach(x => AudioList.Add(x));
+            Options.ExtendedModeEnabled = !data.CompactModeEnabled;
         }
 
         public AppModel()

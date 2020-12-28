@@ -7,34 +7,31 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" IsHitTestVisible="True" AllowDrop="True">
-    <Grid x:Name="grid_dropPanel" Background="#99000000">
-        <Border BorderBrush="{DynamicResource AccentD}" BorderThickness="1" Background="{DynamicResource BackgroundB}"  Width="550" Height="375" CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+    <Grid>
+        <fa:ImageAwesome Icon="FileAudioOutline" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
+        <Label Content="FILE NAME" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileName" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+
+        <Border Margin="10,96,10,0" Background="{DynamicResource BackgroundA}" VerticalAlignment="Top" Height="47" CornerRadius="5">
             <Grid>
-                <fa:ImageAwesome Icon="FileAudioOutline" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
-                <Label Content="FILE NAME" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileName" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                <TextBox x:Name="tbox_newFileName" Height="30" Margin="10,8,10,9" Style="{StaticResource TransparentTextBox}"/>
 
-                <Border Margin="10,96,10,0" Background="{DynamicResource BackgroundA}" VerticalAlignment="Top" Height="47" CornerRadius="5">
-                    <Grid>
-                        <TextBox x:Name="tbox_newFileName" Height="30" Margin="10,8,10,9" Style="{StaticResource TransparentTextBox}"/>
-
-                    </Grid>
-                </Border>
-                <Grid Margin="0,156,0,0" VerticalAlignment="Top" Height="101">
-                    <ToggleButton x:Name="tglbtn_audioTrack" Margin="0,-30,140,0" Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Music" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45" IsChecked="True" Click="AudioTrack_Clicked"/>
-                    <ToggleButton x:Name="tglbtn_soundEffect" Margin="140,-30,0,0" Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Bolt" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45" Click="SoundEffect_Clicked"/>
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="SOUND EFFECT" Foreground="{DynamicResource ForegroundDefault}" Margin="298,70,0,0" FontSize="12"/>
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundDefault}" Margin="163,70,0,0" FontSize="12"/>
-                </Grid>
-
-                <Border CornerRadius="0,0,5,5" Margin="0,0,0,0" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{DynamicResource BackgroundA}">
-                    <Grid>
-                        <Button Height="40" Click="Abort_Click" Margin="200,0,0,0" Width="120" Content="DO NOT ADD" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
-                        <Button Height="40" Click="Add_Click" Margin="0,0,200,0" Width="120" Content="ADD" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource GreenButton}"/>
-                    </Grid>
-                </Border>
-                <Label Content="FILE PATH" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePath" VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
-                <Label Content="NAME YOUR AUDIO:" Margin="9,73,213,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" FontWeight="Normal" Height="23" FontSize="10"/>
             </Grid>
         </Border>
+        <Grid Margin="0,156,0,0" VerticalAlignment="Top" Height="101">
+            <ToggleButton x:Name="tglbtn_audioTrack" Margin="0,-30,140,0" Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Music" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45" IsChecked="True" Click="AudioTrack_Clicked"/>
+            <ToggleButton x:Name="tglbtn_soundEffect" Margin="140,-30,0,0" Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Bolt" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45" Click="SoundEffect_Clicked"/>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Top" Content="SOUND EFFECT" Foreground="{DynamicResource ForegroundDefault}" Margin="140,70,0,0" FontSize="12"/>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Top" Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundDefault}" Margin="-140,70,0,0" FontSize="12"/>
+        </Grid>
+
+        <Border CornerRadius="0,0,5,5" Margin="0,0,0,0" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{DynamicResource BackgroundA}">
+            <Grid>
+                <Button Height="40" Click="Abort_Click" Margin="200,0,0,0" Width="120" Content="DO NOT ADD" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
+                <Button Height="40" Click="Add_Click" Margin="0,0,200,0" Width="120" Content="ADD" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource GreenButton}"/>
+            </Grid>
+        </Border>
+        <Label Content="FILE PATH" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePath" VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
+        <Label Content="NAME YOUR AUDIO:" Margin="9,73,213,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" FontWeight="Normal" Height="23" FontSize="10"/>
     </Grid>
 </UserControl>
