@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace DreamingPhoenix.Converter
 {
-    public class FloatToSecondsConverter : IValueConverter
+    public class DoubleToSecondsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
