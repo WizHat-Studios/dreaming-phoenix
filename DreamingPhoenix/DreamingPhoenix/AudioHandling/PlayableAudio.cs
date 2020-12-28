@@ -15,8 +15,8 @@ namespace DreamingPhoenix.AudioHandling
 {
     public class PlayableAudio : INotifyPropertyChanged
     {
-        public event EventHandler AudioStopped;
         public Action<double, double> AudioTrackTick;
+        public event EventHandler AudioStopped;
 
         private Audio audioOptions;
 
@@ -30,9 +30,9 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
-        private AudioFileReader audioReader;
+        private NAudioTrackReader audioReader;
 
-        public AudioFileReader AudioReader
+        public NAudioTrackReader AudioReader
         {
             get
             {
@@ -46,22 +46,6 @@ namespace DreamingPhoenix.AudioHandling
         }
 
         private Thread timerThread;
-
-        private double currSeconds;
-
-        public double CurrSeconds
-        {
-            get { return currSeconds; }
-            set
-            {
-                currSeconds = value;
-                //NotifyPropertyChanged();
-            }
-        }
-
-        private WaveOutEvent outputDevice;
-        private FadeInOutSampleProvider fade;
-        private event EventHandler OnFadedOut;
 
         private float volume;
 
@@ -77,8 +61,7 @@ namespace DreamingPhoenix.AudioHandling
 
         public PlayableAudio(Audio audioOptions)
         {
-            this.AudioOptions = audioOptions;
-            //timerThread = new Thread(new ThreadStart(TimerRun)); // Tracking the Audio-Data on `Run` Method
+            AudioOptions = audioOptions;
         }
 
         /// <summary>
@@ -87,25 +70,27 @@ namespace DreamingPhoenix.AudioHandling
         public void Play()
         {
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
-            outputDevice = new WaveOutEvent();
-            AudioReader = new AudioFileReader(AudioOptions.AudioFile);
+            if (AudioReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
+                AudioReader.Volume = 0;
+
+            AudioReader = new NAudioTrackReader(AudioOptions.AudioFile);
+            AudioReader.Volume = AudioOptions.Volume;
             Volume = AudioOptions.Volume;
+            AudioReader.AudioStopped += OnAudioStopped;
 
-            outputDevice.PlaybackStopped += OnAudioStopped;
-            outputDevice.PlaybackStopped += (s, e) => AudioStopped?.Invoke(this, EventArgs.Empty);
-            outputDevice.Volume = Volume;
+            ISampleProvider sampleProvider = AudioReader;
 
-            if (isAudioTrack)
+            if (AppModel.Instance.AudioManager.MixingProvider == null)
             {
-                fade = new FadeInOutSampleProvider(AudioReader, true);
-                fade.BeginFadeIn(1000);
-                outputDevice.Init(fade);
+                List<ISampleProvider> temp = new List<ISampleProvider>();
+                temp.Add(sampleProvider);
+                AppModel.Instance.AudioManager.MixingProvider = new MixingSampleProvider(temp);
             }
             else
             {
-                outputDevice.Init(AudioReader);
+                AppModel.Instance.AudioManager.MixingProvider.AddMixerInput(sampleProvider);
             }
-            outputDevice.Play();
+
             if (isAudioTrack)
                 RestartThread();
 
@@ -115,11 +100,18 @@ namespace DreamingPhoenix.AudioHandling
         public void Play(Audio audio)
         {
             // Clear all subscribers from event
-            OnFadedOut = null;
+            AudioReader?.ClearFadedOutEvent();
+            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
 
-            if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
+            // If audio is currently playing, fade out and start new on faded out
+            if (AudioReader != null && AudioReader.State == NAudioState.Playing)
             {
-                OnFadedOut += (s, e) => Play(audio);
+                AudioReader.FadedOut += (s, e) =>
+                {
+                    if (isAudioTrack)
+                        timerThread.Interrupt();
+                    Play(audio);
+                };
                 Stop();
             }
             else
@@ -133,63 +125,51 @@ namespace DreamingPhoenix.AudioHandling
         {
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
 
-            if (isAudioTrack)
+            // Only a Audio Track is pausable
+            if (!isAudioTrack)
+                return;
+
+            if (AudioReader.State == NAudioState.Playing)
             {
-                if (outputDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    fade.BeginFadeOut(1000);
-                    await Task.Delay(1000);
-                    outputDevice.Pause();
-                    timerThread.Interrupt();
-                }
-                else if (outputDevice.PlaybackState == PlaybackState.Paused)
-                {
-                    outputDevice.Play();
-                    RestartThread();
-                    fade.BeginFadeIn(1000);
-                }
+                AudioReader.Pause(500);
+                await Task.Delay(500);
+                timerThread.Interrupt();
+            }
+            else if (AudioReader.State == NAudioState.Paused)
+            {
+                AudioReader.Play(500);
+                RestartThread();
             }
         }
 
         /// <summary>
         /// Stop playing the audio
         /// </summary>
-        public async Task Stop()
+        public void Stop()
         {
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
+            double fadeOutSpeed = 0;
 
             if (isAudioTrack)
-            {
-                fade.BeginFadeOut(((AudioTrack)AudioOptions).FadeOutSpeed);
-                await Task.Delay(Convert.ToInt32(((AudioTrack)AudioOptions).FadeOutSpeed));
-            }
-            outputDevice.Stop();
-            if (isAudioTrack)
-            {
-                timerThread.Interrupt();
-                OnFadedOut?.Invoke(this, EventArgs.Empty);
-            }
+                fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
+
+            AudioReader.Stop(fadeOutSpeed);
         }
 
-        public void ForceStop()
+        private void OnAudioStopped(object sender, EventArgs e)
         {
-            outputDevice.Stop();
-            OnFadedOut = null;
-        }
-
-        private void OnAudioStopped(object sender, StoppedEventArgs e)
-        {
-            if (outputDevice.PlaybackState == PlaybackState.Playing)
-                return;
-
+            AudioStopped?.Invoke(this, EventArgs.Empty);
             if (audioOptions.GetType() != typeof(AudioTrack))
                 return;
 
             if (((AudioTrack)AudioOptions).NextAudioTrack == null)
+            {
+                AudioTrackTick?.Invoke(-1, -1);
+                AudioOptions = Audio.Default;
                 return;
+            }
 
-            AudioOptions = ((AudioTrack)AudioOptions).NextAudioTrack;
-            Play();
+            Play(((AudioTrack)AudioOptions).NextAudioTrack);
         }
 
         private void TimerRun()
@@ -198,10 +178,11 @@ namespace DreamingPhoenix.AudioHandling
             {
                 while (true)
                 {
-                    if (this.outputDevice.PlaybackState == PlaybackState.Playing)
+                    //if (this.outputDevice.PlaybackState == PlaybackState.Playing)
+                    if (this.AudioReader.State == NAudioState.Playing)
                     {
-                        double ms = this.outputDevice.GetPosition() * 1000.0 / this.outputDevice.OutputWaveFormat.BitsPerSample / this.outputDevice.OutputWaveFormat.Channels * 8 / this.outputDevice.OutputWaveFormat.SampleRate;
-                        AudioTrackTick?.Invoke(Math.Round(ms / 1000), Math.Round(audioReader.TotalTime.TotalSeconds));
+                        //double ms = this.outputDevice.GetPosition() * 1000.0 / this.outputDevice.OutputWaveFormat.BitsPerSample / this.outputDevice.OutputWaveFormat.Channels * 8 / this.outputDevice.OutputWaveFormat.SampleRate;
+                        AudioTrackTick?.Invoke(AudioReader.CurrentTime.TotalSeconds, Math.Round(AudioReader.TotalTime.TotalSeconds));
                     }
 
                     Thread.Sleep(1000);

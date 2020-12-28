@@ -14,8 +14,6 @@
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
         Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop" PreviewDragOver="Window_PreviewDragOver">
     <Window.Resources>
-        <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
-        <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter"/>
         <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

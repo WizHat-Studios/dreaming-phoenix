@@ -9,13 +9,10 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
              mc:Ignorable="d" d:Width="500" d:Height="500">
-
-
     <UserControl.Resources>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
-        <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
+        <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
     </UserControl.Resources>
-
 
     <Grid Background="{DynamicResource BackgroundB}">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
@@ -42,7 +39,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="FADE SPEED" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <Label Content="{Binding Path=Track.FadeOutSpeed, Converter={StaticResource FloatToSecondsConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" 
+                    <Label Content="{Binding Path=Track.FadeOutSpeed, Converter={StaticResource DoubleToSecondsConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" 
                            Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0" />
                     <Slider Value="{Binding Track.FadeOutSpeed, Mode=TwoWay}" Height="20" Minimum="0" Maximum="10000" SmallChange="100" 
                             LargeChange="1000" DockPanel.Dock="Right" VerticalAlignment="Center" />
