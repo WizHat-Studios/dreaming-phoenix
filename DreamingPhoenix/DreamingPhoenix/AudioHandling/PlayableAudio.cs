@@ -100,13 +100,13 @@ namespace DreamingPhoenix.AudioHandling
         public void Play(Audio audio)
         {
             // Clear all subscribers from event
-            AudioReader?.ClearFadedOutEvent();
+            AudioReader?.ClearAudioStoppedEvent();
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
 
             // If audio is currently playing, fade out and start new on faded out
             if (AudioReader != null && AudioReader.State == NAudioState.Playing)
             {
-                AudioReader.FadedOut += (s, e) =>
+                AudioReader.AudioStopped += (s, e) =>
                 {
                     if (isAudioTrack)
                         timerThread.Interrupt();
@@ -164,7 +164,7 @@ namespace DreamingPhoenix.AudioHandling
 
             if (((AudioTrack)AudioOptions).NextAudioTrack == null)
             {
-                AudioTrackTick?.Invoke(-1, -1);
+                //AudioTrackTick?.Invoke(-1, -1);
                 AudioOptions = Audio.Default;
                 return;
             }

@@ -327,6 +327,11 @@ namespace DreamingPhoenix.AudioHandling
         {
             FadedOut = null;
         }
+        
+        public void ClearAudioStoppedEvent()
+        {
+            AudioStopped = null;
+        }
 
         /// <summary>
         /// Disposes this NAudioTrackReader
