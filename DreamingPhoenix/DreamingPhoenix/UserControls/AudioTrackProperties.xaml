@@ -26,7 +26,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90"
                            Margin="10,0,0,0" FontSize="13" />
-                    <TextBox Text="{Binding Track.Name, Mode=TwoWay}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                    <TextBox Text="{Binding Track.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
                              VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
                 </DockPanel>
 

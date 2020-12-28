@@ -154,6 +154,7 @@ namespace DreamingPhoenix
             }
 
             AudioDropPanelVisibility = Visibility.Visible;
+            this.Activate();
             uc_DropPanel.OnDrop(files.ToList());
         }
 

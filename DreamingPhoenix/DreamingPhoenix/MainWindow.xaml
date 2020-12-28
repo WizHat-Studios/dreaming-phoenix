@@ -49,11 +49,11 @@
                         <DataTemplate DataType="{x:Type audio:AudioTrack}">
                             <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                 <Grid>
-                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
                                             <fa:ImageAwesome Icon="Music" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5"/>
                                         </Border>
-                                        <TextBox Text="{Binding Name}" Height="35" Margin="34,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                             FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                             FontSize="16" Foreground="{DynamicResource ForegroundDefault}"/>
                                     <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                             Click="RemoveAudio_Click" />
@@ -89,11 +89,11 @@
                     <DataTemplate DataType="{x:Type audio:SoundEffect}">
                         <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                             <Grid>
-                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
                                             <fa:ImageAwesome Icon="Bolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5"/>
                                         </Border>
-                                        <TextBox Text="{Binding Name}" Height="35" Margin="34,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                         FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                        <Label Content="{Binding Name}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                         FontSize="16" Foreground="{DynamicResource ForegroundDefault}"/>
                                 <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
                                         Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                         Click="RemoveAudio_Click" />
