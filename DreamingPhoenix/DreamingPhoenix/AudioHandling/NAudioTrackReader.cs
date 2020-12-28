@@ -80,7 +80,7 @@ namespace DreamingPhoenix.AudioHandling
             FileName = fileName;
             CreateReaderStream(fileName);
             sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
-            sampleChannel = new SampleChannel(readerStream, false);
+            sampleChannel = new SampleChannel(readerStream, true);
             destBytesPerSample = 4 * sampleChannel.WaveFormat.Channels;
             length = SourceToDest(readerStream.Length);
             
@@ -117,6 +117,10 @@ namespace DreamingPhoenix.AudioHandling
             if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
             {
                 readerStream = new WaveFileReader(fileName);
+                if (readerStream.WaveFormat.Channels == 1)
+                {
+                    
+                }
                 if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
                 {
                     readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
