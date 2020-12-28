@@ -1,6 +1,8 @@
-﻿using NAudio.Wave;
+﻿using NAudio.CoreAudioApi;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,10 +29,17 @@ namespace DreamingPhoenix.UserControls
             InitializeComponent();
             DataContext = this;
 
+            List<string> outputs = new List<string>();
+            var enumerator = new MMDeviceEnumerator();
+            foreach (var endpoint in enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
+                outputs.Add(endpoint.FriendlyName);
+
             for (int n = -1; n < WaveOut.DeviceCount; n++)
             {
-                var caps = WaveOut.GetCapabilities(n);
-                cbox_outputDevices.Items.Add(caps.ProductName);
+                string productName = WaveOut.GetCapabilities(n).ProductName;
+                if (outputs.Exists(o => o.ToLower().StartsWith(productName.ToLower())))
+                    productName = outputs.First(o => o.ToLower().StartsWith(productName.ToLower()));
+                cbox_outputDevices.Items.Add(productName);
             }
         }
 
