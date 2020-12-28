@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,13 +21,35 @@ namespace DreamingPhoenix
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
+
+        private Visibility settingsPanelVisibility = Visibility.Hidden;
+
+        public Visibility SettingsPanelVisibility
+        {
+            get { return settingsPanelVisibility; }
+            set { settingsPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
+        private Visibility audioDropPanelVisibility = Visibility.Hidden;
+
+        public Visibility AudioDropPanelVisibility
+        {
+            get { return audioDropPanelVisibility; }
+            set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
+
+            grid_AppOptions.Visibility = Visibility.Visible;
+            grid_DropPanel.Visibility = Visibility.Visible;
+
+            uc_DropPanel.AudioFilesProcessed += (s, e) => AudioDropPanelVisibility = Visibility.Hidden;
+
             this.DataContext = this;
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
             {
@@ -129,7 +153,7 @@ namespace DreamingPhoenix
                 }
             }
 
-            uc_DropPanel.Visibility = Visibility.Visible;
+            AudioDropPanelVisibility = Visibility.Visible;
             uc_DropPanel.OnDrop(files.ToList());
         }
 
@@ -163,7 +187,7 @@ namespace DreamingPhoenix
             FileDialog.Title = "Select Object File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                uc_DropPanel.Visibility = Visibility.Visible;
+                AudioDropPanelVisibility = Visibility.Visible;
                 uc_DropPanel.OnDrop(FileDialog.FileNames.ToList());
             }
         }
@@ -171,6 +195,31 @@ namespace DreamingPhoenix
         private void StopAllAudio_Click(object sender, RoutedEventArgs e)
         {
             AppModelInstance.AudioManager.StopAllAudio();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            AppModelInstance.SaveData();
+        }
+
+
+
+
+        private void ShowSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsPanelVisibility = Visibility.Visible;
+        }
+
+        private void HideSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsPanelVisibility = Visibility.Hidden;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

@@ -21,6 +21,8 @@ namespace DreamingPhoenix.UserControls
     {
         private List<string> droppedFiles = new List<string>();
 
+        public event EventHandler AudioFilesProcessed;
+
         public FileDragDrop()
         {
             InitializeComponent();
@@ -58,7 +60,7 @@ namespace DreamingPhoenix.UserControls
         {
             if (droppedFiles.Count == 0)
             {
-                this.Visibility = Visibility.Hidden;
+                AudioFilesProcessed?.Invoke(this, EventArgs.Empty);
                 return;
             }
 
