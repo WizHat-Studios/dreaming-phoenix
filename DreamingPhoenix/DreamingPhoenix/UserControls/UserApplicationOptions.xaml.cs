@@ -18,9 +18,13 @@ namespace DreamingPhoenix.UserControls
     /// </summary>
     public partial class UserApplicationOptions : UserControl
     {
+
+        public AppOptions Options { get; set; } = AppModel.Instance.Options;
+
         public UserApplicationOptions()
         {
             InitializeComponent();
+            DataContext = this;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="DreamingPhoenix.MainWindow"
+﻿<Window x:Name="window_MainWindow" x:Class="DreamingPhoenix.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,6 +18,8 @@
         <converters:FloatToSecondsConverter x:Key="FloatToSecondsConverter"/>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter"/>
         <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
     </Window.Resources>
     <Grid x:Name="grid_root" Margin="0,30,0,0">
         <Grid>
@@ -26,9 +28,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <DockPanel>
-                <Button Height="40" DockPanel.Dock="Top" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="PlusCircle" FontSize="30" Click="AddNewAudio_Click"/>
-                <Button Height="40" DockPanel.Dock="Top" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="StopCircle" FontSize="30" Click="StopAllAudio_Click"/>
-                <Button Height="40" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Gear" FontSize="30" VerticalAlignment="Bottom" Click="ShowSettings_Click"/>
+                <Button Height="40" DockPanel.Dock="Top" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="PlusCircle" FontSize="30" Click="AddNewAudio_Click" ToolTip="Add new audio"/>
+                <Button Height="40" DockPanel.Dock="Top" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="StopCircle" FontSize="30" Click="StopAllAudio_Click" ToolTip="Stop all playing audio"/>
+                <Button Height="40" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Gear" FontSize="30" VerticalAlignment="Bottom" Click="ShowSettings_Click" ToolTip="Open the settings"/>
             </DockPanel>
             <Grid Background="{DynamicResource BackgroundC}" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -45,9 +47,12 @@
                             <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
                         </Style>
                         <DataTemplate DataType="{x:Type audio:AudioTrack}">
-                            <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                 <Grid>
-                                    <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                            <fa:ImageAwesome Icon="Music" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5"/>
+                                        </Border>
+                                        <TextBox Text="{Binding Name}" Height="35" Margin="34,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                              FontSize="16" Style="{StaticResource TransparentTextBox}"/>
                                     <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
@@ -56,33 +61,38 @@
                                             Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                             Click="PlayAudioTrack_Click"/>
 
-                                        <Grid  Margin="5,35,5,5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="250"/>
-                                            </Grid.ColumnDefinitions>
+                                        <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid  Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="250"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
-                                                <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
-                                                    <Label fa:Awesome.Content="VolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20"/>
-                                                    <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" 
+                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
+                                                    <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
+                                                        <Label fa:Awesome.Content="VolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20"/>
+                                                        <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1" 
                                                             SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0"/>
-                                                </Grid>
-                                            </Border>
+                                                    </Grid>
+                                                </Border>
 
-                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
-                                        <Grid>
-                                            <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </Grid>
+                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
+                                                    <Grid>
+                                                        <Button Margin="7,7,7,7" Height="35" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
                         </Border>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type audio:SoundEffect}">
-                        <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                        <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                             <Grid>
-                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                            <fa:ImageAwesome Icon="Bolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5"/>
+                                        </Border>
+                                        <TextBox Text="{Binding Name}" Height="35" Margin="34,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                          FontSize="16" Style="{StaticResource TransparentTextBox}"/>
                                 <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
                                         Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
@@ -91,7 +101,8 @@
                                         Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                         Click="PlaySoundEffect_Click"/>
 
-                                        <Grid  Margin="5,35,5,5">
+                                        <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Grid Margin="5,0,5,5">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
                                                 <ColumnDefinition Width="250"/>
@@ -107,10 +118,11 @@
 
                                             <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
                                                 <Grid>
-                                                    <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
+                                                    <Button Margin="7,7,7,7" Height="35" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
                                                 </Grid>
                                             </Border>
                                         </Grid>
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
