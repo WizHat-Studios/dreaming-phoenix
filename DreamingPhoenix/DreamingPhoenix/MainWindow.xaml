@@ -36,23 +36,24 @@
                     <ColumnDefinition Width="1*" MinWidth="315"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Background="{DynamicResource BackgroundC}">
-                    <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged" 
-                             Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.Resources>
-                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
-                                <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
-                            </Style>
-                            <DataTemplate DataType="{x:Type audio:AudioTrack}">
-                                <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
-                                    <Grid>
-                                        <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                                 FontSize="16" Style="{StaticResource TransparentTextBox}"/>
-                                        <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
-                                                Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
-                                        <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
-                                                Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
-                                                Click="PlayAudioTrack_Click"/>
+            <Grid Background="{DynamicResource BackgroundC}">
+                <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged" 
+                         Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.Resources>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
+                            <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
+                        </Style>
+                        <DataTemplate DataType="{x:Type audio:AudioTrack}">
+                            <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                                <Grid>
+                                    <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                             FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                    <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
+                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                            Click="RemoveAudio_Click" />
+                                    <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
+                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                            Click="PlayAudioTrack_Click"/>
 
                                         <Grid  Margin="5,35,5,5">
                                             <Grid.ColumnDefinitions>
@@ -68,25 +69,26 @@
                                                 </Grid>
                                             </Border>
 
-                                        <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
-                                            <Grid>
-                                                <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
+                                    <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
+                                        <Grid>
+                                            <Button Margin="7,7,7,7" Content="FN+ALT+CTRL+SHIFT+NUMPAD1"/>
+                                        </Grid>
+                                    </Border>
                                 </Grid>
-                            </Border>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type audio:SoundEffect}">
-                            <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
-                                <Grid>
-                                    <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                             FontSize="16" Style="{StaticResource TransparentTextBox}"/>
-                                    <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
-                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"/>
-                                    <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
-                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
-                                            Click="PlaySoundEffect_Click"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type audio:SoundEffect}">
+                        <Border Height="90" Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Grid>
+                                <TextBox Text="{Binding Name}" Height="35" Margin="7,5,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                         FontSize="16" Style="{StaticResource TransparentTextBox}"/>
+                                <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                        Click="RemoveAudio_Click" />
+                                <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right" 
+                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                        Click="PlaySoundEffect_Click"/>
 
                                         <Grid  Margin="5,35,5,5">
                                             <Grid.ColumnDefinitions>

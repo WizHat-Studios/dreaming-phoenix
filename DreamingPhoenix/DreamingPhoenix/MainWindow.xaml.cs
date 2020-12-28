@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DreamingPhoenix.AudioHandling;
 
 namespace DreamingPhoenix
 {
@@ -40,7 +41,7 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AudioHandling.AudioTrack track = (AudioHandling.AudioTrack)((Button)sender).DataContext;
+            AudioTrack track = (AudioTrack)((Button)sender).DataContext;
             AppModel.Instance.AudioManager.PlayAudio(track);
             btn_PauseAudioTrack.Visibility = Visibility.Visible;
             btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
@@ -71,7 +72,7 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AudioHandling.SoundEffect sound = (AudioHandling.SoundEffect)((Button)sender).DataContext;
+            SoundEffect sound = (SoundEffect)((Button)sender).DataContext;
             AppModel.Instance.AudioManager.PlayAudio(sound);
         }
 
@@ -79,12 +80,15 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AppModel.Instance.AudioManager.StopAudio((AudioHandling.PlayableAudio)((Button)sender).DataContext);
+            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void RemoveAudio_Click(object sender, RoutedEventArgs e)
         {
-            AppModelInstance.SaveData();
+            if (((Button)sender).DataContext == null)
+                return;
+            AppModel.Instance.AudioList.Remove((Audio)((Button)sender).DataContext);
+            grid_selectedAudioProperties.Children.Clear();
         }
 
         private void AudioListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -92,13 +96,13 @@ namespace DreamingPhoenix
             if (((ListBox)sender).SelectedItem == null)
                 return;
 
-            switch ((AudioHandling.Audio)((ListBox)sender).SelectedItem)
+            switch ((Audio)((ListBox)sender).SelectedItem)
             {
-                case AudioHandling.AudioTrack at:
+                case AudioTrack at:
                     grid_selectedAudioProperties.Children.Clear();
                     grid_selectedAudioProperties.Children.Add(new UserControls.AudioTrackProperties(at));
                     break;
-                case AudioHandling.SoundEffect se:
+                case SoundEffect se:
                     grid_selectedAudioProperties.Children.Clear();
                     grid_selectedAudioProperties.Children.Add(new UserControls.SoundEffectProperties(se));
                     break;
@@ -113,14 +117,13 @@ namespace DreamingPhoenix
             item.IsSelected = true;
         }
 
-
         private void Window_PreviewDrop(object sender, DragEventArgs e)
         {          
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             foreach (string file in files)
             {
-                if (!AudioHandling.FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                if (!FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
                 {
                     return;
                 }
@@ -136,7 +139,7 @@ namespace DreamingPhoenix
 
             foreach (string file in files)
             {
-                if (!AudioHandling.FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                if (!FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
                 {
                     e.Handled = false;
                     return;

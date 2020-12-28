@@ -87,12 +87,6 @@ namespace DreamingPhoenix.UserControls
                 Track.AudioFile = FileDialog.FileName;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             if (Track == null)
@@ -110,6 +104,12 @@ namespace DreamingPhoenix.UserControls
         private void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
             AppModel.Instance.AudioList.Remove(Track);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }
