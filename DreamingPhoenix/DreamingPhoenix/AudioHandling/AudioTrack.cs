@@ -47,6 +47,8 @@ namespace DreamingPhoenix.AudioHandling
         /// <param name="name">Audio Name</param>
         public AudioTrack(string audioFile, string name) : base(audioFile, name)
         {
+            if (Volume == 0)
+                Volume = AppModel.Instance.Options.DefaultAudioTrackVolume;
         }
         public override string ToString()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -25,6 +26,17 @@ namespace DreamingPhoenix.UserControls
         {
             InitializeComponent();
             DataContext = this;
+
+            for (int n = -1; n < WaveOut.DeviceCount; n++)
+            {
+                var caps = WaveOut.GetCapabilities(n);
+                cbox_outputDevices.Items.Add(caps.ProductName);
+            }
+        }
+
+        private void cbox_outputDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AppModel.Instance.AudioManager.OutputDevice.DeviceNumber = AppModel.Instance.Options.DefaultOutputDevice;
         }
     }
 }

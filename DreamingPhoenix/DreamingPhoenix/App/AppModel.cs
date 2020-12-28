@@ -68,7 +68,7 @@ namespace DreamingPhoenix
             Persistence.PersistentData persistentData = new Persistence.PersistentData()
             {
                 AudioList = new List<Audio>(AudioList),
-                CompactModeEnabled = !Options.ExtendedModeEnabled
+                AppOptions = Options
             };
 
             new Persistence.PersistenceJsonDataManager().Save(persistentData);
@@ -78,8 +78,17 @@ namespace DreamingPhoenix
         {
             Persistence.PersistentData data = new Persistence.PersistenceJsonDataManager().Load();
             AudioList.Clear();
-            data.AudioList.ForEach(x => AudioList.Add(x));
-            Options.ExtendedModeEnabled = !data.CompactModeEnabled;
+
+            if (data != null)
+            {
+                data.AudioList.ForEach(x => AudioList.Add(x));
+                Options = data.AppOptions;
+
+                if (Options.DefaultOutputDevice > NAudio.Wave.WaveIn.DeviceCount - 1)
+                    Options.DefaultOutputDevice = -1;
+
+                AudioManager.OutputDevice.DeviceNumber = Options.DefaultOutputDevice;
+            }
         }
 
         public AppModel()

@@ -8,8 +8,6 @@ namespace DreamingPhoenix.Persistence
     public class PersistentData
     {
         public List<Audio> AudioList = new List<Audio>();
-
-        public bool CompactModeEnabled = false;
-
+        public AppOptions AppOptions = new AppOptions();
     }
 }

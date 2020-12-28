@@ -15,6 +15,11 @@ namespace DreamingPhoenix.AudioHandling
         /// <param name="name">Audio Name</param>
         public SoundEffect(string audioFile, string name) : base(audioFile, name)
         {
+            if (Volume == 0)
+                Volume = AppModel.Instance.Options.DefaultSoundEffectVolume;
         }
+
+        public SoundEffect() { }
+
     }
 }
