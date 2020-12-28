@@ -21,6 +21,8 @@ namespace DreamingPhoenix.AudioHandling
         private bool isPausing = false;
         private bool isStopping = false;
         public event EventHandler AudioStopped;
+        public event EventHandler AudioPaused;
+        public event EventHandler AudioStarted;
 
         private int fadeSamplePosition;
         private int fadeSampleCount;
@@ -248,6 +250,7 @@ namespace DreamingPhoenix.AudioHandling
                     {
                         oldPosition = Position;
                         State = NAudioState.Paused;
+                        AudioPaused?.Invoke(this, EventArgs.Empty);
                         isPausing = false;
                     }
                     if (isStopping)
@@ -311,6 +314,7 @@ namespace DreamingPhoenix.AudioHandling
             if (Position != 0)
                 Position = oldPosition;
             BeginFadeIn(fadeInSpeed);
+            AudioStarted?.Invoke(this, EventArgs.Empty);
         }
 
         public void Pause(double fadeOutSpeed = 0)

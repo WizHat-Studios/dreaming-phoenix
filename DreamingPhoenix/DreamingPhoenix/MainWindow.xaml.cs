@@ -68,6 +68,22 @@ namespace DreamingPhoenix
                     pgb_audioTrack.Maximum = totalSeconds;
                 });
             };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStarted += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Visible;
+                    btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioPaused += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                });
+            };
         }
 
         private void PlayAudioTrack_Click(object sender, RoutedEventArgs e)
