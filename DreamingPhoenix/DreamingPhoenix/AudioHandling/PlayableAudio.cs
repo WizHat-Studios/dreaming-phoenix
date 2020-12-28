@@ -17,6 +17,8 @@ namespace DreamingPhoenix.AudioHandling
     {
         public Action<double, double> AudioTrackTick;
         public event EventHandler AudioStopped;
+        public event EventHandler AudioPaused;
+        public event EventHandler AudioStarted;
 
         private Audio audioOptions;
 
@@ -77,6 +79,9 @@ namespace DreamingPhoenix.AudioHandling
             AudioReader.Volume = AudioOptions.Volume;
             Volume = AudioOptions.Volume;
             AudioReader.AudioStopped += OnAudioStopped;
+            AudioReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
+            AudioReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
+            AudioStarted?.Invoke(this, EventArgs.Empty);
 
             ISampleProvider sampleProvider = AudioReader;
 
@@ -162,14 +167,25 @@ namespace DreamingPhoenix.AudioHandling
             if (audioOptions.GetType() != typeof(AudioTrack))
                 return;
 
-            if (((AudioTrack)AudioOptions).NextAudioTrack == null)
+            if (((AudioTrack)AudioOptions).Repeat)
+            {
+                Play((AudioTrack)AudioOptions);
+                return;
+            }
+
+            if (((AudioTrack)AudioOptions).NextAudioTrack != null)
+            {
+                Play(((AudioTrack)AudioOptions).NextAudioTrack);
+                return;
+            }
+
+            if (((AudioTrack)AudioOptions).NextAudioTrack == null || !((AudioTrack)AudioOptions).Repeat)
             {
                 //AudioTrackTick?.Invoke(-1, -1);
                 AudioOptions = Audio.Default;
                 return;
             }
 
-            Play(((AudioTrack)AudioOptions).NextAudioTrack);
         }
 
         private void TimerRun()

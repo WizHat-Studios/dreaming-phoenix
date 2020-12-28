@@ -53,8 +53,11 @@ namespace DreamingPhoenix
             this.DataContext = this;
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStopped += (s, e) =>
             {
-                btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
-                btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                });
             };
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
             {
@@ -62,6 +65,22 @@ namespace DreamingPhoenix
                 {
                     pgb_audioTrack.Value = currSecond;
                     pgb_audioTrack.Maximum = totalSeconds;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStarted += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Visible;
+                    btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioPaused += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
                 });
             };
         }
