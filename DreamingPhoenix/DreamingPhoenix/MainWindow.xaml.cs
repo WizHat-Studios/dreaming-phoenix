@@ -53,8 +53,12 @@ namespace DreamingPhoenix
             this.DataContext = this;
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStopped += (s, e) =>
             {
-                btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
-                btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                    pgb_audioTrack.Value = pgb_audioTrack.Maximum;
+                });
             };
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
             {

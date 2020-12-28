@@ -109,8 +109,13 @@ namespace DreamingPhoenix.AudioHandling
 
         public void StopAllAudio()
         {
-            MixingProvider.RemoveAllMixerInputs();
+            CurrentlyPlayingAudioTrack.Stop();
+            foreach (PlayableAudio audio in CurrentlyPlayingSoundEffects)
+            {
+                audio.Stop();
+            }
 
+            MixingProvider.RemoveAllMixerInputs();
             CurrentlyPlayingSoundEffects.Clear();
             CurrentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
         }

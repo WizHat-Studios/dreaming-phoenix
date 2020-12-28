@@ -151,7 +151,10 @@ namespace DreamingPhoenix.AudioHandling
             double fadeOutSpeed = 0;
 
             if (isAudioTrack)
+            {
                 fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
+                timerThread.Interrupt();
+            }
 
             AudioReader.Stop(fadeOutSpeed);
         }
