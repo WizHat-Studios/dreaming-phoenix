@@ -29,6 +29,13 @@ namespace DreamingPhoenix
             this.DataContext = this;
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
             {
+                if (currSecond == -1 && totalSeconds == -1)
+                {
+                    btn_PauseAudioTrack.Dispatcher.Invoke(() => { btn_PauseAudioTrack.Visibility = ChangeVisibility(btn_PauseAudioTrack.Visibility, true); });
+                    btn_PlayAudioTrack.Dispatcher.Invoke(() => { btn_PlayAudioTrack.Visibility = ChangeVisibility(btn_PlayAudioTrack.Visibility, true); });
+                    currSecond = 0;
+                    totalSeconds = 0;
+                }
                 pgb_audioTrack.Dispatcher.Invoke(() =>
                 {
                     pgb_audioTrack.Value = currSecond;

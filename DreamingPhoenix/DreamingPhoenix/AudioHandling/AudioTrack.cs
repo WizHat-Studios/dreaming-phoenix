@@ -14,24 +14,31 @@ namespace DreamingPhoenix.AudioHandling
         public AudioTrack NextAudioTrack
         {
             get { return nextAudioTrack; }
-            set { nextAudioTrack = value; NotifyPropertyChanged(); }
+            set
+            {
+                nextAudioTrack = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private float fadeOutSpeed;
+        private double fadeOutSpeed;
 
         /// <summary>
         /// The fade out speed if the playing of the track is aborted and a next one should be played
         /// </summary>
-        public float FadeOutSpeed
+        public double FadeOutSpeed
         {
             get { return fadeOutSpeed; }
-            set { fadeOutSpeed = value; NotifyPropertyChanged(); }
+            set
+            {
+                fadeOutSpeed = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public AudioTrack()
         {
         }
-
 
         /// <summary>
         /// Creates a new Audio
@@ -41,7 +48,6 @@ namespace DreamingPhoenix.AudioHandling
         public AudioTrack(string audioFile, string name) : base(audioFile, name)
         {
         }
-
         public override string ToString()
         {
             return Name;
