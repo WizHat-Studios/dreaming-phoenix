@@ -40,8 +40,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Background="{DynamicResource BackgroundC}">
-                    <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged" ScrollViewer.CanContentScroll="False"
-                         Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" ScrollViewer.CanContentScroll="False"
+                         Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged" GotFocus="AudioListBox_GotFocus">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
                                 <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem" />
@@ -129,7 +129,7 @@
                         </ListBox.Resources>
                     </ListBox>
                 </Grid>
-                <GridSplitter Grid.Column="1" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch" />
+                <GridSplitter Grid.Column="1" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch" x:Name="gsp_SplitterHorizontal"/>
                 <Grid Grid.Column="2" Background="{DynamicResource BackgroundB}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="140" />
@@ -188,7 +188,7 @@
                         <Label Content="SOUND EFFECTS PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top"
                            FontSize="9" Margin="0,5,0,0" HorizontalContentAlignment="Center" />
                         <ListBox Background="{x:Null}" Margin="0,30,0,0" BorderBrush="{x:Null}"
-                             ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch">
+                             ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch" SelectionChanged="SoundEffectsListBox_SelectionChanged" GotFocus="SoundEffectsListBox_GotFocus">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Height="30" Margin="2,1,2,1" Background="{DynamicResource BackgroundF}">
