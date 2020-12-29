@@ -23,6 +23,7 @@ namespace DreamingPhoenix
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private bool pausePlayEnabled = true;
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
 
         private Visibility settingsPanelVisibility = Visibility.Hidden;
@@ -63,7 +64,11 @@ namespace DreamingPhoenix
 
         private async void PlayPauseAudioTrack_Click(object sender, RoutedEventArgs e)
         {
-            await AppModel.Instance.AudioManager.PausePlayAudio();
+            if (pausePlayEnabled)
+            {
+                pausePlayEnabled = false;
+                await AppModel.Instance.AudioManager.PausePlayAudio();
+            }
         }
 
         private void PlaySoundEffect_Click(object sender, RoutedEventArgs e)
@@ -183,6 +188,7 @@ namespace DreamingPhoenix
                     btn_PlayAudioTrack.Visibility = Visibility.Visible;
                     pgb_audioTrack.Value = 0;
                     pgb_audioTrack.Maximum = 0;
+                    pausePlayEnabled = true;
                 });
             };
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
@@ -199,6 +205,7 @@ namespace DreamingPhoenix
                 {
                     btn_PauseAudioTrack.Visibility = Visibility.Visible;
                     btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+                    pausePlayEnabled = true;
                 });
             };
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioPaused += (s, e) =>
@@ -207,6 +214,7 @@ namespace DreamingPhoenix
                 {
                     btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
                     btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                    pausePlayEnabled = true;
                 });
             };
         }
