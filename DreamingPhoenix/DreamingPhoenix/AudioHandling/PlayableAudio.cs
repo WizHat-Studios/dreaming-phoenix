@@ -150,13 +150,13 @@ namespace DreamingPhoenix.AudioHandling
         /// <summary>
         /// Stop playing the audio
         /// </summary>
-        public void Stop()
+        public void Stop(bool force = false)
         {
             //AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
 
-            if (isAudioTrack)
+            if (isAudioTrack && !force)
             {
                 fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
             }

@@ -109,7 +109,7 @@ namespace DreamingPhoenix.AudioHandling
 
         public void StopAllAudio()
         {
-            CurrentlyPlayingAudioTrack.Stop();
+            CurrentlyPlayingAudioTrack.Stop(true);
             foreach (PlayableAudio audio in CurrentlyPlayingSoundEffects)
             {
                 audio.Stop();
