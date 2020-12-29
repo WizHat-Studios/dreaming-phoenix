@@ -256,6 +256,7 @@ namespace DreamingPhoenix.AudioHandling
                     if (isStopping)
                     {
                         State = NAudioState.Stopped;
+                        AudioStopped?.Invoke(this, EventArgs.Empty);
                         isStopping = false;
                     }
 

@@ -78,7 +78,7 @@ namespace DreamingPhoenix.AudioHandling
             AudioReader = new NAudioTrackReader(AudioOptions.AudioFile);
             AudioReader.Volume = AudioOptions.Volume;
             Volume = AudioOptions.Volume;
-            AudioReader.AudioStopped += OnAudioStopped;
+            AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             AudioReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
             AudioReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
             AudioStarted?.Invoke(this, EventArgs.Empty);
@@ -152,13 +152,13 @@ namespace DreamingPhoenix.AudioHandling
         /// </summary>
         public void Stop()
         {
+            AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
 
             if (isAudioTrack)
             {
                 fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
-                timerThread.Interrupt();
             }
 
             AudioReader.Stop(fadeOutSpeed);
@@ -166,10 +166,12 @@ namespace DreamingPhoenix.AudioHandling
 
         private void OnAudioStopped(object sender, EventArgs e)
         {
+            Debug.WriteLine("Help?!");
+            timerThread.Interrupt();
             AudioStopped?.Invoke(this, EventArgs.Empty);
             if (audioOptions.GetType() != typeof(AudioTrack))
                 return;
-
+            
             if (((AudioTrack)AudioOptions).Repeat)
             {
                 Play((AudioTrack)AudioOptions);
@@ -191,23 +193,25 @@ namespace DreamingPhoenix.AudioHandling
 
         }
 
-        private void TimerRun()
+        private async void TimerRun()
         {
             try
             {
                 while (true)
                 {
-                    //if (this.outputDevice.PlaybackState == PlaybackState.Playing)
                     if (this.AudioReader.State == NAudioState.Playing)
                     {
-                        //double ms = this.outputDevice.GetPosition() * 1000.0 / this.outputDevice.OutputWaveFormat.BitsPerSample / this.outputDevice.OutputWaveFormat.Channels * 8 / this.outputDevice.OutputWaveFormat.SampleRate;
                         AudioTrackTick?.Invoke(AudioReader.CurrentTime.TotalSeconds, Math.Round(AudioReader.TotalTime.TotalSeconds));
                     }
+                    else
+                        break;
 
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
                 }
             }
-            catch (ThreadInterruptedException) { }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private void RestartThread()

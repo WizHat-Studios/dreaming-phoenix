@@ -51,39 +51,7 @@ namespace DreamingPhoenix
             uc_DropPanel.AudioFilesProcessed += (s, e) => AudioDropPanelVisibility = Visibility.Hidden;
 
             this.DataContext = this;
-            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStopped += (s, e) =>
-            {
-                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
-                {
-                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
-                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
-                    pgb_audioTrack.Value = pgb_audioTrack.Maximum;
-                });
-            };
-            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
-            {
-                pgb_audioTrack.Dispatcher.Invoke(() =>
-                {
-                    pgb_audioTrack.Value = currSecond;
-                    pgb_audioTrack.Maximum = totalSeconds;
-                });
-            };
-            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStarted += (s, e) =>
-            {
-                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
-                {
-                    btn_PauseAudioTrack.Visibility = Visibility.Visible;
-                    btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
-                });
-            };
-            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioPaused += (s, e) =>
-            {
-                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
-                {
-                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
-                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
-                });
-            };
+            SubscribeToAudioTrack();
         }
 
         private void PlayAudioTrack_Click(object sender, RoutedEventArgs e)
@@ -221,15 +189,50 @@ namespace DreamingPhoenix
         private void StopAllAudio_Click(object sender, RoutedEventArgs e)
         {
             AppModelInstance.AudioManager.StopAllAudio();
+            SubscribeToAudioTrack();
+        }
+
+        private void SubscribeToAudioTrack()
+        {
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStopped += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                    pgb_audioTrack.Value = pgb_audioTrack.Maximum;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>
+            {
+                pgb_audioTrack.Dispatcher.Invoke(() =>
+                {
+                    pgb_audioTrack.Value = currSecond;
+                    pgb_audioTrack.Maximum = totalSeconds;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioStarted += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Visible;
+                    btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+                });
+            };
+            AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioPaused += (s, e) =>
+            {
+                btn_PauseAudioTrack.Dispatcher.Invoke(() =>
+                {
+                    btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.Visibility = Visibility.Visible;
+                });
+            };
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             AppModelInstance.SaveData();
         }
-
-
-
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
