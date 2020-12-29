@@ -112,7 +112,7 @@ namespace DreamingPhoenix.AudioHandling
             CurrentlyPlayingAudioTrack.Stop(true);
             foreach (PlayableAudio audio in CurrentlyPlayingSoundEffects)
             {
-                audio.Stop();
+                audio.Stop(true);
             }
 
             //MixingProvider.RemoveAllMixerInputs();
