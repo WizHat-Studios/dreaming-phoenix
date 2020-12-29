@@ -221,7 +221,8 @@ namespace DreamingPhoenix.AudioHandling
 
         private void RestartThread()
         {
-            timerThread.Interrupt();
+            if (timerThread != null)
+                timerThread.Interrupt();
             timerThread = new Thread(new ThreadStart(TimerRun));
             timerThread.Start();
         }

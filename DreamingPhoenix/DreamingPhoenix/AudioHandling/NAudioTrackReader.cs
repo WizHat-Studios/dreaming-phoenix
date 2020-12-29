@@ -20,6 +20,7 @@ namespace DreamingPhoenix.AudioHandling
         public NAudioState State = NAudioState.None;
         private bool isPausing = false;
         private bool isStopping = false;
+        private bool isStarting = true;
         public event EventHandler AudioStopped;
         public event EventHandler AudioPaused;
         public event EventHandler AudioStarted;
@@ -185,10 +186,11 @@ namespace DreamingPhoenix.AudioHandling
                     ClearBuffer(buffer, offset, count);
                 }
 
-                if (sampleRead < count && isStopping)
+                if (sampleRead >= count)
+                    isStarting = false;
+                if (sampleRead < count && !isStarting)
                 {
                     State = NAudioState.Stopped;
-                    Debug.WriteLine("Stopped now, please (Read) (" + fadeState + ") :(");
                     AudioStopped?.Invoke(this, EventArgs.Empty);
                     return 0;
                 }
