@@ -18,6 +18,7 @@
         <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
+        <converters:NextAudioTrackToBooleanConverter x:Key="NextAudioTrackToBooleanConverter" />
     </Window.Resources>
     <Grid x:Name="grid_root" Margin="0,30,0,0">
         <Grid>
@@ -171,10 +172,12 @@
                                           IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat,
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Pause" Width="20" FontSize="20"
-                                Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
+                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
                             <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"
-                                Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" />
-                            <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"  Margin="0,0,10,0" />
+                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" IsEnabled="False" />
+                            <Button Name="btn_PlayNextAudio" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"
+                                    Margin="0,0,15,0" Click="btn_PlayNextAudio_Click" IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,
+                                    Mode=TwoWay, Converter={StaticResource NextAudioTrackToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
 
                         <Separator Background="{DynamicResource BackgroundC}" VerticalAlignment="Bottom" Margin="7,0,7,0" />

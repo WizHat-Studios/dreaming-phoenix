@@ -350,6 +350,11 @@ namespace DreamingPhoenix.AudioHandling
             AudioStopped = null;
         }
 
+        public string Test()
+        {
+            return AudioStopped.Target.ToString();
+        }
+
         /// <summary>
         /// Disposes this NAudioTrackReader
         /// </summary>

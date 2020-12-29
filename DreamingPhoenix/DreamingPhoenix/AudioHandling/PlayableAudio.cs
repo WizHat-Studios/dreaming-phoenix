@@ -35,6 +35,7 @@ namespace DreamingPhoenix.AudioHandling
         public event EventHandler AudioStarted;
         #endregion
 
+        private StopMode stopMode = StopMode.Normal;
         private Thread timeTickerThread;
 
         private Audio currentAudio;
@@ -65,6 +66,14 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        enum StopMode
+        {
+            Normal,
+            Repeat,
+            NextTrack,
+            Force
+        }
+
         /// <summary>
         /// Creates a new PlayableAudio
         /// </summary>
@@ -80,6 +89,9 @@ namespace DreamingPhoenix.AudioHandling
         /// </summary>
         public void Play()
         {
+            if (stopMode == StopMode.Force)
+                return;
+
             bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
             // if audio is still playing, mute it
             if (AudioTrackReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
@@ -126,6 +138,9 @@ namespace DreamingPhoenix.AudioHandling
         /// <param name="audio">The new audio</param>
         public void Play(Audio audio)
         {
+            if (stopMode == StopMode.Force)
+                return;
+
             // Clear all subscribers from event, because we instaniate a new audio
             // (Only affects PlayableAudio internally. All external classes are still subscribed to PlayableAudio)
             AudioTrackReader?.ClearAudioStoppedEvent();
@@ -136,6 +151,9 @@ namespace DreamingPhoenix.AudioHandling
             {
                 AudioTrackReader.AudioStopped += (s, e) =>
                 {
+                    if (stopMode == StopMode.Force)
+                        return;
+
                     if (isAudioTrack)
                         timeTickerThread.Interrupt();
                     Play(audio);
@@ -177,15 +195,33 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        public void PlayNextTrack()
+        {
+            if (CurrentAudio.GetType() != typeof(AudioTrack))
+                return;
+
+            if (((AudioTrack)CurrentAudio).NextAudioTrack == null)
+                return;
+
+            stopMode = StopMode.NextTrack;
+            Stop(false);
+        }
+
         /// <summary>
         /// Stop playing the audio
         /// </summary>
         /// <param name="force">if true, fadeoutspeed 0 is used, otherwise the audio fadeoutspeed is used</param>
         public void Stop(bool force = false)
         {
-            //AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
+
+            if (force)
+            {
+                stopMode = StopMode.Force;
+                AudioTrackReader.ClearAudioStoppedEvent();
+                AudioTrackReader.AudioStopped += OnAudioStopped;
+            }
 
             // Use the FadeOutSpeed of the AudioTrack if it's not a force stop
             if (isAudioTrack && !force)
@@ -211,29 +247,44 @@ namespace DreamingPhoenix.AudioHandling
         /// </summary>
         private void OnAudioStopped(object sender, EventArgs e)
         {
+            if (stopMode == StopMode.Force)
+                stopMode = StopMode.Normal;
+
             bool isAudioTrack = currentAudio.GetType() == typeof(AudioTrack);
             if (isAudioTrack && timeTickerThread != null)
                 timeTickerThread.Interrupt();
 
-            // Prioritize repeat
-            if (CurrentAudio.Repeat)
+            // Only play next track if mode is normal or repeat
+            if (stopMode == StopMode.Normal || stopMode == StopMode.Repeat)
             {
-                Play(CurrentAudio);
-                return;
+                // Prioritize repeat
+                if (CurrentAudio.Repeat)
+                {
+                    stopMode = StopMode.Normal;
+                    Play(CurrentAudio);
+                    return;
+                }
             }
+            Debug.WriteLine("Nein, hier ist Patrick!");
             AudioStopped?.Invoke(this, EventArgs.Empty);
 
             // if sound track, do nothing else
             if (!isAudioTrack)
                 return;
 
-            // Play next track
-            if (((AudioTrack)CurrentAudio).NextAudioTrack != null)
+            // Only play next track if mode is normal or nexttrack
+            if (stopMode == StopMode.Normal || stopMode == StopMode.NextTrack)
             {
-                Play(((AudioTrack)CurrentAudio).NextAudioTrack);
-                return;
+                // Play next track
+                if (((AudioTrack)CurrentAudio).NextAudioTrack != null)
+                {
+                    stopMode = StopMode.Normal;
+                    Play(((AudioTrack)CurrentAudio).NextAudioTrack);
+                    return;
+                }
             }
 
+            stopMode = StopMode.Normal;
             // Reset to default AudioTrack
             if (((AudioTrack)CurrentAudio).NextAudioTrack == null || !((AudioTrack)CurrentAudio).Repeat)
             {

@@ -71,6 +71,11 @@ namespace DreamingPhoenix
             }
         }
 
+        private void btn_PlayNextAudio_Click(object sender, RoutedEventArgs e)
+        {
+            AppModel.Instance.AudioManager.PlayNextTrack();
+        }
+
         private void PlaySoundEffect_Click(object sender, RoutedEventArgs e)
         {
             if (((Button)sender).DataContext == null)
@@ -188,6 +193,7 @@ namespace DreamingPhoenix
                     btn_PlayAudioTrack.Visibility = Visibility.Visible;
                     pgb_audioTrack.Value = 0;
                     pgb_audioTrack.Maximum = 0;
+                    btn_PlayAudioTrack.IsEnabled = false;
                     pausePlayEnabled = true;
                 });
             };
@@ -205,6 +211,7 @@ namespace DreamingPhoenix
                 {
                     btn_PauseAudioTrack.Visibility = Visibility.Visible;
                     btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+                    btn_PlayAudioTrack.IsEnabled = true;
                     pausePlayEnabled = true;
                 });
             };

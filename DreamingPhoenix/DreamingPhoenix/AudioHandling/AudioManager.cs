@@ -116,6 +116,14 @@ namespace DreamingPhoenix.AudioHandling
             return true;
         }
 
+        public bool PlayNextTrack()
+        {
+            if (CurrentlyPlayingAudioTrack == null || CurrentlyPlayingAudioTrack.AudioTrackReader == null)
+                return false;
+            CurrentlyPlayingAudioTrack.PlayNextTrack();
+            return true;
+        }
+
         /// <summary>
         /// Stop specific audio with FadeOutSpeed
         /// </summary>
