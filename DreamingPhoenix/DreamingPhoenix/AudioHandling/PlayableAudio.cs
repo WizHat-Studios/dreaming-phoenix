@@ -219,8 +219,11 @@ namespace DreamingPhoenix.AudioHandling
             if (force)
             {
                 stopMode = StopMode.Force;
-                AudioTrackReader.ClearAudioStoppedEvent();
-                AudioTrackReader.AudioStopped += OnAudioStopped;
+                if (AudioTrackReader != null)
+                {
+                    AudioTrackReader.ClearAudioStoppedEvent();
+                    AudioTrackReader.AudioStopped += OnAudioStopped;
+                }
             }
 
             // Use the FadeOutSpeed of the AudioTrack if it's not a force stop
