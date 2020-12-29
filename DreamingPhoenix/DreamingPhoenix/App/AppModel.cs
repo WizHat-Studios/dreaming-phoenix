@@ -1,4 +1,5 @@
 ﻿using DreamingPhoenix.AudioHandling;
+using DreamingPhoenix.Styles.Scheme;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -61,7 +62,6 @@ namespace DreamingPhoenix
             new FileExtension("wma"),
             new FileExtension("aac")
         };
-
 
         public void SaveData()
         {

@@ -243,6 +243,7 @@ namespace DreamingPhoenix
         private void HideSettings_Click(object sender, RoutedEventArgs e)
         {
             SettingsPanelVisibility = Visibility.Hidden;
+            AppModelInstance.SaveData();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

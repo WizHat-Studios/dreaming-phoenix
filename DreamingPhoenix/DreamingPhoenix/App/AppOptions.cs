@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DreamingPhoenix.Styles.Scheme;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 
 namespace DreamingPhoenix
 {
@@ -40,6 +42,21 @@ namespace DreamingPhoenix
             get { return defaultOutputDevice; }
             set { defaultOutputDevice = value; NotifyPropertyChanged(); }
         }
+
+        private int selectedColorScheme;
+
+        public int SelectedColorScheme
+        {
+            get { return selectedColorScheme; }
+            set
+            { 
+                selectedColorScheme = value; 
+                if (value >= 0 && value < ColorScheme.Themes.Count)
+                    ((App)Application.Current).ChangeTheme(ColorScheme.Themes[value].ThemeDestination); 
+                NotifyPropertyChanged();
+            }
+        }
+
 
 
         public AppOptions()
