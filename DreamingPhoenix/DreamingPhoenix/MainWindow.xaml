@@ -167,12 +167,14 @@
                         </Grid>
 
                         <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
-                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0"
+                                          IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat,
+                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Pause" Width="20" FontSize="20"
                                 Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
                             <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"
                                 Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" />
-                            <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"  Margin="0,0,15,0" />
+                            <Button Style="{StaticResource TransparentButton}" fa:Awesome.Content="Forward" Width="20" FontSize="20"  Margin="0,0,10,0" />
                         </StackPanel>
 
                         <Separator Background="{DynamicResource BackgroundC}" VerticalAlignment="Bottom" Margin="7,0,7,0" />

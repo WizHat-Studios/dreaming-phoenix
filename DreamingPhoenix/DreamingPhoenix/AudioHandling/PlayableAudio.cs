@@ -88,11 +88,16 @@ namespace DreamingPhoenix.AudioHandling
             // Create new Reader and subscribe to all events
             AudioTrackReader = new NAudioTrackReader(CurrentAudio.AudioFile);
             AudioTrackReader.Volume = CurrentAudio.Volume;
-            //Volume = AudioOptions.Volume;
             AudioTrackReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             AudioTrackReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
             AudioTrackReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
             AudioStarted?.Invoke(this, EventArgs.Empty);
+
+            CurrentAudio.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(CurrentAudio.Volume))
+                    AudioTrackReader.Volume = CurrentAudio.Volume;
+            };
 
             // Insert Reader to MixingSampleProvider
             ISampleProvider sampleProvider = AudioTrackReader;
