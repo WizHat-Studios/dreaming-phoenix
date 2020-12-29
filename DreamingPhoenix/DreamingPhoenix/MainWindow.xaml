@@ -143,7 +143,7 @@
                                    Height="30" VerticalAlignment="Top" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis"
                                    Padding="4" FontWeight="Bold">
                             <TextBlock.Text>
-                                <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions"  UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio"  UpdateSourceTrigger="PropertyChanged">
                                     <Binding.Converter>
                                         <converters:ObjectToPlayingStringConverter />
                                     </Binding.Converter>
@@ -167,7 +167,7 @@
                         </Grid>
 
                         <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
-                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.AudioOptions.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Awesome.Content="Repeat" Width="20" FontSize="20" Margin="5,0,15,0" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Pause" Width="20" FontSize="20"
                                 Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
                             <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Awesome.Content="Play" Width="20" FontSize="20"
@@ -186,7 +186,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Height="30" Margin="2,1,2,1" Background="{DynamicResource BackgroundF}">
-                                        <Label Content="{Binding Path=AudioOptions.Name}" Foreground="{DynamicResource ForegroundDefault}" Margin="10,0,0,0" />
+                                        <Label Content="{Binding Path=CurrentAudio.Name}" Foreground="{DynamicResource ForegroundDefault}" Margin="10,0,0,0" />
                                         <Button HorizontalAlignment="Right" fa:Awesome.Content="Times" Style="{StaticResource TransparentRedButton}" Margin="0,0,10,0"
                                             Click="StopSoundEffect_Click" />
                                     </Grid>

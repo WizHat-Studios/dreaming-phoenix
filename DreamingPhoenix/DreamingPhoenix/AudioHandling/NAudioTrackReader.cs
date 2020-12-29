@@ -8,6 +8,7 @@ using System.Text;
 
 namespace DreamingPhoenix.AudioHandling
 {
+    [DebuggerDisplay("Current State: {State.ToString(),np} - File: {FileName}")]
     public class NAudioTrackReader : WaveStream, ISampleProvider
     {
         private WaveStream readerStream; // the waveStream which we will use for all positioning

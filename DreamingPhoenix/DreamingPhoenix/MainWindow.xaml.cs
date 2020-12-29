@@ -58,31 +58,12 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AudioTrack track = (AudioTrack)((Button)sender).DataContext;
-            AppModel.Instance.AudioManager.PlayAudio(track);
-            btn_PauseAudioTrack.Visibility = Visibility.Visible;
-            btn_PlayAudioTrack.Visibility = Visibility.Collapsed;
+            AppModel.Instance.AudioManager.PlayAudio((AudioTrack)((Button)sender).DataContext);
         }
 
         private async void PlayPauseAudioTrack_Click(object sender, RoutedEventArgs e)
         {
-            if (!await AppModel.Instance.AudioManager.PausePlayAudioTrack())
-                return;
-            //btn_PauseAudioTrack.Visibility = ChangeVisibility(btn_PauseAudioTrack.Visibility, true);
-            //btn_PlayAudioTrack.Visibility = ChangeVisibility(btn_PlayAudioTrack.Visibility, true);
-        }
-
-        private Visibility ChangeVisibility(Visibility visibility, bool collapsed)
-        {
-            if (visibility == Visibility.Visible)
-            {
-                if (collapsed)
-                    return Visibility.Collapsed;
-                else
-                    return Visibility.Hidden;
-            }
-
-            return Visibility.Visible;
+            await AppModel.Instance.AudioManager.PausePlayAudio();
         }
 
         private void PlaySoundEffect_Click(object sender, RoutedEventArgs e)
@@ -97,7 +78,7 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            ((PlayableAudio)((Button)sender).DataContext).Stop(true);
+            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, true);
         }
 
         private void RemoveAudio_Click(object sender, RoutedEventArgs e)
@@ -246,7 +227,6 @@ namespace DreamingPhoenix
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

@@ -16,6 +16,11 @@ using System.Windows.Threading;
 
 namespace DreamingPhoenix.AudioHandling
 {
+    /// <summary>
+    /// Manager for all kind of audio.
+    /// Play, Pause and Stop audios
+    /// </summary>
+    [DebuggerDisplay("Playing Sounds: {CurrentlyPlayingSoundEffects.Count} - Audio Track: {CurrentlyPlayingAudioTrack.CurrentAudio.Name,nq}")]
     public class AudioManager : INotifyPropertyChanged
     {
         public WaveOutEvent OutputDevice = new WaveOutEvent();
@@ -54,6 +59,10 @@ namespace DreamingPhoenix.AudioHandling
             BindingOperations.EnableCollectionSynchronization(CurrentlyPlayingSoundEffects, false);
         }
 
+        /// <summary>
+        /// Play new audio
+        /// </summary>
+        /// <param name="audioToPlay">The new audio to play</param>
         public void PlayAudio(Audio audioToPlay)
         {
             switch (audioToPlay)
@@ -69,6 +78,7 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        #region Controls
         private void PlaySoundEffect(SoundEffect soundEffectToPlay)
         {
             PlayableAudio audio = new PlayableAudio(soundEffectToPlay);
@@ -94,19 +104,30 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
-        public async Task<bool> PausePlayAudioTrack()
+        /// <summary>
+        /// Pause or Resume the current AudioTrack (Only for <seealso cref="AudioTrack"/>)
+        /// </summary>
+        /// <returns>if true, audio is paused or resumed, if false, audio couldn't be paused or resumed</returns>
+        public async Task<bool> PausePlayAudio()
         {
-            if (CurrentlyPlayingAudioTrack == null || CurrentlyPlayingAudioTrack.AudioReader == null)
+            if (CurrentlyPlayingAudioTrack == null || CurrentlyPlayingAudioTrack.AudioTrackReader == null)
                 return false;
             await CurrentlyPlayingAudioTrack.PausePlay();
             return true;
         }
 
-        public void StopAudio(PlayableAudio audio)
+        /// <summary>
+        /// Stop specific audio with FadeOutSpeed
+        /// </summary>
+        /// <param name="audio">The audio to stop</param>
+        public void StopAudio(PlayableAudio audio, bool force = false)
         {
-            audio.Stop();
+            audio.Stop(force);
         }
 
+        /// <summary>
+        /// Force stop all currently playing audios
+        /// </summary>
         public void StopAllAudio()
         {
             CurrentlyPlayingAudioTrack.Stop(true);
@@ -115,10 +136,10 @@ namespace DreamingPhoenix.AudioHandling
                 audio.Stop(true);
             }
 
-            //MixingProvider.RemoveAllMixerInputs();
             CurrentlyPlayingSoundEffects.Clear();
             CurrentlyPlayingAudioTrack = new PlayableAudio(AudioTrack.Default);
         }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
