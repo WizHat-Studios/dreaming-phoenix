@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -41,17 +42,40 @@ namespace DreamingPhoenix
             set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        HotkeyHandling.KeyboardListener.KeyboardHook HotKeyHook = new HotkeyHandling.KeyboardListener.KeyboardHook();
+
         public MainWindow()
         {
             InitializeComponent();
 
             grid_AppOptions.Visibility = Visibility.Visible;
             grid_DropPanel.Visibility = Visibility.Visible;
+            HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
             uc_DropPanel.AudioFilesProcessed += (s, e) => AudioDropPanelVisibility = Visibility.Hidden;
 
             this.DataContext = this;
             SubscribeToAudioTrack();
+        }
+
+        private void HotKeyHook_OnKeyboard(object sender, HotkeyHandling.KeyboardListener.KeyboardEventArgs e)
+        {
+            if (e.KeyState != HotkeyHandling.KeyboardListener.KeyState.WM_KEYUP || HotkeyHandling.HotkeySelector.HotkeySelector.GlobalIsInSelectionModeLock)
+                return;
+
+            foreach (Audio audio in AppModelInstance.AudioList)
+            {
+                if (audio.HotKey == e.Key && Keyboard.Modifiers == audio.HotkeyModifiers)
+                {
+                    AppModelInstance.AudioManager.PlayAudio(audio);
+                    e.Handled = true;
+                }
+            }
+
+            if (AppModelInstance.Options.StopAllAudioHotKey == e.Key && Keyboard.Modifiers == AppModelInstance.Options.StopAllAudioHotKeyModifier)
+            {
+                AppModelInstance.AudioManager.StopAllAudio();
+            }
         }
 
         private void PlayAudioTrack_Click(object sender, RoutedEventArgs e)

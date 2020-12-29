@@ -7,8 +7,9 @@
         xmlns:audio="clr-namespace:DreamingPhoenix.AudioHandling"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
+        xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"
         xmlns:uc="clr-namespace:DreamingPhoenix.UserControls"
-        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
+        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"        
         mc:Ignorable="d"
         Title="Dreaming Phoenix" Height="450" Width="851"
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
@@ -38,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Background="{DynamicResource BackgroundC}">
-                    <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged"
+                    <ListBox ItemsSource="{Binding Path=AppModelInstance.AudioList}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="AudioListBox_SelectionChanged" ScrollViewer.CanContentScroll="False"
                          Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
@@ -76,7 +77,7 @@
 
                                                 <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
                                                     <Grid>
-                                                        <Button Margin="7,7,7,7" Height="35" Content="FN+ALT+CTRL+SHIFT+NUMPAD1" />
+                                                        <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}" ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}"/>
                                                     </Grid>
                                                 </Border>
                                             </Grid>
@@ -116,7 +117,7 @@
 
                                                 <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
                                                     <Grid>
-                                                        <Button Margin="7,7,7,7" Height="35" Content="FN+ALT+CTRL+SHIFT+NUMPAD1" />
+                                                        <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}" ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}"/>
                                                     </Grid>
                                                 </Border>
                                             </Grid>

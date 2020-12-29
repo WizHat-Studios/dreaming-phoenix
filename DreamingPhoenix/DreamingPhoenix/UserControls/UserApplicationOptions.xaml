@@ -6,21 +6,21 @@
              xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
+             xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"           
              xmlns:converters="clr-namespace:DreamingPhoenix.Converter"  
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="511">
 
     <UserControl.Resources>
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentageConverter"/>
     </UserControl.Resources>
-    
+
 
     <Grid Margin="60,0,60,0">
         <Label Content="SETTINGS" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" Height="30" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" Margin="0,20,0,0" />
         <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                
+
                 <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -75,6 +75,17 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="THEME" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
                         <ComboBox x:Name="cbox_themes" Height="35" VerticalAlignment="Center" SelectedIndex="{Binding Path=Options.SelectedColorScheme}" HorizontalAlignment="Stretch" Margin="20,0,20,0" Grid.Column="1" Style="{StaticResource ComboBox}"/>
+                    </Grid>
+                </Border>
+
+                <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="STOP ALL AUDIO HOTKEY" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
+                        <hk:HotkeySelector Height="35" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20,0,20,0" Grid.Column="1" SelectedHotkey="{Binding Path=Options.StopAllAudioHotKey, Mode=TwoWay}" ModifierKeys="{Binding Path=Options.StopAllAudioHotKeyModifier, Mode=TwoWay}"/>
                     </Grid>
                 </Border>
 
