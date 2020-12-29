@@ -76,6 +76,9 @@ namespace DreamingPhoenix.AudioHandling
             set { hotkeyModifiers = value; NotifyPropertyChanged(); }
         }
 
+        /// <summary>
+        /// Creates a new empty Audio
+        /// </summary>
         protected Audio()
         {
         }

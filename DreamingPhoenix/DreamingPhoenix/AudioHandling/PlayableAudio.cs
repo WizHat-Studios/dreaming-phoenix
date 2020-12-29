@@ -13,80 +13,97 @@ using NAudio.Wave.SampleProviders;
 
 namespace DreamingPhoenix.AudioHandling
 {
+    [DebuggerDisplay("{CurrentAudio.GetType() == typeof(AudioTrack) ? \"(AudioTrack)\" : \"(SoundEffect)\",nq} {CurrentAudio.Name,nq} - Volume: {System.Math.Round(AudioTrackReader.Volume * 100)}")]
     public class PlayableAudio : INotifyPropertyChanged
     {
+        #region Events
+        /// <summary>
+        /// Occurs every second for a AudioTrack with the current seconds and the total seconds
+        /// </summary>
         public Action<double, double> AudioTrackTick;
+        /// <summary>
+        /// Occurs when the Audio is stopped
+        /// </summary>
         public event EventHandler AudioStopped;
+        /// <summary>
+        /// Occurs when the Audio is paused
+        /// </summary>
         public event EventHandler AudioPaused;
+        /// <summary>
+        /// Occurs when the Audio is started
+        /// </summary>
         public event EventHandler AudioStarted;
+        #endregion
 
-        private Audio audioOptions;
+        private Thread timeTickerThread;
 
-        public Audio AudioOptions
+        private Audio currentAudio;
+        /// <summary>
+        /// The current Audio File
+        /// </summary>
+        public Audio CurrentAudio
         {
-            get { return audioOptions; }
+            get { return currentAudio; }
             set
             {
-                audioOptions = value;
+                currentAudio = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private NAudioTrackReader audioReader;
-
-        public NAudioTrackReader AudioReader
+        private NAudioTrackReader audioTrackReader;
+        /// <summary>
+        /// The NAudio Track Reader
+        /// </summary>
+        public NAudioTrackReader AudioTrackReader
         {
-            get
-            {
-                return audioReader;
-            }
+            get { return audioTrackReader; }
             set
             {
-                audioReader = value;
+                audioTrackReader = value;
                 NotifyPropertyChanged();
             }
-        }
-
-        private Thread timerThread;
-
-        private float volume;
-
-        public float Volume
-        {
-            get { return volume; }
-            set
-            {
-                volume = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public PlayableAudio(Audio audioOptions)
-        {
-            AudioOptions = audioOptions;
         }
 
         /// <summary>
-        /// Start playing the audio
+        /// Creates a new PlayableAudio
+        /// </summary>
+        /// <param name="audio"></param>
+        public PlayableAudio(Audio audio)
+        {
+            CurrentAudio = audio;
+        }
+
+        #region Controls
+        /// <summary>
+        /// Start playing the current audio
         /// </summary>
         public void Play()
         {
-            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
-            if (AudioReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
-                AudioReader.Volume = 0;
+            bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
+            // if audio is still playing, mute it
+            if (AudioTrackReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
+                AudioTrackReader.Volume = 0;
 
-            AudioReader = new NAudioTrackReader(AudioOptions.AudioFile);
-            AudioReader.Volume = AudioOptions.Volume;
-            Volume = AudioOptions.Volume;
-            AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
-            AudioReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
-            AudioReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
+            // Create new Reader and subscribe to all events
+            AudioTrackReader = new NAudioTrackReader(CurrentAudio.AudioFile);
+            AudioTrackReader.Volume = CurrentAudio.Volume;
+            AudioTrackReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
+            AudioTrackReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
+            AudioTrackReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
             AudioStarted?.Invoke(this, EventArgs.Empty);
 
-            ISampleProvider sampleProvider = AudioReader;
+            CurrentAudio.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(CurrentAudio.Volume))
+                    AudioTrackReader.Volume = CurrentAudio.Volume;
+            };
 
+            // Insert Reader to MixingSampleProvider
+            ISampleProvider sampleProvider = AudioTrackReader;
             if (AppModel.Instance.AudioManager.MixingProvider == null)
             {
+                // if MixingSampleProvider is null, instantiate with non empty list
                 List<ISampleProvider> temp = new List<ISampleProvider>();
                 temp.Add(sampleProvider);
                 AppModel.Instance.AudioManager.MixingProvider = new MixingSampleProvider(temp);
@@ -96,53 +113,66 @@ namespace DreamingPhoenix.AudioHandling
                 AppModel.Instance.AudioManager.MixingProvider.AddMixerInput(sampleProvider);
             }
 
+            // if AudioTrack, start ticker
             if (isAudioTrack)
                 RestartThread();
 
-            Debug.WriteLine(string.Format("Playing Audio \"{0}\"", AudioOptions.Name));
+            Debug.WriteLine(string.Format("Playing Audio \"{0}\"", CurrentAudio.Name));
         }
 
+        /// <summary>
+        /// Start playing a new audio and stop current audio
+        /// </summary>
+        /// <param name="audio">The new audio</param>
         public void Play(Audio audio)
         {
-            // Clear all subscribers from event
-            AudioReader?.ClearAudioStoppedEvent();
-            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
+            // Clear all subscribers from event, because we instaniate a new audio
+            // (Only affects PlayableAudio internally. All external classes are still subscribed to PlayableAudio)
+            AudioTrackReader?.ClearAudioStoppedEvent();
+            bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
 
-            // If audio is currently playing, fade out and start new on faded out
-            if (AudioReader != null && AudioReader.State == NAudioState.Playing)
+            // if audio is currently playing, fade out and start playing on stopped
+            if (AudioTrackReader != null && AudioTrackReader.State == NAudioState.Playing)
             {
-                AudioReader.AudioStopped += (s, e) =>
+                AudioTrackReader.AudioStopped += (s, e) =>
                 {
                     if (isAudioTrack)
-                        timerThread.Interrupt();
+                        timeTickerThread.Interrupt();
                     Play(audio);
                 };
                 Stop();
             }
             else
             {
-                AudioOptions = audio;
+                // Nothing is playing, just replace it and play
+                CurrentAudio = audio;
                 Play();
             }
         }
 
+        /// <summary>
+        /// Pause or Resume the current AudioTrack (Only for <seealso cref="AudioTrack"/>)
+        /// </summary>
+        /// <returns></returns>
         public async Task PausePlay()
         {
-            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
+            bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
 
             // Only a Audio Track is pausable
             if (!isAudioTrack)
                 return;
 
-            if (AudioReader.State == NAudioState.Playing)
+            // if it's currently playing, fade it out and stop the ticker
+            if (AudioTrackReader.State == NAudioState.Playing)
             {
-                AudioReader.Pause(500);
+                AudioTrackReader.Pause(500);
                 await Task.Delay(500);
-                timerThread.Interrupt();
+                timeTickerThread.Interrupt();
             }
-            else if (AudioReader.State == NAudioState.Paused)
+            // if it's currently paused, fade it in and start the ticker
+            else if (AudioTrackReader.State == NAudioState.Paused)
             {
-                AudioReader.Play(500);
+                AudioTrackReader.Play(500);
                 RestartThread();
             }
         }
@@ -150,71 +180,82 @@ namespace DreamingPhoenix.AudioHandling
         /// <summary>
         /// Stop playing the audio
         /// </summary>
+        /// <param name="force">if true, fadeoutspeed 0 is used, otherwise the audio fadeoutspeed is used</param>
         public void Stop(bool force = false)
         {
             //AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
-            bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
+            bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
 
+            // Use the FadeOutSpeed of the AudioTrack if it's not a force stop
             if (isAudioTrack && !force)
-            {
-                fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
-            }
+                fadeOutSpeed = ((AudioTrack)CurrentAudio).FadeOutSpeed;
 
+            // On force stop, reset Audio to default
             if (force)
             {
                 if (isAudioTrack)
-                    AudioOptions = AudioTrack.Default;
+                    CurrentAudio = AudioTrack.Default;
                 else
-                    AudioOptions = SoundEffect.Default;
+                    CurrentAudio = SoundEffect.Default;
             }
 
-            if (AudioReader != null)
-                AudioReader.Stop(fadeOutSpeed);
+            // Now stop Reader
+            if (AudioTrackReader != null)
+                AudioTrackReader.Stop(fadeOutSpeed);
         }
+        #endregion
 
+        /// <summary>
+        /// Gets called if Reader invokes AudioStopped
+        /// </summary>
         private void OnAudioStopped(object sender, EventArgs e)
         {
-            bool isAudioTrack = audioOptions.GetType() == typeof(AudioTrack);
-            if (isAudioTrack && timerThread != null)
-                timerThread.Interrupt();
+            bool isAudioTrack = currentAudio.GetType() == typeof(AudioTrack);
+            if (isAudioTrack && timeTickerThread != null)
+                timeTickerThread.Interrupt();
 
-            if (AudioOptions.Repeat)
+            // Prioritize repeat
+            if (CurrentAudio.Repeat)
             {
-                Play(AudioOptions);
+                Play(CurrentAudio);
                 return;
             }
             AudioStopped?.Invoke(this, EventArgs.Empty);
 
+            // if sound track, do nothing else
             if (!isAudioTrack)
                 return;
 
-            if (((AudioTrack)AudioOptions).NextAudioTrack != null)
+            // Play next track
+            if (((AudioTrack)CurrentAudio).NextAudioTrack != null)
             {
-                Play(((AudioTrack)AudioOptions).NextAudioTrack);
+                Play(((AudioTrack)CurrentAudio).NextAudioTrack);
                 return;
             }
 
-            if (((AudioTrack)AudioOptions).NextAudioTrack == null || !((AudioTrack)AudioOptions).Repeat)
+            // Reset to default AudioTrack
+            if (((AudioTrack)CurrentAudio).NextAudioTrack == null || !((AudioTrack)CurrentAudio).Repeat)
             {
-                AudioOptions = AudioTrack.Default;
+                CurrentAudio = AudioTrack.Default;
                 return;
             }
 
         }
 
+        #region Audio Ticker
+        /// <summary>
+        /// Tick every second and call event with current and total seconds of reader
+        /// </summary>
         private async void TimerRun()
         {
             try
             {
                 while (true)
                 {
-                    if (this.AudioReader.State == NAudioState.Playing)
-                    {
-                        Debug.WriteLine(string.Format("{0} - C: {1} - T: {2}", AudioOptions.Name, AudioReader.CurrentTime.TotalSeconds,
-                            AudioReader.TotalTime.TotalSeconds));
-                        AudioTrackTick?.Invoke(AudioReader.CurrentTime.TotalSeconds, Math.Round(AudioReader.TotalTime.TotalSeconds));
-                    }
+                    // Only tick if audio is playing
+                    if (AudioTrackReader.State == NAudioState.Playing)
+                        AudioTrackTick?.Invoke(AudioTrackReader.CurrentTime.TotalSeconds, Math.Round(AudioTrackReader.TotalTime.TotalSeconds));
                     else
                         break;
 
@@ -227,16 +268,19 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        /// <summary>
+        /// Interrupt and start thread
+        /// </summary>
         private void RestartThread()
         {
-            if (timerThread != null)
-                timerThread.Interrupt();
-            timerThread = new Thread(new ThreadStart(TimerRun));
-            timerThread.Start();
+            if (timeTickerThread != null)
+                timeTickerThread.Interrupt();
+            timeTickerThread = new Thread(new ThreadStart(TimerRun));
+            timeTickerThread.Start();
         }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void NotifyPropertyChanged([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));

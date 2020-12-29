@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace DreamingPhoenix.AudioHandling
 {
+    /// <summary>
+    /// Longer audio with repeat and fade out
+    /// </summary>
+    [DebuggerDisplay("(AudioTrack) {Name,np} - Volume: {System.Math.Round(Volume * 100),np}")]
     public class AudioTrack : Audio
     {
         private AudioTrack nextAudioTrack;
@@ -36,12 +41,15 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        /// <summary>
+        /// Creates a new empty AudioTrack
+        /// </summary>
         public AudioTrack()
         {
         }
 
         /// <summary>
-        /// Creates a new Audio
+        /// Creates a new AudioTrack
         /// </summary>
         /// <param name="audioFile">Audio File Path</param>
         /// <param name="name">Audio Name</param>
@@ -51,6 +59,9 @@ namespace DreamingPhoenix.AudioHandling
                 Volume = AppModel.Instance.Options.DefaultAudioTrackVolume;
         }
 
+        /// <summary>
+        /// Get a default AudioTrack
+        /// </summary>
         public static readonly AudioTrack Default = new AudioTrack()
         {
             Name = "",
