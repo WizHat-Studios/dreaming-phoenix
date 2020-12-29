@@ -1,4 +1,5 @@
-﻿using NAudio.CoreAudioApi;
+﻿using DreamingPhoenix.Styles.Scheme;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,12 @@ namespace DreamingPhoenix.UserControls
             var enumerator = new MMDeviceEnumerator();
             foreach (var endpoint in enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
                 outputs.Add(endpoint.FriendlyName);
+
+            foreach (ColorScheme theme in ColorScheme.Themes)
+            {
+                cbox_themes.Items.Add(theme.ThemeDisplayName);
+            }
+
 
             for (int n = -1; n < WaveOut.DeviceCount; n++)
             {

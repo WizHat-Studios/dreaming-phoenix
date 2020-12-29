@@ -67,6 +67,17 @@
                     </Grid>
                 </Border>
 
+                <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="THEME" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
+                        <ComboBox x:Name="cbox_themes" Height="35" VerticalAlignment="Center" SelectedIndex="{Binding Path=Options.SelectedColorScheme}" HorizontalAlignment="Stretch" Margin="20,0,20,0" Grid.Column="1" Style="{StaticResource ComboBox}"/>
+                    </Grid>
+                </Border>
+
 
                 <!--<Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
                     <Grid>
