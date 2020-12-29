@@ -153,33 +153,30 @@ namespace DreamingPhoenix
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            foreach (string file in files)
-            {
-                if (!FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
-                {
-                    return;
-                }
-            }
-
             AudioDropPanelVisibility = Visibility.Visible;
             this.Activate();
             uc_DropPanel.OnDrop(files.ToList());
         }
 
-        private void Window_PreviewDragOver(object sender, DragEventArgs e)
+        private void Window_DragOver(object sender, DragEventArgs e)
         {
+            bool allowDrop = false;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             foreach (string file in files)
             {
-                if (!FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                if (FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
                 {
-                    e.Handled = false;
-                    return;
+                    allowDrop = true;
+                    break;
                 }
             }
 
-            e.Handled = true;
+            if (!allowDrop)
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
         }
 
         private void AddNewAudio_Click(object sender, RoutedEventArgs e)

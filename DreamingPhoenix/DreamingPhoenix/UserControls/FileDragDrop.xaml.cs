@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DreamingPhoenix.AudioHandling;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -65,6 +66,12 @@ namespace DreamingPhoenix.UserControls
             }
 
             string path = droppedFiles[0];
+            if (!FileExtension.EndsWith(AppModel.Instance.ValidAudioExtensions, path))
+            {
+                droppedFiles.RemoveAt(0);
+                ProcessNextFile();
+                return;
+            }
 
             lbl_fileName.Content = Path.GetFileNameWithoutExtension(path);
             tbox_newFileName.Text = Path.GetFileNameWithoutExtension(path);

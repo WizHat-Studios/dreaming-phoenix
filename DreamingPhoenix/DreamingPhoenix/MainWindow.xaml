@@ -13,7 +13,8 @@
         mc:Ignorable="d"
         Title="Dreaming Phoenix" Height="450" Width="851"
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
-        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop" PreviewDragOver="Window_PreviewDragOver">
+        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop"
+        DragOver="Window_DragOver">
     <Window.Resources>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter" />
         <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
