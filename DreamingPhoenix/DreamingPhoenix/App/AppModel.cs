@@ -84,10 +84,10 @@ namespace DreamingPhoenix
                 data.AudioList.ForEach(x => AudioList.Add(x));
                 Options = data.AppOptions;
 
-                if (Options.DefaultOutputDevice > NAudio.Wave.WaveIn.DeviceCount - 1)
+                if (Options.DefaultOutputDevice > NAudio.Wave.WaveOut.DeviceCount - 1)
                     Options.DefaultOutputDevice = -1;
 
-                AudioManager.OutputDevice.DeviceNumber = Options.DefaultOutputDevice;
+                AudioManager.OutputDevice.DeviceNumber = Options.DefaultOutputDevice - 1;
             }
         }
 

@@ -52,7 +52,7 @@ namespace DreamingPhoenix.UserControls
 
         private void cbox_outputDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AppModel.Instance.AudioManager.OutputDevice.DeviceNumber = AppModel.Instance.Options.DefaultOutputDevice;
+            AppModel.Instance.AudioManager.OutputDevice.DeviceNumber = AppModel.Instance.Options.DefaultOutputDevice - 1;
         }
     }
 }
