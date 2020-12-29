@@ -152,7 +152,7 @@ namespace DreamingPhoenix.AudioHandling
         /// </summary>
         public void Stop()
         {
-            AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
+            //AudioReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             bool isAudioTrack = AudioOptions.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
 
@@ -161,17 +161,20 @@ namespace DreamingPhoenix.AudioHandling
                 fadeOutSpeed = ((AudioTrack)AudioOptions).FadeOutSpeed;
             }
 
-            AudioReader.Stop(fadeOutSpeed);
+            if (AudioReader != null)
+                AudioReader.Stop(fadeOutSpeed);
         }
 
         private void OnAudioStopped(object sender, EventArgs e)
         {
-            Debug.WriteLine("Help?!");
-            timerThread.Interrupt();
+            bool isAudioTrack = audioOptions.GetType() == typeof(AudioTrack);
+            if (isAudioTrack)
+                timerThread.Interrupt();
             AudioStopped?.Invoke(this, EventArgs.Empty);
-            if (audioOptions.GetType() != typeof(AudioTrack))
+
+            if (!isAudioTrack)
                 return;
-            
+
             if (((AudioTrack)AudioOptions).Repeat)
             {
                 Play((AudioTrack)AudioOptions);
@@ -201,6 +204,7 @@ namespace DreamingPhoenix.AudioHandling
                 {
                     if (this.AudioReader.State == NAudioState.Playing)
                     {
+                        Debug.WriteLine(AudioOptions.Name);
                         AudioTrackTick?.Invoke(AudioReader.CurrentTime.TotalSeconds, Math.Round(AudioReader.TotalTime.TotalSeconds));
                     }
                     else
@@ -209,13 +213,15 @@ namespace DreamingPhoenix.AudioHandling
                     await Task.Delay(1000);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
         }
 
         private void RestartThread()
         {
+            timerThread.Interrupt();
             timerThread = new Thread(new ThreadStart(TimerRun));
             timerThread.Start();
         }

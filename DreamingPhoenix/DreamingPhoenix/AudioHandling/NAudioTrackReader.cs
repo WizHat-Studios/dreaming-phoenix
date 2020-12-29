@@ -185,9 +185,10 @@ namespace DreamingPhoenix.AudioHandling
                     ClearBuffer(buffer, offset, count);
                 }
 
-                if (sampleRead < count || State == NAudioState.Stopped)
+                if (sampleRead < count && isStopping)
                 {
                     State = NAudioState.Stopped;
+                    Debug.WriteLine("Stopped now, please (Read) (" + fadeState + ") :(");
                     AudioStopped?.Invoke(this, EventArgs.Empty);
                     return 0;
                 }
@@ -246,6 +247,11 @@ namespace DreamingPhoenix.AudioHandling
                 fadeSamplePosition++;
                 if (fadeSamplePosition > fadeSampleCount)
                 {
+                    FadedOut?.Invoke(this, EventArgs.Empty);
+                    fadeState = FadeState.Silence;
+                    // clear out the end
+                    ClearBuffer(buffer, sample + offset, sourceSamplesRead - sample);
+
                     if (isPausing)
                     {
                         oldPosition = Position;
@@ -259,11 +265,6 @@ namespace DreamingPhoenix.AudioHandling
                         AudioStopped?.Invoke(this, EventArgs.Empty);
                         isStopping = false;
                     }
-
-                    FadedOut?.Invoke(this, EventArgs.Empty);
-                    fadeState = FadeState.Silence;
-                    // clear out the end
-                    ClearBuffer(buffer, sample + offset, sourceSamplesRead - sample);
                     break;
                 }
             }

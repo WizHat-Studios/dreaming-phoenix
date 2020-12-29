@@ -200,7 +200,8 @@ namespace DreamingPhoenix
                 {
                     btn_PauseAudioTrack.Visibility = Visibility.Collapsed;
                     btn_PlayAudioTrack.Visibility = Visibility.Visible;
-                    pgb_audioTrack.Value = pgb_audioTrack.Maximum;
+                    pgb_audioTrack.Value = 0;
+                    pgb_audioTrack.Maximum = 0;
                 });
             };
             AppModel.Instance.AudioManager.CurrentlyPlayingAudioTrack.AudioTrackTick += (currSecond, totalSeconds) =>

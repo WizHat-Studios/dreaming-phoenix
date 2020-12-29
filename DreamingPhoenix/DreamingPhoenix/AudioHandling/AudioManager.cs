@@ -115,7 +115,7 @@ namespace DreamingPhoenix.AudioHandling
                 audio.Stop();
             }
 
-            MixingProvider.RemoveAllMixerInputs();
+            //MixingProvider.RemoveAllMixerInputs();
             CurrentlyPlayingSoundEffects.Clear();
             CurrentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
         }
