@@ -12,7 +12,8 @@ namespace DreamingPhoenix.Styles.Scheme
         public static readonly List<ColorScheme> Themes = new List<ColorScheme>()
         {
             new ColorScheme("Dreamland", new Uri("./Styles/Scheme/ColorSchemeDreamland.xaml", UriKind.Relative)),
-            new ColorScheme("Phoenix", new Uri("./Styles/Scheme/ColorSchemePhoenix.xaml", UriKind.Relative))
+            new ColorScheme("Phoenix", new Uri("./Styles/Scheme/ColorSchemePhoenix.xaml", UriKind.Relative)),
+            new ColorScheme("Winter Wolf", new Uri("./Styles/Scheme/ColorSchemeWinterWolf.xaml", UriKind.Relative))
         };
 
 

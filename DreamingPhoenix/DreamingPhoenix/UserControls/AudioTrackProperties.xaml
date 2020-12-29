@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
              xmlns:combobox="clr-namespace:DreamingPhoenix.Styles.ComboBox"
+             xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"
              xmlns:dp="clr-namespace:DreamingPhoenix"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
@@ -70,6 +71,13 @@
                     <TextBox Name="tbx_audioFile" Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
                              VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"
                              AllowDrop="True" Drop="tbx_audioFile_Drop" PreviewDragOver="tbx_audioFile_PreviewDragOver" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="HOTKEY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+
+                    <hk:HotkeySelector DockPanel.Dock="Right" SelectedHotkey="{Binding Track.HotKey, Mode=TwoWay}" ModifierKeys="{Binding Track.HotkeyModifiers, Mode=TwoWay}" Height="35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
                 </DockPanel>
 
             </StackPanel>

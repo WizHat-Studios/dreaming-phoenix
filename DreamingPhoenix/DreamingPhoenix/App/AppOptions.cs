@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 
 namespace DreamingPhoenix
 {
@@ -57,7 +58,21 @@ namespace DreamingPhoenix
             }
         }
 
+        private Key stopAllAudioHotKey;
 
+        public Key StopAllAudioHotKey
+        {
+            get { return stopAllAudioHotKey; }
+            set { stopAllAudioHotKey = value; NotifyPropertyChanged(); }
+        }
+
+        private ModifierKeys stopAllAudioHotKeyModifier;
+
+        public ModifierKeys StopAllAudioHotKeyModifier
+        {
+            get { return stopAllAudioHotKeyModifier; }
+            set { stopAllAudioHotKeyModifier = value; NotifyPropertyChanged(); }
+        }
 
         public AppOptions()
         {
