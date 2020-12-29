@@ -127,8 +127,19 @@ namespace DreamingPhoenix
         {
             if (((ListBox)sender).SelectedItem == null)
                 return;
+            SetPropertiesPanelFromAudio(((Audio)((ListBox)sender).SelectedItem));
+        }
 
-            switch ((Audio)((ListBox)sender).SelectedItem)
+        private void AudioListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem == null)
+                return;
+            SetPropertiesPanelFromAudio(((Audio)((ListBox)sender).SelectedItem));
+        }
+
+        private void SetPropertiesPanelFromAudio(Audio audio)
+        {
+            switch (audio)
             {
                 case AudioTrack at:
                     grid_selectedAudioProperties.Children.Clear();
@@ -142,6 +153,7 @@ namespace DreamingPhoenix
                     throw new NotSupportedException("The given type is not supported for adjustable settings");
             }
         }
+
 
         protected void SelectCurrentItem(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -268,5 +280,23 @@ namespace DreamingPhoenix
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        private void SoundEffectsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem == null)
+                return;
+
+            SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
+        }
+
+        private void SoundEffectsListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem == null)
+                return;
+
+            SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
+        }
+
+       
     }
 }
