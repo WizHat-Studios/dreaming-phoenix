@@ -93,12 +93,6 @@ namespace DreamingPhoenix.AudioHandling
             Name = name;
         }
 
-        public static readonly Audio Default = new AudioTrack()
-        {
-            Name = "",
-            AudioFile = ""
-        };
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {

@@ -171,6 +171,9 @@ namespace DreamingPhoenix.AudioHandling
         {
             lock (lockObject)
             {
+                if (State == NAudioState.Paused)
+                    Position = oldPosition;
+
                 int sampleRead = sampleChannel.Read(buffer, offset, count);
 
                 if (fadeState == FadeState.FadingIn)
@@ -188,7 +191,7 @@ namespace DreamingPhoenix.AudioHandling
 
                 if (sampleRead >= count)
                     isStarting = false;
-                if (sampleRead < count && !isStarting)
+                if (sampleRead < count && !isStarting && State != NAudioState.Paused)
                 {
                     State = NAudioState.Stopped;
                     AudioStopped?.Invoke(this, EventArgs.Empty);
@@ -265,6 +268,7 @@ namespace DreamingPhoenix.AudioHandling
                     {
                         State = NAudioState.Stopped;
                         AudioStopped?.Invoke(this, EventArgs.Empty);
+                        Debug.WriteLine("Hör uf Willi! 2");
                         isStopping = false;
                     }
                     break;

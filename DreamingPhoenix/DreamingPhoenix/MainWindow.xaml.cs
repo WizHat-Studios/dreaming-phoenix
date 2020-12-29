@@ -68,8 +68,8 @@ namespace DreamingPhoenix
         {
             if (!await AppModel.Instance.AudioManager.PausePlayAudioTrack())
                 return;
-            btn_PauseAudioTrack.Visibility = ChangeVisibility(btn_PauseAudioTrack.Visibility, true);
-            btn_PlayAudioTrack.Visibility = ChangeVisibility(btn_PlayAudioTrack.Visibility, true);
+            //btn_PauseAudioTrack.Visibility = ChangeVisibility(btn_PauseAudioTrack.Visibility, true);
+            //btn_PlayAudioTrack.Visibility = ChangeVisibility(btn_PlayAudioTrack.Visibility, true);
         }
 
         private Visibility ChangeVisibility(Visibility visibility, bool collapsed)
@@ -97,7 +97,7 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext);
+            ((PlayableAudio)((Button)sender).DataContext).Stop(true);
         }
 
         private void RemoveAudio_Click(object sender, RoutedEventArgs e)

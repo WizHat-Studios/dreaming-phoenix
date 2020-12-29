@@ -50,6 +50,13 @@ namespace DreamingPhoenix.AudioHandling
             if (Volume == 0)
                 Volume = AppModel.Instance.Options.DefaultAudioTrackVolume;
         }
+
+        public static readonly AudioTrack Default = new AudioTrack()
+        {
+            Name = "",
+            AudioFile = ""
+        };
+
         public override string ToString()
         {
             return Name;

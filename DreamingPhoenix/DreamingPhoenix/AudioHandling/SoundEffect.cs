@@ -21,5 +21,10 @@ namespace DreamingPhoenix.AudioHandling
 
         public SoundEffect() { }
 
+        public static readonly SoundEffect Default = new SoundEffect()
+        {
+            Name = "",
+            AudioFile = ""
+        };
     }
 }

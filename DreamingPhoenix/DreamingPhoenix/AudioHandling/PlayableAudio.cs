@@ -162,7 +162,12 @@ namespace DreamingPhoenix.AudioHandling
             }
 
             if (force)
-                AudioOptions = Audio.Default;
+            {
+                if (isAudioTrack)
+                    AudioOptions = AudioTrack.Default;
+                else
+                    AudioOptions = SoundEffect.Default;
+            }
 
             if (AudioReader != null)
                 AudioReader.Stop(fadeOutSpeed);
@@ -171,18 +176,18 @@ namespace DreamingPhoenix.AudioHandling
         private void OnAudioStopped(object sender, EventArgs e)
         {
             bool isAudioTrack = audioOptions.GetType() == typeof(AudioTrack);
-            if (isAudioTrack)
+            if (isAudioTrack && timerThread != null)
                 timerThread.Interrupt();
+
+            if (AudioOptions.Repeat)
+            {
+                Play(AudioOptions);
+                return;
+            }
             AudioStopped?.Invoke(this, EventArgs.Empty);
 
             if (!isAudioTrack)
                 return;
-
-            if (((AudioTrack)AudioOptions).Repeat)
-            {
-                Play((AudioTrack)AudioOptions);
-                return;
-            }
 
             if (((AudioTrack)AudioOptions).NextAudioTrack != null)
             {
@@ -192,8 +197,7 @@ namespace DreamingPhoenix.AudioHandling
 
             if (((AudioTrack)AudioOptions).NextAudioTrack == null || !((AudioTrack)AudioOptions).Repeat)
             {
-                //AudioTrackTick?.Invoke(-1, -1);
-                AudioOptions = Audio.Default;
+                AudioOptions = AudioTrack.Default;
                 return;
             }
 
@@ -207,7 +211,8 @@ namespace DreamingPhoenix.AudioHandling
                 {
                     if (this.AudioReader.State == NAudioState.Playing)
                     {
-                        Debug.WriteLine(AudioOptions.Name);
+                        Debug.WriteLine(string.Format("{0} - C: {1} - T: {2}", AudioOptions.Name, AudioReader.CurrentTime.TotalSeconds,
+                            AudioReader.TotalTime.TotalSeconds));
                         AudioTrackTick?.Invoke(AudioReader.CurrentTime.TotalSeconds, Math.Round(AudioReader.TotalTime.TotalSeconds));
                     }
                     else

@@ -35,7 +35,7 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
-        private PlayableAudio currentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
+        private PlayableAudio currentlyPlayingAudioTrack = new PlayableAudio(AudioTrack.Default);
         /// <summary>
         /// The audio track which is currently played by the application
         /// </summary>
@@ -117,7 +117,7 @@ namespace DreamingPhoenix.AudioHandling
 
             //MixingProvider.RemoveAllMixerInputs();
             CurrentlyPlayingSoundEffects.Clear();
-            CurrentlyPlayingAudioTrack = new PlayableAudio(Audio.Default);
+            CurrentlyPlayingAudioTrack = new PlayableAudio(AudioTrack.Default);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
