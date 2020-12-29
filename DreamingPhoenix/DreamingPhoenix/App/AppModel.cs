@@ -1,5 +1,6 @@
 ﻿using DreamingPhoenix.AudioHandling;
 using DreamingPhoenix.Styles.Scheme;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,6 +64,11 @@ namespace DreamingPhoenix
             new FileExtension("aac")
         };
 
+        public AppModel()
+        {
+            LoadData();
+        }
+
         public void SaveData()
         {
             Persistence.PersistentData persistentData = new Persistence.PersistentData()
@@ -84,16 +90,23 @@ namespace DreamingPhoenix
                 data.AudioList.ForEach(x => AudioList.Add(x));
                 Options = data.AppOptions;
 
-                if (Options.DefaultOutputDevice > NAudio.Wave.WaveOut.DeviceCount - 1)
+                if (Options.DefaultOutputDevice - 1 > WaveOut.DeviceCount - 1)
                     Options.DefaultOutputDevice = -1;
-
-                AudioManager.OutputDevice.DeviceNumber = Options.DefaultOutputDevice - 1;
             }
         }
 
-        public AppModel()
+        /// <summary>
+        /// Change the NAudio output device
+        /// </summary>
+        /// <param name="outputDevice">Output Device number</param>
+        public void ChangeOutputDevice(int outputDevice)
         {
-            LoadData();
+            if (AudioManager.OutputDevice == null || AudioManager.MixingProvider == null)
+                return;
+            AudioManager.OutputDevice.Stop();
+            AudioManager.OutputDevice = new WaveOutEvent() { DeviceNumber = outputDevice };
+            AudioManager.OutputDevice.Init(AudioManager.MixingProvider);
+            AudioManager.OutputDevice.Play();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

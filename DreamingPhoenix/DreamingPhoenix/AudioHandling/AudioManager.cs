@@ -99,6 +99,8 @@ namespace DreamingPhoenix.AudioHandling
         {
             if (OutputDevice != null && OutputDevice.PlaybackState == PlaybackState.Stopped)
             {
+                OutputDevice.Stop();
+                OutputDevice = new WaveOutEvent() { DeviceNumber = AppModel.Instance.Options.DefaultOutputDevice - 1 };
                 OutputDevice.Init(MixingProvider);
                 OutputDevice.Play();
             }
