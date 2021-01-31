@@ -55,9 +55,10 @@ namespace DreamingPhoenix.UserControls
                 DefaultExt = "mp3",
                 CheckFileExists = true,
                 CheckPathExists = true,
+                InitialDirectory = System.IO.Path.GetDirectoryName(Sound.AudioFile),
                 Filter = "Audio Files|" + FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
             };
-            FileDialog.Title = "Select Object File";
+            FileDialog.Title = "Select Audio File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 Sound.AudioFile = FileDialog.FileName;
         }
