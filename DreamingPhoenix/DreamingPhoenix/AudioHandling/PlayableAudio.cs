@@ -316,7 +316,7 @@ namespace DreamingPhoenix.AudioHandling
                 while (true)
                 {
                     // Only tick if audio is playing
-                    if (AudioTrackReader.State == NAudioState.Playing)
+                    if (AudioTrackReader != null && AudioTrackReader.State == NAudioState.Playing)
                         AudioTrackTick?.Invoke(AudioTrackReader.CurrentTime.TotalSeconds, Math.Round(AudioTrackReader.TotalTime.TotalSeconds));
                     else
                         break;
