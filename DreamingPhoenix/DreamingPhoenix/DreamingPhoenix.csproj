@@ -27,7 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UserControls\AudioDeletion.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Styles\Scheme\ColorSchemeWinterWolf.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\AudioDeletion.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

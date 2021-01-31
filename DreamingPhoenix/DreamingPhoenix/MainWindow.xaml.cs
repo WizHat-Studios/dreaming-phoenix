@@ -43,6 +43,13 @@ namespace DreamingPhoenix
             set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        private Visibility audioDeletionPanelVisibility = Visibility.Hidden;
+        public Visibility AudioDeletionPanelVisibility
+        {
+            get { return audioDeletionPanelVisibility; }
+            set { audioDeletionPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
         HotkeyHandling.KeyboardListener.KeyboardHook HotKeyHook = new HotkeyHandling.KeyboardListener.KeyboardHook();
 
         public MainWindow()
@@ -51,9 +58,11 @@ namespace DreamingPhoenix
 
             grid_AppOptions.Visibility = Visibility.Visible;
             grid_DropPanel.Visibility = Visibility.Visible;
+            grid_AcceptDeletion.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
             uc_DropPanel.AudioFilesProcessed += (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); };
+            uc_fileDeletion.OperationProcessed += (s, e) => { AudioDeletionPanelVisibility = Visibility.Hidden; };
 
             this.DataContext = this;
             SubscribeToAudioTrack();
@@ -119,8 +128,20 @@ namespace DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AppModel.Instance.AudioList.Remove((Audio)((Button)sender).DataContext);
-            grid_selectedAudioProperties.Children.Clear();
+
+
+            if (Keyboard.Modifiers == ModifierKeys.Shift)
+            {
+                uc_fileDeletion.DeleteWithoutConfirmation((Audio)((Button)sender).DataContext);
+            }
+            else
+            {
+                AudioDeletionPanelVisibility = Visibility.Visible;
+                uc_fileDeletion.AcceptDelete((Audio)((Button)sender).DataContext);
+            }
+
+            //AppModel.Instance.AudioList.Remove((Audio)((Button)sender).DataContext);
+            //grid_selectedAudioProperties.Children.Clear();
         }
 
         private void AudioListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
