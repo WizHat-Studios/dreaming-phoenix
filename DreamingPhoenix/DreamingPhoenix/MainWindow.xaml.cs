@@ -296,7 +296,5 @@ namespace DreamingPhoenix
 
             SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
         }
-
-       
     }
 }

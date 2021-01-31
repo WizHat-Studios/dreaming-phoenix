@@ -18,8 +18,22 @@ namespace DreamingPhoenix.AudioHandling
         public string AudioFile
         {
             get { return audioFile; }
-            set { audioFile = value; NotifyPropertyChanged(); }
+            set 
+            { 
+                audioFile = value;
+                IsAudioFilePathValid = File.Exists(audioFile);
+                NotifyPropertyChanged(); 
+            }
         }
+
+        private bool isAudioFilePathValid;
+
+        public bool IsAudioFilePathValid
+        {
+            get { return isAudioFilePathValid; }
+            set { isAudioFilePathValid = value; NotifyPropertyChanged(); }
+        }
+
 
         private float volume;
 

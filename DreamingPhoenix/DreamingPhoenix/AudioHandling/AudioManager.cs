@@ -65,6 +65,13 @@ namespace DreamingPhoenix.AudioHandling
         /// <param name="audioToPlay">The new audio to play</param>
         public void PlayAudio(Audio audioToPlay)
         {
+            if (!audioToPlay.IsAudioFilePathValid)
+            {
+                MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
             switch (audioToPlay)
             {
                 case AudioTrack at:
@@ -121,6 +128,8 @@ namespace DreamingPhoenix.AudioHandling
         public bool PlayNextTrack()
         {
             if (CurrentlyPlayingAudioTrack == null || CurrentlyPlayingAudioTrack.AudioTrackReader == null)
+                return false;
+            if (((AudioTrack)CurrentlyPlayingAudioTrack.CurrentAudio).NextAudioTrack == null || !((AudioTrack)CurrentlyPlayingAudioTrack.CurrentAudio).NextAudioTrack.IsAudioFilePathValid)
                 return false;
             CurrentlyPlayingAudioTrack.PlayNextTrack();
             return true;
