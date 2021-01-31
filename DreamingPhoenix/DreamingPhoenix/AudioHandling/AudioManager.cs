@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -65,8 +66,9 @@ namespace DreamingPhoenix.AudioHandling
         /// <param name="audioToPlay">The new audio to play</param>
         public void PlayAudio(Audio audioToPlay)
         {
-            if (!audioToPlay.IsAudioFilePathValid)
+            if (!File.Exists(audioToPlay.AudioFile))
             {
+                audioToPlay.IsAudioFilePathValid = false;
                 MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
