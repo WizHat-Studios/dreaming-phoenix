@@ -98,6 +98,7 @@ namespace DreamingPhoenix.AudioHandling
             if (AudioTrackReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
                 AudioTrackReader.Volume = 0;
 
+            CurrentAudio.CheckIfFileExistsOnDisk();
             if (!CurrentAudio.IsAudioFilePathValid)
             {
                 MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -114,7 +115,7 @@ namespace DreamingPhoenix.AudioHandling
 
             CurrentAudio.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(CurrentAudio.Volume))
+                if (e.PropertyName == nameof(CurrentAudio.Volume) && AudioTrackReader != null)
                     AudioTrackReader.Volume = CurrentAudio.Volume;
             };
 

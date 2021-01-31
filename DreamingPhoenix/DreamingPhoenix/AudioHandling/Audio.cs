@@ -112,6 +112,15 @@ namespace DreamingPhoenix.AudioHandling
             Name = name;
         }
 
+        /// <summary>
+        /// Updates the IsAudioFilePathValid parameter
+        /// </summary>
+        public void CheckIfFileExistsOnDisk()
+        {
+            // Set it to itself, so the setter is triggered and checks if it exists
+            AudioFile = AudioFile;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {

@@ -1,4 +1,5 @@
-﻿using DreamingPhoenix.Styles.Scheme;
+﻿using DreamingPhoenix.AudioHandling;
+using DreamingPhoenix.Styles.Scheme;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
@@ -53,6 +54,14 @@ namespace DreamingPhoenix.UserControls
         private void cbox_outputDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AppModel.Instance.ChangeOutputDevice(AppModel.Instance.Options.DefaultOutputDevice - 1);
+        }
+
+        private void btn_readAllFilesFromDisk_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Audio audio in AppModel.Instance.AudioList)
+            {
+                audio.CheckIfFileExistsOnDisk();
+            }
         }
     }
 }

@@ -89,6 +89,17 @@
                     </Grid>
                 </Border>
 
+                <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="REREAD ALL FILES FROM DISK" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="btn_readAllFilesFromDisk" Height="35" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="Read Files" Margin="20,0,20,0" Grid.Column="1" Click="btn_readAllFilesFromDisk_Click"/>
+                    </Grid>
+                </Border>
+
 
                 <!--<Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
                     <Grid>
