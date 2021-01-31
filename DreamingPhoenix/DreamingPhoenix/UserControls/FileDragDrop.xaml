@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True">
     <Grid>
-        <Grid x:Name="grd_audio" Visibility="Hidden">
+        <Grid x:Name="grd_audio" Visibility="Visible">
             <fa:ImageAwesome Icon="FileAudioOutline" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
                              Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
             <Label Content="{Binding FileName}" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileName"
@@ -46,7 +46,7 @@
             <Label Content="NAME YOUR AUDIO:" Margin="9,73,213,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top"
                    FontWeight="Normal" Height="23" FontSize="10"/>
         </Grid>
-        <Grid x:Name="grd_convert" Visibility="Visible">
+        <Grid x:Name="grd_convert" Visibility="Hidden">
             <fa:ImageAwesome Icon="ExclamationTriangle" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
                              Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
             <Label Content="{Binding FileName}" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileNameConvert"
