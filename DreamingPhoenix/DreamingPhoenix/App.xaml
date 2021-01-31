@@ -17,13 +17,10 @@
                 <!--<ResourceDictionary Source="./Styles/Scheme/ColorSchemePhoenix.xaml"></ResourceDictionary>-->
                 <ResourceDictionary Source="./Styles/Window/CustomWindow.xaml"></ResourceDictionary>
 
-
                 <ResourceDictionary Source="./Styles/ProgressBar/ProgressBar.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Slider/Slider.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="./Styles/Label/Label.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="./Styles/TextBlock/TextBlock.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ScrollBar/ScrollBar.xaml"></ResourceDictionary>
