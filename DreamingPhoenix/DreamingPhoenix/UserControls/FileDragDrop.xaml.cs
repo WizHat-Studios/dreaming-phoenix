@@ -128,20 +128,17 @@ namespace DreamingPhoenix.UserControls
             FileName = Path.GetFileNameWithoutExtension(path);
             AudioName = Path.GetFileNameWithoutExtension(path);
             FileNameExt = Path.GetFileName(path);
-            //lbl_fileName.Content = Path.GetFileNameWithoutExtension(path);
-            //lbl_fileName.ToolTip = Path.GetFileName(path);
-            //lbl_fileNameConvert.Content = Path.GetFileNameWithoutExtension(path);
-            //lbl_fileNameConvert.ToolTip = Path.GetFileName(path);
-            //tbox_newFileName.Text = Path.GetFileNameWithoutExtension(path);
-
             DirectoryPath = Path.GetDirectoryName(path);
-            //lbl_filePath.Content = Path.GetDirectoryName(path);
-            //lbl_filePathConvert.Content = Path.GetDirectoryName(path);
 
             if (GetSampleRate(path) != 44100)
             {
                 grd_audio.Visibility = Visibility.Hidden;
                 grd_convert.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grd_audio.Visibility = Visibility.Visible;
+                grd_convert.Visibility = Visibility.Hidden;
             }
         }
 
@@ -164,14 +161,6 @@ namespace DreamingPhoenix.UserControls
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             droppedFiles.RemoveAt(0);
-
-            // for better animation, only switch grid if not last file
-            if (droppedFiles.Count != 0)
-            {
-                grd_audio.Visibility = Visibility.Visible;
-                grd_convert.Visibility = Visibility.Hidden;
-            }
-
             ProcessNextFile();
         }
 
@@ -185,18 +174,7 @@ namespace DreamingPhoenix.UserControls
                 if (!ConvertToSampleRate(ref path))
                 {
                     droppedFiles.RemoveAt(0);
-
                     pgb_converting.Dispatcher.Invoke(() => pgb_converting.Visibility = Visibility.Collapsed);
-
-                    if (droppedFiles.Count != 0)
-                    {
-                        pgb_converting.Dispatcher.Invoke(() =>
-                        {
-                            grd_audio.Visibility = Visibility.Visible;
-                            grd_convert.Visibility = Visibility.Hidden;
-                        });
-                    }
-
                     ProcessNextFile();
                     return;
                 }
@@ -207,8 +185,6 @@ namespace DreamingPhoenix.UserControls
                 pgb_converting.Dispatcher.Invoke(() =>
                 {
                     pgb_converting.Visibility = Visibility.Collapsed;
-                    grd_audio.Visibility = Visibility.Visible;
-                    grd_convert.Visibility = Visibility.Hidden;
                 });
             });
         }
@@ -270,7 +246,7 @@ namespace DreamingPhoenix.UserControls
                 readerStream = new MediaFoundationReader(fileName);
             }
 
-            string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Convert.wav");
+            string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Converted.wav");
             if (File.Exists(outFile))
             {
                 MessageBox.Show(string.Format("File {0} already exists", outFile));
