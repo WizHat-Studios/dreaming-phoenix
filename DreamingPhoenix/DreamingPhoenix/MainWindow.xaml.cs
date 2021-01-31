@@ -139,9 +139,7 @@ namespace DreamingPhoenix
                 AudioDeletionPanelVisibility = Visibility.Visible;
                 uc_fileDeletion.AcceptDelete((Audio)((Button)sender).DataContext);
             }
-
-            //AppModel.Instance.AudioList.Remove((Audio)((Button)sender).DataContext);
-            //grid_selectedAudioProperties.Children.Clear();
+            grid_selectedAudioProperties.Children.Clear();
         }
 
         private void AudioListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
