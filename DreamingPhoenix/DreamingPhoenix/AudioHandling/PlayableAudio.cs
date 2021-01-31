@@ -150,7 +150,6 @@ namespace DreamingPhoenix.AudioHandling
 
             // Clear all subscribers from event, because we instaniate a new audio
             // (Only affects PlayableAudio internally. All external classes are still subscribed to PlayableAudio)
-            AudioTrackReader?.Dispose();
             AudioTrackReader?.ClearAudioStoppedEvent();
             bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
 
