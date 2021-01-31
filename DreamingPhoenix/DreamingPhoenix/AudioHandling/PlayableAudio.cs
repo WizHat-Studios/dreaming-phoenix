@@ -115,7 +115,7 @@ namespace DreamingPhoenix.AudioHandling
 
             CurrentAudio.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(CurrentAudio.Volume))
+                if (e.PropertyName == nameof(CurrentAudio.Volume) && AudioTrackReader != null)
                     AudioTrackReader.Volume = CurrentAudio.Volume;
             };
 

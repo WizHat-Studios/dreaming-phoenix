@@ -286,12 +286,18 @@ namespace DreamingPhoenix
             if (((ListBox)sender).SelectedItem == null)
                 return;
 
+            if ((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio == SoundEffect.Default)
+                return;
+
             SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
         }
 
         private void SoundEffectsListBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (((ListBox)sender).SelectedItem == null)
+                return;
+
+            if ((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio == SoundEffect.Default)
                 return;
 
             SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
