@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using NAudio;
 using NAudio.Wave;
@@ -96,6 +97,12 @@ namespace DreamingPhoenix.AudioHandling
             // if audio is still playing, mute it
             if (AudioTrackReader != null && AppModel.Instance.AudioManager.MixingProvider != null)
                 AudioTrackReader.Volume = 0;
+
+            if (!CurrentAudio.IsAudioFilePathValid)
+            {
+                MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             // Create new Reader and subscribe to all events
             AudioTrackReader = new NAudioTrackReader(CurrentAudio.AudioFile);

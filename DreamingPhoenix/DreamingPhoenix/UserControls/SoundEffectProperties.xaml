@@ -12,6 +12,11 @@
              mc:Ignorable="d" d:Width="500" d:Height="500">
     <UserControl.Resources>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
     </UserControl.Resources>
 
     <Grid Background="{DynamicResource BackgroundB}">
@@ -19,6 +24,14 @@
             <StackPanel>
                 <Label Content="SOUNDEFFECT PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" 
                        FontWeight="Bold" FontSize="15" Margin="0,10,0,20" />
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=Sound.IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <fa:ImageAwesome Icon="ExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <Label Content="AUDIO FILE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
+                        <fa:ImageAwesome Icon="ExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                    </StackPanel>
+                </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90"
@@ -41,7 +54,7 @@
                            Margin="10,0,0,0" FontSize="13" />
                     <Button Name="btn_selectFile" Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"
                             Click="btn_selectFile_Click" />
-                    <TextBox Name="tbx_soundFile" Text="{Binding Sound.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
+                    <TextBox Name="tbx_soundFile" Text="{Binding Sound.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" IsReadOnly="True" DockPanel.Dock="Right" 
                              VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"
                              AllowDrop="True" Drop="tbx_soundFile_Drop" PreviewDragOver="tbx_soundFile_PreviewDragOver" />
                 </DockPanel>
@@ -59,7 +72,7 @@
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
             <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0"
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteSound_Click"/>
-            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0"
+            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Sound.IsAudioFilePathValid}"
                     Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
             <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0"
                           Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Sound.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

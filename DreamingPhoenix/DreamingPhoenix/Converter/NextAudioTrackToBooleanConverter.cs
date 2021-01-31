@@ -15,8 +15,9 @@ namespace DreamingPhoenix.Converter
             if (value.GetType() != typeof(AudioTrack))
                 throw new NotSupportedException("Value must be a AudioTrack");
 
-            if (((AudioTrack)value).NextAudioTrack == null)
+            if (((AudioTrack)value).NextAudioTrack == null || !((AudioTrack)value).NextAudioTrack.IsAudioFilePathValid)
                 return false;
+
             return true;
         }
 

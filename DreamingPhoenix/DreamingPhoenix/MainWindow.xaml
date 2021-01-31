@@ -59,7 +59,7 @@
                                         <Button Width="30" fa:Awesome.Content="Trash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                             Click="RemoveAudio_Click" />
-                                        <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right"
+                                        <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
                                             Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                             Click="PlayAudioTrack_Click" />
 
@@ -100,7 +100,7 @@
                                         Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                         Click="RemoveAudio_Click" />
                                         <Button Width="30" fa:Awesome.Content="Play"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right"
-                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top" IsEnabled="{Binding IsAudioFilePathValid}"
                                         Click="PlaySoundEffect_Click" />
 
                                         <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
