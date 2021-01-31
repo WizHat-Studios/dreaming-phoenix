@@ -3,7 +3,7 @@ using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.IO;
 using System.Text;
 
 namespace DreamingPhoenix.AudioHandling
@@ -51,7 +51,7 @@ namespace DreamingPhoenix.AudioHandling
         /// <summary>
         /// File Name
         /// </summary>
-        public string FileName { get; }
+        public string FileName { get; private set; }
 
         /// <summary>
         /// WaveFormat of this stream
@@ -87,7 +87,7 @@ namespace DreamingPhoenix.AudioHandling
             sampleChannel = new SampleChannel(readerStream, true);
             destBytesPerSample = 4 * sampleChannel.WaveFormat.Channels;
             length = SourceToDest(readerStream.Length);
-            
+
             State = NAudioState.Playing;
             BeginFadeIn(0);
         }
@@ -103,7 +103,7 @@ namespace DreamingPhoenix.AudioHandling
             FileName = fileName;
             CreateReaderStream(fileName);
             sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
-            sampleChannel = new SampleChannel(readerStream, false);
+            sampleChannel = new SampleChannel(readerStream, true);
             destBytesPerSample = 4 * sampleChannel.WaveFormat.Channels;
             length = SourceToDest(readerStream.Length);
 
@@ -121,10 +121,6 @@ namespace DreamingPhoenix.AudioHandling
             if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
             {
                 readerStream = new WaveFileReader(fileName);
-                if (readerStream.WaveFormat.Channels == 1)
-                {
-                    
-                }
                 if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
                 {
                     readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
@@ -133,6 +129,21 @@ namespace DreamingPhoenix.AudioHandling
             }
             else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
             {
+                //string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".wav");
+                //int outRate = 44100;
+                //var reader = new Mp3FileReader(fileName);
+                //if (reader.WaveFormat.SampleRate == outRate)
+                //{
+                //    readerStream = reader;
+                //    return;
+                //}
+
+                //var outFormat = new WaveFormat(outRate, reader.WaveFormat.Channels);
+                //var resampler = new MediaFoundationResampler(reader, outFormat);
+                //WaveFileWriter.CreateWaveFile(outFile, resampler);
+
+                //FileName = outFile;
+                //CreateReaderStream(outFile);
                 readerStream = new Mp3FileReader(fileName);
             }
             else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
@@ -192,9 +203,15 @@ namespace DreamingPhoenix.AudioHandling
 
                 if (sampleRead >= count)
                     isStarting = false;
-                if (sampleRead < count && !isStarting && State != NAudioState.Paused)
+                if (sampleRead < count && !isStarting && State != NAudioState.Paused && State != NAudioState.Stopped)
                 {
                     State = NAudioState.Stopped;
+                    AudioStopped?.Invoke(this, EventArgs.Empty);
+                    return 0;
+                }
+
+                if (State == NAudioState.Stopped)
+                {
                     AudioStopped?.Invoke(this, EventArgs.Empty);
                     return 0;
                 }
@@ -268,7 +285,7 @@ namespace DreamingPhoenix.AudioHandling
                     if (isStopping)
                     {
                         State = NAudioState.Stopped;
-                        AudioStopped?.Invoke(this, EventArgs.Empty);
+                        //AudioStopped?.Invoke(this, EventArgs.Empty);
                         Debug.WriteLine("Hör uf Willi! 2");
                         isStopping = false;
                     }
@@ -344,7 +361,7 @@ namespace DreamingPhoenix.AudioHandling
         {
             FadedOut = null;
         }
-        
+
         public void ClearAudioStoppedEvent()
         {
             AudioStopped = null;

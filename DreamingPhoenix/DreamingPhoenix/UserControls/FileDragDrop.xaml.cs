@@ -1,4 +1,5 @@
 ﻿using DreamingPhoenix.AudioHandling;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -73,11 +74,21 @@ namespace DreamingPhoenix.UserControls
                 return;
             }
 
+            if (GetSampleRate(path) != 44100)
+            {
+                // Ask for conversion
+                // MessageBox.Nivisan();
+                if (true)
+                {
+                    if (ConvertToSampleRate(ref path))
+                        droppedFiles[0] = path;
+                }
+            }
+
             lbl_fileName.Content = Path.GetFileNameWithoutExtension(path);
             tbox_newFileName.Text = Path.GetFileNameWithoutExtension(path);
 
             lbl_filePath.Content = Path.GetDirectoryName(path);
-
         }
 
         private void SoundEffect_Clicked(object sender, RoutedEventArgs e)
@@ -94,6 +105,85 @@ namespace DreamingPhoenix.UserControls
                 return;
 
             tglbtn_soundEffect.IsChecked = !tglbtn_audioTrack.IsChecked;
+        }
+
+        private int GetSampleRate(string fileName)
+        {
+            WaveStream readerStream = null;
+            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new WaveFileReader(fileName);
+                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                {
+                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                    readerStream = new BlockAlignReductionStream(readerStream);
+                }
+            }
+            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new Mp3FileReader(fileName);
+            }
+            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new AiffFileReader(fileName);
+            }
+            else
+            {
+                // fall back to media foundation reader, see if that can play it
+                readerStream = new MediaFoundationReader(fileName);
+            }
+
+            int sampleRate = readerStream.WaveFormat.SampleRate;
+            readerStream.Close();
+            return sampleRate;
+        }
+
+        private bool ConvertToSampleRate(ref string fileName)
+        {
+            WaveStream readerStream = null;
+            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new WaveFileReader(fileName);
+                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                {
+                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                    readerStream = new BlockAlignReductionStream(readerStream);
+                }
+            }
+            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new Mp3FileReader(fileName);
+            }
+            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new AiffFileReader(fileName);
+            }
+            else
+            {
+                // fall back to media foundation reader, see if that can play it
+                readerStream = new MediaFoundationReader(fileName);
+            }
+
+            string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".wav");
+            int outRate = 44100;
+            if (readerStream.WaveFormat.SampleRate == outRate)
+            {
+                return false;
+            }
+
+            var outFormat = new WaveFormat(outRate, readerStream.WaveFormat.Channels);
+            var resampler = new MediaFoundationResampler(readerStream, outFormat);
+            try
+            {
+                WaveFileWriter.CreateWaveFile(outFile, resampler);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            fileName = outFile;
+            return true;
         }
     }
 }
