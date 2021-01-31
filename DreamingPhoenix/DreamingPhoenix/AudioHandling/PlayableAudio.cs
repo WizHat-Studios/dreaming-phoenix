@@ -276,6 +276,7 @@ namespace DreamingPhoenix.AudioHandling
                 }
             }
 
+            AudioTrackReader.Dispose();
             AudioTrackReader = null;
             Debug.WriteLine("Nein, hier ist Patrick!");
             AudioStopped?.Invoke(this, EventArgs.Empty);
@@ -316,7 +317,7 @@ namespace DreamingPhoenix.AudioHandling
                 while (true)
                 {
                     // Only tick if audio is playing
-                    if (AudioTrackReader.State == NAudioState.Playing)
+                    if (AudioTrackReader != null && AudioTrackReader.State == NAudioState.Playing)
                         AudioTrackTick?.Invoke(AudioTrackReader.CurrentTime.TotalSeconds, Math.Round(AudioTrackReader.TotalTime.TotalSeconds));
                     else
                         break;
