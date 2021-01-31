@@ -84,13 +84,16 @@ namespace DreamingPhoenix.UserControls
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            if (droppedFiles.Count == 0)
+                return;
+
             if (tglbtn_audioTrack.IsChecked == true)
             {
-                AppModel.Instance.AudioList.Add(new AudioHandling.AudioTrack(droppedFiles[0], AudioName));
+                AppModel.Instance.AudioList.Add(new AudioTrack(droppedFiles[0], AudioName));
             }
             else if (tglbtn_soundEffect.IsChecked == true)
             {
-                AppModel.Instance.AudioList.Add(new AudioHandling.SoundEffect(droppedFiles[0], AudioName));
+                AppModel.Instance.AudioList.Add(new SoundEffect(droppedFiles[0], AudioName));
             }
 
             droppedFiles.RemoveAt(0);
@@ -168,13 +171,21 @@ namespace DreamingPhoenix.UserControls
         {
             pgb_converting.Visibility = Visibility.Visible;
             string path = droppedFiles[0];
+            btn_convert.IsEnabled = false;
+            btn_cancleConvert.IsEnabled = false;
 
             Task.Run(() =>
             {
                 if (!ConvertToSampleRate(ref path))
                 {
                     droppedFiles.RemoveAt(0);
-                    pgb_converting.Dispatcher.Invoke(() => pgb_converting.Visibility = Visibility.Collapsed);
+                    pgb_converting.Dispatcher.Invoke(() =>
+                    {
+                        pgb_converting.Visibility = Visibility.Collapsed;
+
+                        btn_convert.IsEnabled = true;
+                        btn_cancleConvert.IsEnabled = true;
+                    });
                     ProcessNextFile();
                     return;
                 }
@@ -185,6 +196,11 @@ namespace DreamingPhoenix.UserControls
                 pgb_converting.Dispatcher.Invoke(() =>
                 {
                     pgb_converting.Visibility = Visibility.Collapsed;
+                    grd_audio.Visibility = Visibility.Visible;
+                    grd_convert.Visibility = Visibility.Hidden;
+
+                    btn_convert.IsEnabled = true;
+                    btn_cancleConvert.IsEnabled = true;
                 });
             });
         }

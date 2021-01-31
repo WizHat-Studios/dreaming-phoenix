@@ -66,9 +66,9 @@
             <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     Background="{DynamicResource BackgroundA}">
                 <Grid>
-                    <Button Height="40" Click="Cancel_Click" Margin="200,0,0,0" Width="120" Content="Cancel" VerticalAlignment="Center"
+                    <Button Name="btn_cancleConvert" Height="40" Click="Cancel_Click" Margin="200,0,0,0" Width="120" Content="Cancel" VerticalAlignment="Center"
                             HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
-                    <Button Height="40" Click="Convert_Click" Margin="0,0,200,0" Width="120" Content="Convert" VerticalAlignment="Center"
+                    <Button Name="btn_convert" Height="40" Click="Convert_Click" Margin="0,0,200,0" Width="120" Content="Convert" VerticalAlignment="Center"
                             HorizontalAlignment="Center" Style="{StaticResource GreenButton}"/>
                 </Grid>
             </Border>
