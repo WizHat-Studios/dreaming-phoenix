@@ -277,6 +277,7 @@ namespace DreamingPhoenix.AudioHandling
                 }
             }
 
+            AudioTrackReader.Dispose();
             AudioTrackReader = null;
             Debug.WriteLine("Nein, hier ist Patrick!");
             AudioStopped?.Invoke(this, EventArgs.Empty);
