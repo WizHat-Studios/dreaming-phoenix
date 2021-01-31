@@ -150,6 +150,7 @@ namespace DreamingPhoenix.AudioHandling
 
             // Clear all subscribers from event, because we instaniate a new audio
             // (Only affects PlayableAudio internally. All external classes are still subscribed to PlayableAudio)
+            AudioTrackReader?.Dispose();
             AudioTrackReader?.ClearAudioStoppedEvent();
             bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
 
@@ -275,6 +276,8 @@ namespace DreamingPhoenix.AudioHandling
                     return;
                 }
             }
+
+            AudioTrackReader = null;
             Debug.WriteLine("Nein, hier ist Patrick!");
             AudioStopped?.Invoke(this, EventArgs.Empty);
 
@@ -301,7 +304,6 @@ namespace DreamingPhoenix.AudioHandling
                 CurrentAudio = AudioTrack.Default;
                 return;
             }
-
         }
 
         #region Audio Ticker
