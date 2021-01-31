@@ -164,7 +164,6 @@ namespace DreamingPhoenix.UserControls
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             droppedFiles.RemoveAt(0);
-            ProcessNextFile();
 
             // for better animation, only switch grid if not last file
             if (droppedFiles.Count != 0)
@@ -172,6 +171,8 @@ namespace DreamingPhoenix.UserControls
                 grd_audio.Visibility = Visibility.Visible;
                 grd_convert.Visibility = Visibility.Hidden;
             }
+
+            ProcessNextFile();
         }
 
         private void Convert_Click(object sender, RoutedEventArgs e)
@@ -184,7 +185,6 @@ namespace DreamingPhoenix.UserControls
                 if (!ConvertToSampleRate(ref path))
                 {
                     droppedFiles.RemoveAt(0);
-                    ProcessNextFile();
 
                     pgb_converting.Dispatcher.Invoke(() => pgb_converting.Visibility = Visibility.Collapsed);
 
@@ -197,6 +197,7 @@ namespace DreamingPhoenix.UserControls
                         });
                     }
 
+                    ProcessNextFile();
                     return;
                 }
 
