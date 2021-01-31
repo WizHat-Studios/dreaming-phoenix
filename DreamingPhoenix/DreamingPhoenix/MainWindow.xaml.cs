@@ -53,7 +53,7 @@ namespace DreamingPhoenix
             grid_DropPanel.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
-            uc_DropPanel.AudioFilesProcessed += (s, e) => AudioDropPanelVisibility = Visibility.Hidden;
+            uc_DropPanel.AudioFilesProcessed += (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); };
 
             this.DataContext = this;
             SubscribeToAudioTrack();
