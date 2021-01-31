@@ -22,6 +22,12 @@
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
         <converters:NextAudioTrackToBooleanConverter x:Key="NextAudioTrackToBooleanConverter" />
         <converters:IsDefaultAudioToBooleanConverter x:Key="IsDefaultAudioToBooleanConverter" />
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+
     </Window.Resources>
     <Grid x:Name="grid_root" Margin="0,30,0,0">
         <Grid>
@@ -52,7 +58,10 @@
                                 <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                     <Grid>
                                         <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
-                                            <fa:ImageAwesome Icon="Music" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
+                                            <Grid>
+                                                <fa:ImageAwesome Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="Music" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
+                                                <fa:ImageAwesome Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="ExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
+                                            </Grid>
                                         </Border>
                                         <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                              FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
@@ -92,7 +101,10 @@
                                 <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                     <Grid>
                                         <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
-                                            <fa:ImageAwesome Icon="Bolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
+                                            <Grid>
+                                                <fa:ImageAwesome Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="Bolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
+                                                <fa:ImageAwesome Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="ExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
+                                            </Grid>
                                         </Border>
                                         <Label Content="{Binding Name}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                          FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
