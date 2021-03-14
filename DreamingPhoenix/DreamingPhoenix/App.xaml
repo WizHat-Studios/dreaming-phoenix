@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/TextBox/DarkTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ScrollBar/ScrollBar.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ComboBox/ComboBox.xaml"></ResourceDictionary>

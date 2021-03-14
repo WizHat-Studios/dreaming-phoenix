@@ -104,8 +104,12 @@ namespace DreamingPhoenix.UserControls
 
         private void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
-            AppModel.Instance.AudioList.Remove(Track);
-            this.Visibility = Visibility.Collapsed;
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.AudioDeletionPanelVisibility = Visibility.Visible;
+            mainWindow.uc_fileDeletion.AcceptDelete((Audio)(Track));
+            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            /*AppModel.Instance.AudioList.Remove(Track);
+            this.Visibility = Visibility.Collapsed;*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

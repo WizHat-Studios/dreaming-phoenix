@@ -73,8 +73,12 @@ namespace DreamingPhoenix.UserControls
 
         private void DeleteSound_Click(object sender, RoutedEventArgs e)
         {
-            AppModel.Instance.AudioList.Remove(Sound);
-            this.Visibility = Visibility.Collapsed;
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.AudioDeletionPanelVisibility = Visibility.Visible;
+            mainWindow.uc_fileDeletion.AcceptDelete((Audio)Sound);
+            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            /*AppModel.Instance.AudioList.Remove(Sound);
+            this.Visibility = Visibility.Collapsed;*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -30,6 +31,32 @@ namespace DreamingPhoenix
             }
         }
 
+        private string searchTerm = "";
+
+        /// <summary>
+        /// String used by the searchResultAudioList to filter the audio results
+        /// </summary>
+        public string SearchTerm
+        {
+            get { return searchTerm; }
+            set { searchTerm = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(SearchActive)); NotifyPropertyChanged(nameof(SearchResultAudioList)); }
+        }
+
+        public bool SearchActive { get { return !String.IsNullOrEmpty(SearchTerm); } }
+
+
+        /// <summary>
+        /// List containing all audio which match with the search term
+        /// </summary>
+        public ObservableCollection<Audio> SearchResultAudioList
+        {
+            get 
+            {
+                return new ObservableCollection<Audio>(AudioList.Where(x => x.Name.ToLower().Contains(SearchTerm.ToLower())).ToList()); 
+            }
+        }
+
+
         private ObservableCollection<Audio> audioList = new ObservableCollection<Audio>();
 
         /// <summary>
@@ -38,7 +65,7 @@ namespace DreamingPhoenix
         public ObservableCollection<Audio> AudioList
         {
             get { return audioList; }
-            set { audioList = value; NotifyPropertyChanged(); }
+            set { audioList = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(SearchResultAudioList)); }
         }
 
 
@@ -67,6 +94,7 @@ namespace DreamingPhoenix
         public AppModel()
         {
             LoadData();
+            AudioList.CollectionChanged += (s, e) => { NotifyPropertyChanged(nameof(SearchResultAudioList)); };
         }
 
         public void SaveData()

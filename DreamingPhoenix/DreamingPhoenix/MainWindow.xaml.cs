@@ -321,5 +321,10 @@ namespace DreamingPhoenix
 
             SetPropertiesPanelFromAudio((SoundEffect)((PlayableAudio)((ListBox)sender).SelectedItem).CurrentAudio);
         }
+
+        private void ClearSearch_Click(object sender, RoutedEventArgs e)
+        {
+            AppModelInstance.SearchTerm = "";
+        }
     }
 }
