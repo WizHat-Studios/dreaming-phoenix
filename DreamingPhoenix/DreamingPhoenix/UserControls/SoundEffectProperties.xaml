@@ -7,7 +7,7 @@
              xmlns:combobox="clr-namespace:DreamingPhoenix.Styles.ComboBox"
              xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"
              xmlns:dp="clr-namespace:DreamingPhoenix"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
              xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
              mc:Ignorable="d" d:Width="500" d:Height="500">
     <UserControl.Resources>
@@ -27,9 +27,9 @@
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=Sound.IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <fa:ImageAwesome Icon="ExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                         <Label Content="AUDIO FILE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
-                        <fa:ImageAwesome Icon="ExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                     </StackPanel>
                 </DockPanel>
 
@@ -70,11 +70,11 @@
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Awesome.Content="Trash" HorizontalAlignment="Right" Margin="0,0,10,0"
+            <Button Height="50" Width="50" fa:Icon.Content="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteSound_Click"/>
-            <Button Height="50" Width="50" fa:Awesome.Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Sound.IsAudioFilePathValid}"
+            <Button Height="50" Width="50" fa:Icon.Content="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Sound.IsAudioFilePathValid}"
                     Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
-            <ToggleButton Height="50" Width="50" fa:Awesome.Content="Repeat" HorizontalAlignment="Left" Margin="70,0,0,0"
+            <ToggleButton Height="50" Width="50" fa:Icon.Content="SolidRedo" HorizontalAlignment="Left" Margin="70,0,0,0"
                           Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Sound.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           FontSize="20"/>
         </Grid>

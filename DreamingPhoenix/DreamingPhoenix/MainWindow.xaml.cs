@@ -66,6 +66,7 @@ namespace DreamingPhoenix
 
             this.DataContext = this;
             SubscribeToAudioTrack();
+            TextBlock block = new TextBlock();
         }
 
         private void HotKeyHook_OnKeyboard(object sender, HotkeyHandling.KeyboardListener.KeyboardEventArgs e)
