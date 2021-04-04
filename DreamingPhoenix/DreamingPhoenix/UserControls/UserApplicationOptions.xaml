@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
-             xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"           
-             xmlns:converters="clr-namespace:DreamingPhoenix.Converter"  
+             xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"         
+             xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
+             d:DataContext="{d:DesignInstance local:UserApplicationOptions}"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="511">
     <UserControl.Resources>
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter"/>

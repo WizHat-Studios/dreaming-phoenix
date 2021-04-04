@@ -22,7 +22,7 @@ namespace DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for FileDragDrop.xaml
     /// </summary>
-    public partial class FileDeletion : UserControl, INotifyPropertyChanged
+    public partial class AudioDeletion : UserControl, INotifyPropertyChanged
     {
         public event EventHandler OperationProcessed;
 
@@ -50,7 +50,7 @@ namespace DreamingPhoenix.UserControls
             }
         }
 
-        public FileDeletion()
+        public AudioDeletion()
         {
             InitializeComponent();
             DataContext = this;

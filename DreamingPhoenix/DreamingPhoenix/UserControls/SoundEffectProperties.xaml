@@ -9,6 +9,7 @@
              xmlns:dp="clr-namespace:DreamingPhoenix"
              xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
              xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
+             d:DataContext="{d:DesignInstance local:SoundEffectProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="500">
     <UserControl.Resources>
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
