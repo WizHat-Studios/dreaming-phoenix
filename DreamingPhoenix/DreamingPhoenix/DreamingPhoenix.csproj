@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Images\DreamingPhoenix.ico</ApplicationIcon>
   </PropertyGroup>
@@ -39,6 +39,10 @@
     </Page>
     <Page Update="Styles\TextBox\DarkTextBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\ToggleButton\SortIndicatorToggleButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\AudioDeletion.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

@@ -50,6 +50,13 @@ namespace DreamingPhoenix
             set { audioDeletionPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        private Visibility filterPanelVisibility = Visibility.Hidden;
+        public Visibility FilterPanelVisibility
+        {
+            get { return filterPanelVisibility; }
+            set { filterPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
         HotkeyHandling.KeyboardListener.KeyboardHook HotKeyHook = new HotkeyHandling.KeyboardListener.KeyboardHook();
 
         public MainWindow()
@@ -59,6 +66,7 @@ namespace DreamingPhoenix
             grid_AppOptions.Visibility = Visibility.Visible;
             grid_DropPanel.Visibility = Visibility.Visible;
             grid_AcceptDeletion.Visibility = Visibility.Visible;
+            grid_filterSettings.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
             uc_DropPanel.AudioFilesProcessed += (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); };
@@ -66,7 +74,6 @@ namespace DreamingPhoenix
 
             this.DataContext = this;
             SubscribeToAudioTrack();
-            TextBlock block = new TextBlock();
         }
 
         private void HotKeyHook_OnKeyboard(object sender, HotkeyHandling.KeyboardListener.KeyboardEventArgs e)
@@ -325,7 +332,31 @@ namespace DreamingPhoenix
 
         private void ClearSearch_Click(object sender, RoutedEventArgs e)
         {
-            AppModelInstance.SearchTerm = "";
+            AppModelInstance.Options.FilterOptions.SearchTerm = "";
+        }
+
+        private void btn_filterSettings_Click(object sender, RoutedEventArgs e)
+        {
+            // DANKE DOMINIC! NACH 3H...
+            uc_filterSettings.Content = new UserControls.FilterSettings();
+            ((UserControls.FilterSettings)uc_filterSettings.Content).OperationProcessed += async (s, e) =>
+            {
+                FilterPanelVisibility = Visibility.Hidden;
+                await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+            };
+            FilterPanelVisibility = Visibility.Visible;
+        }
+
+        private async void SearchInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AppModelInstance.Options.FilterOptions.IncludeAudioTracks = !AppModelInstance.Options.FilterOptions.IncludeAudioTracks;
+
+            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+        }
+
+        private async void window_MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
         }
     }
 }

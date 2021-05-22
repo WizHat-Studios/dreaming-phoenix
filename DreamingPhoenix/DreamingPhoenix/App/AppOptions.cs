@@ -58,6 +58,22 @@ namespace DreamingPhoenix
             }
         }
 
+        private FilterOptions filterOptions;
+
+        public FilterOptions FilterOptions
+        {
+            get 
+            {
+                if (filterOptions == null)
+                {
+                    filterOptions = new FilterOptions();
+                }
+                return filterOptions; 
+            }
+            set { filterOptions = value; NotifyPropertyChanged();}
+        }
+
+
         private Key stopAllAudioHotKey;
 
         public Key StopAllAudioHotKey

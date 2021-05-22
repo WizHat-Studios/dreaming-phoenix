@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace DreamingPhoenix
@@ -31,20 +32,10 @@ namespace DreamingPhoenix
             }
         }
 
-        private string searchTerm = "";
-
-        /// <summary>
-        /// String used by the searchResultAudioList to filter the audio results
-        /// </summary>
-        public string SearchTerm
-        {
-            get { return searchTerm; }
-            set { searchTerm = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(SearchActive)); NotifyPropertyChanged(nameof(SearchResultAudioList)); }
-        }
-
-        public bool SearchActive { get { return !String.IsNullOrEmpty(SearchTerm); } }
+        public bool SearchActive { get { return !String.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
 
 
+        private ObservableCollection<Audio> searchResultAudioList;
         /// <summary>
         /// List containing all audio which match with the search term
         /// </summary>
@@ -52,8 +43,41 @@ namespace DreamingPhoenix
         {
             get 
             {
-                return new ObservableCollection<Audio>(AudioList.Where(x => x.Name.ToLower().Contains(SearchTerm.ToLower())).ToList()); 
+                return searchResultAudioList;
             }
+            private set
+            {
+                searchResultAudioList = value; NotifyPropertyChanged();
+            }
+        }
+
+        public async Task ApplyFilterOptions(FilterOptions filterOtions)
+        {
+            NotifyPropertyChanged("SearchActive");
+
+            await Task.Run(() =>
+            {
+
+                ObservableCollection<Audio> filteredList = new ObservableCollection<Audio>();
+                foreach (var audio in AudioList)
+                {
+                    if (!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !String.IsNullOrWhiteSpace(filterOtions.SearchTerm))
+                        continue;
+
+                    if (!filterOtions.IncludeAudioTracks && audio is AudioTrack)
+                        continue;
+
+                    if (!filterOtions.IncludeSoundEffects && audio is SoundEffect)
+                        continue;
+
+                    filteredList.Add(audio);
+                }
+
+                if (filterOtions.SortDirection == SortDirection.ASCENDING)
+                    SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Name).ToList());
+                else
+                    SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Name).ToList());
+            });
         }
 
 
@@ -95,6 +119,7 @@ namespace DreamingPhoenix
         {
             LoadData();
             AudioList.CollectionChanged += (s, e) => { NotifyPropertyChanged(nameof(SearchResultAudioList)); };
+            searchResultAudioList = audioList;
         }
 
         public void SaveData()
