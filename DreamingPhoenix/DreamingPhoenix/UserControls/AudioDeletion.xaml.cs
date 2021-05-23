@@ -67,21 +67,22 @@ namespace DreamingPhoenix.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            Delete(audioToDelete);
+            await Delete(audioToDelete);
             OperationProcessed?.Invoke(this, EventArgs.Empty);
         }
 
-        public void DeleteWithoutConfirmation(Audio audioToDelete)
+        public async void DeleteWithoutConfirmation(Audio audioToDelete)
         {
-            Delete(audioToDelete);
+            await Delete(audioToDelete);
         }
 
-        private void Delete(Audio audioToDelete)
+        private async Task Delete(Audio audioToDelete)
         {
             AppModel.Instance.AudioList.Remove(audioToDelete);
             AppModel.Instance.SaveData();
+            await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

@@ -69,7 +69,7 @@ namespace DreamingPhoenix
             grid_filterSettings.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
-            uc_DropPanel.AudioFilesProcessed += (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); };
+            uc_DropPanel.AudioFilesProcessed += async (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions); };
             uc_fileDeletion.OperationProcessed += (s, e) => { AudioDeletionPanelVisibility = Visibility.Hidden; };
 
             this.DataContext = this;
