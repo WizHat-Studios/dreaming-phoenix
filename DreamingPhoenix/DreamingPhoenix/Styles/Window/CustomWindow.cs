@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DreamingPhoenix.Styles
 {
@@ -38,7 +35,6 @@ namespace DreamingPhoenix.Styles
             var window = (Window)(sender);
 
             if (window == null) return;
-
 
             if (window.WindowState == WindowState.Maximized)
             {

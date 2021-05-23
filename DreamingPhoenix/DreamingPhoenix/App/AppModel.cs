@@ -59,9 +59,26 @@ namespace DreamingPhoenix
             {
 
                 ObservableCollection<Audio> filteredList = new ObservableCollection<Audio>();
+                bool skipTagCheck = true;
+
+                foreach (var tag in Options.FilterOptions.SelectedTags)
+                {
+                    if (tag.Selected)
+                        skipTagCheck = false;
+                }
+
+
                 foreach (var audio in AudioList)
                 {
-                    if (!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !String.IsNullOrWhiteSpace(filterOtions.SearchTerm))
+                    bool matchesTagInSearchTerm = false;
+
+                    foreach (Tag tag in audio.Tags)
+                    {
+                        if (tag.Text.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm))
+                            matchesTagInSearchTerm = true;
+                    }
+
+                    if ((!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm)) && !matchesTagInSearchTerm)
                         continue;
 
                     if (!filterOtions.IncludeAudioTracks && audio is AudioTrack)
@@ -69,6 +86,27 @@ namespace DreamingPhoenix
 
                     if (!filterOtions.IncludeSoundEffects && audio is SoundEffect)
                         continue;
+
+                    if (!skipTagCheck)
+                    {
+                        bool includesRequiredTag = false;
+                        foreach (Tag tag in audio.Tags)
+                        {
+                            foreach (SelectableTag selectedTag in Options.FilterOptions.SelectedTags)
+                            {
+                                if (!selectedTag.Selected)
+                                    continue;
+
+                                if (tag.Text == selectedTag.Text)
+                                    includesRequiredTag = true;
+                            }
+                        }
+
+                        if (!includesRequiredTag)
+                            continue;
+                    }
+                    
+                        
 
                     filteredList.Add(audio);
                 }
@@ -102,6 +140,32 @@ namespace DreamingPhoenix
         {
             get { return options; }
             set { options = value; NotifyPropertyChanged(); }
+        }
+
+        private ObservableCollection<Tag> availableTags = new ObservableCollection<Tag>();
+
+        public ObservableCollection<Tag> AvailableTags
+        {
+            get { return availableTags; }
+            set { availableTags = value; NotifyPropertyChanged(); }
+        }
+
+        public void UpdateAvailableTags()
+        {
+            ObservableCollection<Tag> newTags = new ObservableCollection<Tag>();
+
+            foreach (Audio audio in AudioList)
+            {
+                foreach (Tag tag in audio.Tags)
+                {
+                    if (!newTags.Contains(tag))
+                    {
+                        newTags.Add(tag);
+                    }
+                }
+            }
+
+            AvailableTags = newTags;
         }
 
         public AudioManager AudioManager { get; set; } = new AudioManager();

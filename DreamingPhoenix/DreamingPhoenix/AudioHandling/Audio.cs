@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -91,6 +92,24 @@ namespace DreamingPhoenix.AudioHandling
             get { return hotkeyModifiers; }
             set { hotkeyModifiers = value; NotifyPropertyChanged(); }
         }
+
+        private ObservableCollection<Tag> tags = new ObservableCollection<Tag>();
+
+        public ObservableCollection<Tag> Tags
+        {
+            get { return tags; }
+            set { tags = value; NotifyPropertyChanged(); }
+        }
+
+        private Category category;
+
+        public Category Category
+        {
+            get { return category; }
+            set { category = value; NotifyPropertyChanged(); }
+        }
+
+
 
         /// <summary>
         /// Creates a new empty Audio

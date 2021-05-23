@@ -81,10 +81,24 @@ namespace DreamingPhoenix.UserControls
             this.Visibility = Visibility.Collapsed;*/
         }
 
+        private void RemoveTag_Click(object sender, RoutedEventArgs e)
+        {
+            Tag tag = ((Button)sender).Tag as Tag;
+            Sound.Tags.Remove(tag);
+        }
+
+        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        {
+            if (Sound.Tags == null)
+                Sound.Tags = new ObservableCollection<Tag>();
+            Sound.Tags.Add(new Tag() { Text = "New Tag" });
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
     }
 }

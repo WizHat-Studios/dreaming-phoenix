@@ -349,8 +349,6 @@ namespace DreamingPhoenix
 
         private async void SearchInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AppModelInstance.Options.FilterOptions.IncludeAudioTracks = !AppModelInstance.Options.FilterOptions.IncludeAudioTracks;
-
             await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
         }
 

@@ -26,9 +26,12 @@ namespace DreamingPhoenix.UserControls
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FilterOptions NewFilterOptions { get; set; } = (FilterOptions)AppModel.Instance.Options.FilterOptions.Clone();
+
         public FilterSettings()
         {
             InitializeComponent();
+            AppModel.Instance.UpdateAvailableTags();
+            NewFilterOptions.UpdateTags();
             DataContext = this;
         }
 

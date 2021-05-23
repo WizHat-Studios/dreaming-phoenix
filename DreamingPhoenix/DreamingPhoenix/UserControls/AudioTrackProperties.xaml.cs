@@ -117,5 +117,18 @@ namespace DreamingPhoenix.UserControls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
+        private void RemoveTag_Click(object sender, RoutedEventArgs e)
+        {
+            Tag tag = ((Button)sender).Tag as Tag;
+            Track.Tags.Remove(tag);
+        }
+
+        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        {
+            if (Track.Tags == null)
+                Track.Tags = new ObservableCollection<Tag>();
+            Track.Tags.Add(new Tag() { Text = "New Tag" });
+        }
     }
 }

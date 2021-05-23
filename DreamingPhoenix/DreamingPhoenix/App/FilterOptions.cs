@@ -1,7 +1,10 @@
-﻿using System;
+﻿using DreamingPhoenix.AudioHandling;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -44,6 +47,38 @@ namespace DreamingPhoenix
             get { return includeSoundEffects; }
             set { includeSoundEffects = value; NotifyPropertyChanged(); }
         }
+
+        private ObservableCollection<SelectableTag> selectedTags = new ObservableCollection<SelectableTag>();
+
+        public ObservableCollection<SelectableTag> SelectedTags
+        {
+            get { return selectedTags; }
+            set { selectedTags = value; NotifyPropertyChanged(); }
+        }
+
+        public void UpdateTags()
+        {
+            AppModel.Instance.UpdateAvailableTags();
+            ObservableCollection<SelectableTag> updatedSelectedTags = new ObservableCollection<SelectableTag>();
+
+            foreach (Tag tag in AppModel.Instance.AvailableTags)
+            {
+                bool isSelected = false;
+                foreach (SelectableTag selectedTag in selectedTags)
+                {
+                    if (tag.Text == selectedTag.Text)
+                    {
+                        isSelected = selectedTag.Selected;
+                        break;
+                    }
+                }
+
+                updatedSelectedTags.Add(new SelectableTag() { Text = tag.Text, Selected = isSelected });
+            }
+
+            SelectedTags = new ObservableCollection<SelectableTag>(updatedSelectedTags.OrderBy(x => x.Text).ToList());
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
