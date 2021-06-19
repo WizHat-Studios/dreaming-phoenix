@@ -164,7 +164,7 @@
                                FontSize="9" Margin="10,10,10,0" />
                         <TextBlock Foreground="{DynamicResource ForegroundDefault}"
                                    Height="30" VerticalAlignment="Top" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis"
-                                   Padding="4" FontWeight="Bold">
+                                   Padding="4" FontWeight="Bold" MouseLeftButtonUp="AudioTrackNameDisplay_MouseLeftButtonUp">
                             <TextBlock.Text>
                                 <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio"  UpdateSourceTrigger="PropertyChanged">
                                     <Binding.Converter>

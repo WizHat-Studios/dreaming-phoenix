@@ -356,5 +356,17 @@ namespace DreamingPhoenix
         {
             await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
         }
+
+        private void AudioTrackNameDisplay_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+           
+            if (AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack == null)
+                return;
+
+            if (AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio == AudioTrack.Default)
+                return;
+
+            SetPropertiesPanelFromAudio(AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio);
+        }
     }
 }
