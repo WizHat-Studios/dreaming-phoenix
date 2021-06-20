@@ -105,7 +105,12 @@ namespace DreamingPhoenix.AudioHandling
 
         public Category Category
         {
-            get { return category; }
+            get 
+            {
+                if (category == null)
+                    category = new Category() { Name = "None" };
+                return category; 
+            }
             set { category = value; NotifyPropertyChanged(); }
         }
 

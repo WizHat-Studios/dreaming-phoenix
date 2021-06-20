@@ -41,6 +41,7 @@ namespace DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
+            AppModel.Instance.UpdateAvailableCategories();
             Track = audioTrack;
             Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
         }

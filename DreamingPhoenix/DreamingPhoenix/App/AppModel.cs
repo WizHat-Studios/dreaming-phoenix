@@ -111,10 +111,21 @@ namespace DreamingPhoenix
                     filteredList.Add(audio);
                 }
 
-                if (filterOtions.SortDirection == SortDirection.ASCENDING)
-                    SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Name).ToList());
-                else
-                    SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Name).ToList());
+                switch(filterOtions.SortType)
+                {
+                    case SortType.NAME:
+                        if (filterOtions.SortDirection == SortDirection.ASCENDING)
+                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Name).ToList());
+                        else
+                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Name).ToList());
+                        break;
+                    case SortType.CATEGORY:
+                        if (filterOtions.SortDirection == SortDirection.ASCENDING)
+                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Category.Name).ToList());
+                        else
+                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Category.Name).ToList());
+                        break;
+                }
             });
         }
 
@@ -150,6 +161,14 @@ namespace DreamingPhoenix
             set { availableTags = value; NotifyPropertyChanged(); }
         }
 
+        private ObservableCollection<Category> availableCategories = new ObservableCollection<Category>();
+
+        public ObservableCollection<Category> AvailableCategories
+        {
+            get { return availableCategories; }
+            set { availableCategories = value; NotifyPropertyChanged(); }
+        }
+
         public void UpdateAvailableTags()
         {
             ObservableCollection<Tag> newTags = new ObservableCollection<Tag>();
@@ -166,6 +185,21 @@ namespace DreamingPhoenix
             }
 
             AvailableTags = newTags;
+        }
+
+        public void UpdateAvailableCategories()
+        {
+            ObservableCollection<Category> newCategories = new ObservableCollection<Category>();
+
+            foreach (Audio audio in AudioList)
+            {
+                if (!newCategories.Contains(audio.Category))
+                {
+                    newCategories.Add(audio.Category);
+                }
+            }
+
+            AvailableCategories = newCategories;
         }
 
         public AudioManager AudioManager { get; set; } = new AudioManager();

@@ -40,6 +40,14 @@ namespace DreamingPhoenix
             set { includeAudioTracks = value; NotifyPropertyChanged(); }
         }
 
+        private SortType sortType;
+
+        public SortType SortType
+        {
+            get { return sortType; }
+            set { sortType = value; NotifyPropertyChanged(); }
+        }
+
         private bool includeSoundEffects = true;
 
         public bool IncludeSoundEffects

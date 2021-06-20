@@ -31,6 +31,7 @@ namespace DreamingPhoenix.UserControls
         {
             InitializeComponent();
             AppModel.Instance.UpdateAvailableTags();
+            AppModel.Instance.UpdateAvailableCategories();
             NewFilterOptions.UpdateTags();
             DataContext = this;
         }

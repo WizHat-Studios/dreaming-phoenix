@@ -15,6 +15,7 @@
         <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
         <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
 
         <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
             <converters:BooleanInvertConverter/>
@@ -94,6 +95,17 @@
                            Margin="10,0,0,0" FontSize="13" />
 
                     <hk:HotkeySelector DockPanel.Dock="Right" SelectedHotkey="{Binding Track.HotKey, Mode=TwoWay}" ModifierKeys="{Binding Track.HotkeyModifiers, Mode=TwoWay}" Height="35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="CATEGORY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+
+                    <Ellipse DockPanel.Dock="Right" Fill="{Binding Track.Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}" Height="20" Width="20" Margin="10"/>
+                    
+                    <TextBox Text="{Binding Track.Category.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                   
                 </DockPanel>
 
                 <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">

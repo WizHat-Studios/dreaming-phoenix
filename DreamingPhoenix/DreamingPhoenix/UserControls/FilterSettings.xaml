@@ -7,6 +7,8 @@
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
              xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
+             xmlns:root="clr-namespace:DreamingPhoenix"
+             xmlns:enumExtension="clr-namespace:DreamingPhoenix.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="500">
     <UserControl.Resources>
@@ -46,9 +48,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="SORT BY" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
-                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" Grid.Column="1" SelectedIndex="0">
-                            <ComboBoxItem Content="Name"/>
-                        </ComboBox>
+                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type root:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0"/>
                         <ToggleButton Margin="0,0,10,0" FontSize="20" fa:Icon.Content="SolidSortAlphaDown" HorizontalAlignment="Right" Width="30" IsChecked="{Binding Path=NewFilterOptions.SortDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SortDirectionConverter}}" VerticalAlignment="Center" Style="{StaticResource SortIndicatorToggleButton}" Grid.Column="1" Height="30"/>
                     </Grid>
                 </Border>
@@ -78,8 +78,8 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Height="80" VerticalAlignment="Bottom">
-            <Button x:Name="btn_apply" Content="OK" HorizontalAlignment="Center" Margin="140,0,0,20" VerticalAlignment="Bottom" Style="{StaticResource GreenButton}" Width="120" Height="40" Click="btn_apply_Click"/>
-            <Button x:Name="btn_cancel" Content="Cancel" HorizontalAlignment="Center" Margin="0,0,140,20" VerticalAlignment="Bottom" Style="{StaticResource RedButton}" Width="120" Height="40" Click="btn_cancel_Click"/>
+            <Button x:Name="btn_apply" Content="OK" HorizontalAlignment="Center" Margin="0,0,140,20" VerticalAlignment="Bottom" Style="{StaticResource GreenButton}" Width="120" Height="40" Click="btn_apply_Click"/>
+            <Button x:Name="btn_cancel" Content="Cancel" HorizontalAlignment="Center"  Margin="140,0,0,20" VerticalAlignment="Bottom" Style="{StaticResource RedButton}" Width="120" Height="40" Click="btn_cancel_Click"/>
         </Grid>
     </Grid>
 </UserControl>
