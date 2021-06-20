@@ -24,6 +24,7 @@
         <converters:NextAudioTrackToBooleanConverter x:Key="NextAudioTrackToBooleanConverter" />
         <converters:IsDefaultAudioToBooleanConverter x:Key="IsDefaultAudioToBooleanConverter" />
         <converters:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter" />
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
 
         <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
             <converters:BooleanInvertConverter/>
@@ -59,13 +60,14 @@
                             <DataTemplate DataType="{x:Type audio:AudioTrack}">
                                 <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                     <Grid>
-                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                        <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5" Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}"/>
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
                                             <Grid>
                                                 <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="SolidMusic" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
                                                 <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="SolidExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                             </Grid>
                                         </Border>
-                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                        <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="46,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                              FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
                                         <Button Width="30" fa:Icon.Content="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
@@ -102,13 +104,14 @@
                             <DataTemplate DataType="{x:Type audio:SoundEffect}">
                                 <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                     <Grid>
-                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                        <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5" Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}"/>
+                                        <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
                                             <Grid>
                                                 <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="SolidBolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
                                                 <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="SolidExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                             </Grid>
                                         </Border>
-                                        <Label Content="{Binding Name}" Height="35" Margin="36,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                        <Label Content="{Binding Name}" Height="35" Margin="46,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                          FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
                                         <Button Width="30" fa:Icon.Content="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
                                         Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
