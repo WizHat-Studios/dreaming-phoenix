@@ -87,6 +87,28 @@ namespace DreamingPhoenix.AudioHandling
             }
         }
 
+        public void PlayScene(Scene sceneToPlay)
+        {
+            // Stop all sound effects
+            foreach (PlayableAudio sf in CurrentlyPlayingSoundEffects)
+            {
+                StopAudio(sf, true);
+            }
+
+            CurrentlyPlayingSoundEffects.Clear();
+
+            // If no audio track should be playing stop the current audio track else transition to the audio track.
+            if (sceneToPlay.SceneAudioTrack != null)
+                PlayAudio(sceneToPlay.SceneAudioTrack);
+            else
+                StopAudio(CurrentlyPlayingAudioTrack);
+
+            foreach (SoundEffect sf in sceneToPlay.SceneSoundEffects)
+            {
+                PlayAudio(sf);
+            }
+        }
+
         #region Controls
         private void PlaySoundEffect(SoundEffect soundEffectToPlay)
         {

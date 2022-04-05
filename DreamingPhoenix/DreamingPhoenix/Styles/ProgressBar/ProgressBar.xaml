@@ -10,7 +10,7 @@
                         <Border
                         Name="PART_Track"
                         CornerRadius="5"
-                        Background="{DynamicResource AccentD}"/>
+                        Background="{DynamicResource BackgroundE}"/>
                         <Border
                         Name="PART_Indicator"
                         CornerRadius="5,5,5,5"
@@ -24,7 +24,7 @@
 
     <Style x:Key="pgb2" TargetType="{x:Type ProgressBar}">
         <Setter Property="Foreground" Value="{DynamicResource AccentE}"/>
-        <Setter Property="Background" Value="{DynamicResource AccentD}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundE}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>

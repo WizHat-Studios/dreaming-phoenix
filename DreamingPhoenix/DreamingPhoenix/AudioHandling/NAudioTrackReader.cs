@@ -145,7 +145,7 @@ namespace DreamingPhoenix.AudioHandling
 
                 //FileName = outFile;
                 //CreateReaderStream(outFile);
-                readerStream = new Mp3FileReader(fileName);
+                readerStream = new MediaFoundationReader(fileName); ;
             }
             else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
             {

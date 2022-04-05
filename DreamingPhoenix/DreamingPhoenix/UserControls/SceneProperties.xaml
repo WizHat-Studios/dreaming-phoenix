@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="DreamingPhoenix.UserControls.SceneProperties"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
+             xmlns:combobox="clr-namespace:DreamingPhoenix.Styles.ComboBox"
+             xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector"
+             xmlns:dp="clr-namespace:DreamingPhoenix"
+             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
+             d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
+             mc:Ignorable="d" d:Width="500" d:Height="800">
+    <UserControl.Resources>
+        <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
+        <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
+
+    <Grid Background="{DynamicResource BackgroundB}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
+            <StackPanel>
+                <Label Content="SCENE PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" 
+                       FontWeight="Bold" FontSize="15" Margin="0,10,0,20" />
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AreAudioFilesValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <Label Content="SOME FILES IN SCENE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
+                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                    </StackPanel>
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120"
+                           Margin="10,0,0,0" FontSize="13" />
+                    <TextBox Text="{Binding Scene.SceneName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="BACKGROUND" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120"
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Button  VerticalAlignment="Center" ToolTip="Choose Image" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentButton}" DockPanel.Dock="Right" fa:Icon.Content="RegularImages" FontSize="16" Click="ReloadImage_Click"/>
+                    <Grid DockPanel.Dock="Right">
+                        <Label Content="NO BACKGROUND" Foreground="{DynamicResource ForegroundDimmed}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Border  Height="30" CornerRadius="5"
+                             VerticalAlignment="Center" Margin="0,0,0,0"  MouseEnter="BackgroundImage_MouseEnter" MouseLeave="BackgroundImage_MouseLeave">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Scene.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
+                        </Border.Background>
+                        <Button x:Name="btn_removeBackground" Visibility="Collapsed" Width="100" Style="{StaticResource TransparentRedButton}" fa:Icon.Content="SolidTimes" Click="btn_removeBackground_Click"/>
+                    </Border>
+                    </Grid>
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0" Visibility="Collapsed">
+                    <Label Content="HOTKEY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120" 
+                           Margin="10,0,0,0" FontSize="13" />
+
+                    <hk:HotkeySelector DockPanel.Dock="Right" Height="35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Icon.Content="SolidTimes" FontSize="16" Click="RemoveAudioTrack_Click"/>
+                    <combobox:SearchComboBox x:Name="cmb_audioTrack" Style="{StaticResource ComboBox}"
+                                             Height="25" Margin="0,0,0,0"
+                                             IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
+                                             IsReadOnly="False" StaysOpenOnEdit="True"
+                                             VerticalAlignment="Center" Loaded="cmb_audioTrack_Loaded" SelectionChanged="cmb_audioTrack_SelectionChanged">
+                        <combobox:SearchComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                            </ItemsPanelTemplate>
+                        </combobox:SearchComboBox.ItemsPanel>
+                    </combobox:SearchComboBox>
+                </DockPanel>
+
+                <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">
+                    <Grid Margin="10,10,0,0" HorizontalAlignment="Stretch">
+                        <Label Content="SOUND EFFECTS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Width="120" />
+                        <combobox:SearchComboBox x:Name="cmb_soundEffects" Style="{StaticResource ComboBox}"
+                                             Height="25" Margin="120,0,40,0" VerticalAlignment="Center"
+                                             IsTextSearchEnabled="False" ItemsSource="{Binding SoundEffects}" DisplayMemberPath="Name"
+                                             IsReadOnly="False" StaysOpenOnEdit="True">
+                            <combobox:SearchComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                </ItemsPanelTemplate>
+                            </combobox:SearchComboBox.ItemsPanel>
+                        </combobox:SearchComboBox>
+                        <Button FontSize="13" DockPanel.Dock="Right" fa:Icon.Content="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
+                    </Grid>
+                    <ListBox Height="250" ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="5" BorderBrush="{DynamicResource BackgroundG}" BorderThickness="1" Margin="5,10,5,0" HorizontalAlignment="Stretch">
+                                    <Grid Height="30">
+                                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0"/>
+                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" HorizontalAlignment="Right" fa:Icon.Content="SolidTimes" Width="20" Margin="0,0,5,0" Click="RemoveSoundEffect_Click" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+
+                
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
+            <Button Height="50" Width="50" fa:Icon.Content="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
+                    Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteScene_Click"/>
+            <Button Height="50" Width="50" fa:Icon.Content="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0"
+                    Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
+        </Grid>
+    </Grid>
+</UserControl>

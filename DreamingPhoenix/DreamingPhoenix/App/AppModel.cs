@@ -141,6 +141,15 @@ namespace DreamingPhoenix
             set { audioList = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(SearchResultAudioList)); }
         }
 
+        private ObservableCollection<Scene> sceneList = new ObservableCollection<Scene>();
+
+        public ObservableCollection<Scene> SceneList
+        {
+            get { return sceneList; }
+            set { sceneList = value; NotifyPropertyChanged(); }
+        }
+
+
 
         private AppOptions options = new AppOptions();
 
@@ -225,6 +234,7 @@ namespace DreamingPhoenix
             Persistence.PersistentData persistentData = new Persistence.PersistentData()
             {
                 AudioList = new List<Audio>(AudioList),
+                SceneList = new List<Scene>(SceneList),
                 AppOptions = Options
             };
 
@@ -239,6 +249,7 @@ namespace DreamingPhoenix
             if (data != null)
             {
                 data.AudioList.ForEach(x => AudioList.Add(x));
+                data.SceneList.ForEach(x => SceneList.Add(x));
                 Options = data.AppOptions;
 
                 if (Options.DefaultOutputDevice - 1 > WaveOut.DeviceCount - 1)

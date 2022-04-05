@@ -50,11 +50,25 @@ namespace DreamingPhoenix
             set { audioDeletionPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        private Visibility sceneDeletionPanelVisibility = Visibility.Hidden;
+        public Visibility SceneDeletionPanelVisibility
+        {
+            get { return sceneDeletionPanelVisibility; }
+            set { sceneDeletionPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
         private Visibility filterPanelVisibility = Visibility.Hidden;
         public Visibility FilterPanelVisibility
         {
             get { return filterPanelVisibility; }
             set { filterPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
+        private Visibility imageSelectionPanelVisibility = Visibility.Hidden;
+        public Visibility ImageSelectionPanelVisibility
+        {
+            get { return imageSelectionPanelVisibility; }
+            set { imageSelectionPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
         HotkeyHandling.KeyboardListener.KeyboardHook HotKeyHook = new HotkeyHandling.KeyboardListener.KeyboardHook();
@@ -67,10 +81,14 @@ namespace DreamingPhoenix
             grid_DropPanel.Visibility = Visibility.Visible;
             grid_AcceptDeletion.Visibility = Visibility.Visible;
             grid_filterSettings.Visibility = Visibility.Visible;
+            grid_AcceptSceneDeletion.Visibility = Visibility.Visible;
+            grid_ImageSelection.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
             uc_DropPanel.AudioFilesProcessed += async (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions); };
             uc_fileDeletion.OperationProcessed += (s, e) => { AudioDeletionPanelVisibility = Visibility.Hidden; };
+            uc_sceneDeletion.OperationProcessed += (s, e) => { SceneDeletionPanelVisibility = Visibility.Hidden; };
+            uc_imageSelection.OperationProcessed += (s, e) => { ImageSelectionPanelVisibility = Visibility.Hidden; };
 
             this.DataContext = this;
             SubscribeToAudioTrack();
@@ -175,6 +193,22 @@ namespace DreamingPhoenix
                 case SoundEffect se:
                     grid_selectedAudioProperties.Children.Clear();
                     grid_selectedAudioProperties.Children.Add(new UserControls.SoundEffectProperties(se));
+                    break;
+                default:
+                    throw new NotSupportedException("The given type is not supported for adjustable settings");
+            }
+        }
+
+        private void SetPropertiesPanelFromObject(object obj)
+        {
+            switch (obj)
+            {
+                case Audio a:
+                    SetPropertiesPanelFromAudio(a);
+                    break;
+                case Scene s:
+                    grid_selectedAudioProperties.Children.Clear();
+                    grid_selectedAudioProperties.Children.Add(new UserControls.SceneProperties(s));
                     break;
                 default:
                     throw new NotSupportedException("The given type is not supported for adjustable settings");
@@ -289,6 +323,7 @@ namespace DreamingPhoenix
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             AppModelInstance.SaveData();
+            Cache.CacheManager.Instance.CleanUpCache();
         }
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
@@ -355,6 +390,11 @@ namespace DreamingPhoenix
         private async void window_MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+
+            foreach (Scene scene in AppModelInstance.SceneList)
+            {
+                scene.ImageSource = Cache.CacheManager.Instance.GetImageFromCache(scene.ImageCacheID);
+            }
         }
 
         private void AudioTrackNameDisplay_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -367,6 +407,45 @@ namespace DreamingPhoenix
                 return;
 
             SetPropertiesPanelFromAudio(AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio);
+        }
+
+        private void SceneListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem == null)
+                return;
+            SetPropertiesPanelFromObject(((Scene)((ListBox)sender).SelectedItem));
+        }
+
+        private void SceneListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem == null)
+                return;
+            SetPropertiesPanelFromObject(((Scene)((ListBox)sender).SelectedItem));
+        }
+
+        private void PlayScene_Click(object sender, RoutedEventArgs e)
+        {
+            AppModelInstance.AudioManager.PlayScene((sender as Button).Tag as Scene);
+        }
+
+        private void RemoveScene_Click(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).DataContext == null)
+                return;
+
+            SceneDeletionPanelVisibility = Visibility.Visible;
+            uc_sceneDeletion.AcceptDelete((Scene)((Button)sender).DataContext);
+
+            grid_selectedAudioProperties.Children.Clear();
+        }
+
+        private void btn_addNewScene_Click(object sender, RoutedEventArgs e)
+        {
+            Scene newScene = new Scene() { SceneName = "New Scene" };
+            AppModelInstance.SceneList.Add(newScene);
+            tabcontrol_main.SelectedIndex = 1;
+            lbox_sceneList.SelectedItem = newScene;
+            lbox_sceneList.Focus();
         }
     }
 }
