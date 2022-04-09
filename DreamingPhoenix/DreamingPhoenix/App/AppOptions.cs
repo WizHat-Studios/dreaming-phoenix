@@ -36,7 +36,7 @@ namespace DreamingPhoenix
             set { defaultSoundEffectVolume = value; NotifyPropertyChanged(); }
         }
 
-        private int defaultOutputDevice = -1;
+        private int defaultOutputDevice = 0;
 
         public int DefaultOutputDevice
         {
