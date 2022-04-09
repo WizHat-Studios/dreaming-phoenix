@@ -18,28 +18,28 @@ namespace DreamingPhoenix.Styles
         private void MaximizeRestoreClick(object sender, RoutedEventArgs e)
         {
             var window = (Window)((FrameworkElement)sender).TemplatedParent;
-            if (window.WindowState == System.Windows.WindowState.Normal)
-                window.WindowState = System.Windows.WindowState.Maximized;
+            if (window.WindowState == WindowState.Normal)
+                window.WindowState = WindowState.Maximized;
             else
-                window.WindowState = System.Windows.WindowState.Normal;
+                window.WindowState = WindowState.Normal;
         }
 
         private void MinimizeClick(object sender, RoutedEventArgs e)
         {
             var window = (Window)((FrameworkElement)sender).TemplatedParent;
-            window.WindowState = System.Windows.WindowState.Minimized;
+            window.WindowState = WindowState.Minimized;
         }
 
         private void OnResize(object sender, RoutedEventArgs e)
         {
-            var window = (Window)(sender);
+            var window = (Window)sender;
 
             if (window == null) return;
 
             if (window.WindowState == WindowState.Maximized)
             {
-                window.BorderThickness = new Thickness(8);
-                window.Margin = new Thickness(8);
+                window.BorderThickness = new Thickness(7);
+                window.Margin = new Thickness(7);
             }
             else
             {

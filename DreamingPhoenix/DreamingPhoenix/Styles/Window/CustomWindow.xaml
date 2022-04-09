@@ -6,12 +6,8 @@
     <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="30"
-                     CornerRadius="0"
-                     GlassFrameThickness="0"
-                     NonClientFrameEdges="None"
-                     ResizeBorderThickness="5"
-                     UseAeroCaptionButtons="False" />
+                <WindowChrome CaptionHeight="30" CornerRadius="0" GlassFrameThickness="0" NonClientFrameEdges="None"
+                              ResizeBorderThickness="5" UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
         <Setter Property="BorderBrush" Value="#FF5500AA" />
@@ -21,9 +17,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Grid>
-                        <Border Background="{TemplateBinding Background}"
-                       BorderBrush="{TemplateBinding BorderBrush}"
-                       BorderThickness="1,1,1,1">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,1,1,1">
                             <AdornerDecorator Margin="{TemplateBinding BorderThickness}">
                                 <ContentPresenter />
                             </AdornerDecorator>
@@ -31,48 +26,19 @@
                         <Grid Background="{TemplateBinding Background}" Margin="1,1,1,0" Height="30" VerticalAlignment="Top">
                         </Grid>
 
-                        <DockPanel Height="32"
-                          VerticalAlignment="Top"
-                          LastChildFill="False" Margin="{TemplateBinding BorderThickness}">
+                        <DockPanel Height="32" VerticalAlignment="Top" LastChildFill="False" Margin="{TemplateBinding BorderThickness}">
 
-                            <TextBlock Margin="10,0,0,0"
-                              VerticalAlignment="Center"
-                              DockPanel.Dock="Left"
-                              FontSize="12"
-                              Foreground="{TemplateBinding Foreground}"
-                              FontFamily="{DynamicResource Phoenix}"         
-                              Text="{TemplateBinding Title}" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" DockPanel.Dock="Left" FontSize="12"
+                                       Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource Phoenix}" Text="{TemplateBinding Title}" />
 
-                            <Button x:Name="btnClose"
-                           Width="35"
-                                    Padding="0,-1,0,0"
-                           Margin="1"
-                           Click="CloseClick"
-                           Style="{DynamicResource CloseButtonStyle}"
+                            <Button x:Name="btnClose" Width="46" Padding="0,-1,0,0" Margin="1" Click="CloseClick" Style="{DynamicResource CloseButtonStyle}"
+                                    Foreground="{TemplateBinding Foreground}" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True" />
 
-                           Foreground="{TemplateBinding Foreground}"
-                           DockPanel.Dock="Right"
-                           WindowChrome.IsHitTestVisibleInChrome="True" />
+                            <Button x:Name="btnRestore" Width="46" Margin="1" Padding="0,-1,0,0" Click="MaximizeRestoreClick" Style="{Binding RestoreStyle}"
+                                    Foreground="{TemplateBinding Foreground}" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True" />
 
-                            <Button x:Name="btnRestore"
-                           Width="35"
-                      Margin="1"
-                                    Padding="0,-1,0,0"
-                           Click="MaximizeRestoreClick"
-                           Style="{DynamicResource MaximizeButtonStyle}"
-                          Foreground="{TemplateBinding Foreground}"
-                           DockPanel.Dock="Right"
-                           WindowChrome.IsHitTestVisibleInChrome="True" />
-
-                            <Button x:Name="btnMinimize"
-                           Width="35"
-                                    Margin="1"
-                                    Padding="0,-1,0,0"
-                           Click="MinimizeClick"
-                           Style="{DynamicResource MinimizeButtonStyle}"
-                            Foreground="{TemplateBinding Foreground}"
-                           DockPanel.Dock="Right"
-                           WindowChrome.IsHitTestVisibleInChrome="True" />
+                            <Button x:Name="btnMinimize" Width="46" Margin="1" Padding="0,-1,0,0" Click="MinimizeClick" Style="{DynamicResource MinimizeButtonStyle}"
+                                    Foreground="{TemplateBinding Foreground}" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True" />
                         </DockPanel>
                     </Grid>
                 </ControlTemplate>
@@ -121,12 +87,12 @@
 
     <!--Minimize-->
     <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Content" Value="&#xE949;" />
+        <Setter Property="Content" Value="&#xE921;" />
     </Style>
 
     <!--Maximize-->
     <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Content" Value="&#xE739;" />
+        <Setter Property="Content" Value="&#xE922;" />
     </Style>
 
     <!--Restore-->
@@ -136,6 +102,6 @@
 
     <!--Close-->
     <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyleClose}">
-        <Setter Property="Content" Value="&#xE106;" />
+        <Setter Property="Content" Value="&#xE8BB;" />
     </Style>
 </ResourceDictionary>
