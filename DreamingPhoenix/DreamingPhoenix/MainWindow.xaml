@@ -176,7 +176,7 @@
                                 <TextBox Margin="8,10,34,0" Text="{Binding Path=AppModelInstance.Options.FilterOptions.SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{StaticResource DarkTextBox}" TextChanged="SearchInput_TextChanged"/>
                                 <Button Height="20" Width="20" Margin="0,14,37,0" HorizontalAlignment="Right" VerticalAlignment="Top" fa:Icon.Content="SolidTimes" Style="{StaticResource TransparentRedButton}" Click="ClearSearch_Click"/>
                                 <TextBlock HorizontalAlignment="Left" Margin="19,17,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}" Visibility="{Binding Path=AppModelInstance.SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}"/>
-                                <Button x:Name="btn_filterSettings" Height="20" Width="20" FontSize="20" Margin="0,13,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" fa:Icon.Content="SolidSlidersH" Style="{StaticResource TransparentButton}" Click="btn_filterSettings_Click"/>
+                                <Button x:Name="btn_filterSettings" Height="25" Width="20" FontSize="20" Margin="0,11,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" fa:Icon.Content="SolidSlidersH" Style="{StaticResource TransparentButton}" Click="btn_filterSettings_Click"/>
                             </Grid>
                         </Grid>
                     </TabItem>

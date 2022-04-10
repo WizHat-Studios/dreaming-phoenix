@@ -82,6 +82,21 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async Task Delete(Audio audioToDelete)
         {
             AppModel.Instance.AudioList.Remove(audioToDelete);
+
+            // Remove references in scenes
+            foreach (Scene scene in AppModel.Instance.SceneList)
+            {
+                if (audioToDelete is AudioTrack)
+                {
+                    if (scene.SceneAudioTrack == (AudioTrack)audioToDelete)
+                        scene.SceneAudioTrack = null;
+                }
+                else if (audioToDelete is SoundEffect)
+                {
+                    scene.SceneSoundEffects.Remove((SoundEffect)audioToDelete);
+                }
+            }
+
             AppModel.Instance.SaveData();
             await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
