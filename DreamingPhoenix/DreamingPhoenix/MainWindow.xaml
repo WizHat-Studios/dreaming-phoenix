@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WizHat.DreamingPhoenix"
         xmlns:audio="clr-namespace:WizHat.DreamingPhoenix.AudioHandling"
-        xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+        xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
         xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
         xmlns:hk="clr-namespace:WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector"
         xmlns:uc="clr-namespace:WizHat.DreamingPhoenix.UserControls"
-        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz" xmlns:combobox="clr-namespace:WizHat.DreamingPhoenix.Styles.ComboBox"
+        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindow}"
         Title="Dreaming Phoenix" Height="450" Width="851"
@@ -24,7 +24,7 @@
         <converters:NextAudioTrackToBooleanConverter x:Key="NextAudioTrackToBooleanConverter" />
         <converters:IsDefaultAudioToBooleanConverter x:Key="IsDefaultAudioToBooleanConverter" />
         <converters:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter" />
-        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter" />
 
         <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
             <converters:BooleanInvertConverter/>
@@ -44,40 +44,49 @@
 
                 <Grid Background="{DynamicResource BackgroundA}">
                     <DockPanel Margin="0,101,0,0">
-                        <Button Height="30" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,10" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidCog" FontSize="25" VerticalAlignment="Bottom" Click="ShowSettings_Click" ToolTip="Open the settings" />
-                        <Button Height="30" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidStopCircle" FontSize="25" VerticalAlignment="Bottom" Click="StopAllAudio_Click" ToolTip="Stop all playing audio" />
-                        <Border Width="39" BorderBrush="{DynamicResource AccentC}" BorderThickness="1" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" CornerRadius="20,20,20,20">
+                        <Button Height="30" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,10" Style="{StaticResource TransparentButton}"
+                                fa:Content.Icon="SolidGear" FontSize="25" VerticalAlignment="Bottom" Click="ShowSettings_Click" ToolTip="Open the settings" />
+                        <Button Height="30" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,5" Style="{StaticResource TransparentButton}"
+                                fa:Content.Icon="SolidCircleStop" FontSize="25" VerticalAlignment="Bottom" Click="StopAllAudio_Click" ToolTip="Stop all playing audio" />
+                        <Border Width="39" BorderBrush="{DynamicResource AccentC}" BorderThickness="1" DockPanel.Dock="Bottom" VerticalAlignment="Bottom"
+                                CornerRadius="20,20,20,20">
                             <Grid VerticalAlignment="Bottom">
                                 <Button tz:Transitionz.Visibility="{Binding ElementName=tglBtn_addElement, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                         tz:Transitionz.Opacity="{tz:OpacityParams Duration=80, From=0, To=1, TransitionOn=Visibility}" 
                                         tz:Transitionz.Translate="{tz:TranslateParams Duration=100, From='0,80', To='0,0', TransitionOn=Visibility}"
-                                        Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40" Margin="0,15,0,85" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidMusic" FontSize="25" VerticalAlignment="Bottom" Click="AddNewAudio_Click" ToolTip="Add new audio" />
+                                        Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40" Margin="0,15,0,85" Style="{StaticResource TransparentButton}"
+                                        fa:Content.Icon="SolidMusic" FontSize="25" VerticalAlignment="Bottom" Click="AddNewAudio_Click" ToolTip="Add new audio" />
                                 <Button tz:Transitionz.Visibility="{Binding ElementName=tglBtn_addElement, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                         tz:Transitionz.Opacity="{tz:OpacityParams Duration=80, From=0, To=1, TransitionOn=Visibility}" 
                                         tz:Transitionz.Translate="{tz:TranslateParams Duration=100, From='0,40', To='0,0', TransitionOn=Visibility}"
-                                        Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,45" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidLeaf" FontSize="25" VerticalAlignment="Bottom" Click="btn_addNewScene_Click" ToolTip="Add new scene" />
-                                <ToggleButton x:Name="tglBtn_addElement" Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,4" Style="{StaticResource TransparentToggleButton}" fa:Icon.Content="SolidPlusCircle" FontSize="25" VerticalAlignment="Bottom"/>
+                                        Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40" Margin="0,5,0,45" Style="{StaticResource TransparentButton}"
+                                        fa:Content.Icon="SolidLeaf" FontSize="25" VerticalAlignment="Bottom" Click="btn_addNewScene_Click" ToolTip="Add new scene" />
+                                <ToggleButton x:Name="tglBtn_addElement" Height="30" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="40"
+                                              Margin="0,5,0,4" Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidCirclePlus" FontSize="25"
+                                              VerticalAlignment="Bottom" />
                             </Grid>
                         </Border>
 
                     </DockPanel>
                 </Grid>
 
-
-                <TabControl x:Name="tabcontrol_main" ItemContainerStyle="{StaticResource ModernTabPage}" TabStripPlacement="Left" BorderThickness="0" Background="Transparent" Grid.ColumnSpan="2">
+                <TabControl x:Name="tabcontrol_main" ItemContainerStyle="{StaticResource ModernTabPage}" TabStripPlacement="Left" BorderThickness="0"
+                            Background="Transparent" Grid.ColumnSpan="2">
                     <TabControl.Resources>
                         <Style TargetType="{x:Type TabPanel}">
-                            <Setter Property="VerticalAlignment" Value="Top"/>
+                            <Setter Property="VerticalAlignment" Value="Top" />
                         </Style>
                     </TabControl.Resources>
                     <TabItem>
                         <TabItem.Header>
-                            <Label fa:Icon.Content="SolidMusic" FontSize="20" Foreground="{DynamicResource ForegroundDefault}"/>
+                            <Label fa:Content.Icon="SolidMusic" FontSize="20" Foreground="{DynamicResource ForegroundDefault}" />
                         </TabItem.Header>
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
-                                <ListBox ItemsSource="{Binding Path=AppModelInstance.SearchResultAudioList}" Background="{x:Null}" BorderBrush="{x:Null}" ScrollViewer.CanContentScroll="False"
-                         Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged" GotFocus="AudioListBox_GotFocus" Margin="0,43,0,0">
+                                <ListBox ItemsSource="{Binding Path=AppModelInstance.SearchResultAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                         ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged"
+                                         GotFocus="AudioListBox_GotFocus" Margin="0,43,0,0">
                                     <ListBox.Resources>
                                         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
                                             <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem" />
@@ -85,24 +94,37 @@
                                         <DataTemplate DataType="{x:Type audio:AudioTrack}">
                                             <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                                 <Grid>
-                                                    <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5" Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}"/>
-                                                    <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                                    <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5"
+                                                            Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
+                                                            Converter={StaticResource ColorMediaBrushConverter}}" />
+                                                    <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" CornerRadius="5">
                                                         <Grid>
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="SolidMusic" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="SolidExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
+                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                                                 Icon="SolidMusic" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
+                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                                                 Converter={StaticResource InvertedBooleanVisibilityConverter}}"
+                                                                                 Icon="SolidCircleExclamation" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                                         </Grid>
                                                     </Border>
-                                                    <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="46,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                             FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
-                                                    <Button Width="30" fa:Icon.Content="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
-                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
-                                            Click="RemoveAudio_Click" />
-                                                    <Button Width="30" fa:Icon.Content="SolidPlay"  FontSize="18" Margin="0,5,35,0" IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
-                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
-                                            Click="PlayAudioTrack_Click" />
-
-                                                    <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <Grid Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="46,4,60,0"
+                                                           HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                                           FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
+                                                    <Button Width="30" fa:Content.Icon="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
+                                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                                            Click="RemoveAudio_Click" />
+                                                    <Button Width="30" fa:Content.Icon="SolidPlay"  FontSize="18" Margin="0,5,35,0"
+                                                            IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
+                                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
+                                                            Click="PlayAudioTrack_Click" />
+                                                    
+                                                    <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}"
+                                                            Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <Grid Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                              RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="1*" />
                                                                 <ColumnDefinition Width="250" />
@@ -110,15 +132,16 @@
 
                                                             <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
                                                                 <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
-                                                                    <Label fa:Icon.Content="SolidVolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
+                                                                    <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
                                                                     <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
-                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
+                                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
                                                                 </Grid>
                                                             </Border>
 
                                                             <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
                                                                 <Grid>
-                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}" ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}"/>
+                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
+                                                                                       ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}" />
                                                                 </Grid>
                                                             </Border>
                                                         </Grid>
@@ -129,23 +152,32 @@
                                         <DataTemplate DataType="{x:Type audio:SoundEffect}">
                                             <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                                 <Grid>
-                                                    <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5" Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}"/>
-                                                    <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" Background="{DynamicResource BackgroundA}" CornerRadius="5">
+                                                    <Border Width="10" HorizontalAlignment="Left" CornerRadius="5,0,0,5"
+                                                            Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
+                                                            Converter={StaticResource ColorMediaBrushConverter}}" />
+                                                    <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" CornerRadius="5">
                                                         <Grid>
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource BooleanToVisibilityConverter}}" Icon="SolidBolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Icon="SolidExclamationCircle" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
+                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                                                 Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                                 Icon="SolidBolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
+                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                                                 Converter={StaticResource InvertedBooleanVisibilityConverter}}"
+                                                                                 Icon="SolidCircleExclamation" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                                         </Grid>
                                                     </Border>
                                                     <Label Content="{Binding Name}" Height="35" Margin="46,4,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                         FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
-                                                    <Button Width="30" fa:Icon.Content="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
-                                        Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
-                                        Click="RemoveAudio_Click" />
-                                                    <Button Width="30" fa:Icon.Content="SolidPlay"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right"
-                                        Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top" IsEnabled="{Binding IsAudioFilePathValid}"
-                                        Click="PlaySoundEffect_Click" />
+                                                           FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
+                                                    <Button Width="30" fa:Content.Icon="SolidTrash" FontSize="18" Margin="0,5,5,0" HorizontalAlignment="Right"
+                                                            Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
+                                                            Click="RemoveAudio_Click" />
+                                                    <Button Width="30" fa:Content.Icon="SolidPlay"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right"
+                                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top" IsEnabled="{Binding IsAudioFilePathValid}"
+                                                            Click="PlaySoundEffect_Click" />
 
-                                                    <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}"
+                                                            Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}">
                                                         <Grid Margin="5,0,5,5">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="1*" />
@@ -154,15 +186,16 @@
 
                                                             <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
                                                                 <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
-                                                                    <Label fa:Icon.Content="SolidVolumeUp" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
+                                                                    <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
                                                                     <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
-                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
+                                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
                                                                 </Grid>
                                                             </Border>
 
                                                             <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
                                                                 <Grid>
-                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}" ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}"/>
+                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
+                                                                                       ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}" />
                                                                 </Grid>
                                                             </Border>
                                                         </Grid>
@@ -172,22 +205,30 @@
                                         </DataTemplate>
                                     </ListBox.Resources>
                                 </ListBox>
-                                <Grid Height="Auto"/>
-                                <TextBox Margin="8,10,34,0" Text="{Binding Path=AppModelInstance.Options.FilterOptions.SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{StaticResource DarkTextBox}" TextChanged="SearchInput_TextChanged"/>
-                                <Button Height="20" Width="20" Margin="0,14,37,0" HorizontalAlignment="Right" VerticalAlignment="Top" fa:Icon.Content="SolidTimes" Style="{StaticResource TransparentRedButton}" Click="ClearSearch_Click"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="19,17,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}" Visibility="{Binding Path=AppModelInstance.SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}"/>
-                                <Button x:Name="btn_filterSettings" Height="25" Width="20" FontSize="20" Margin="0,11,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" fa:Icon.Content="SolidSlidersH" Style="{StaticResource TransparentButton}" Click="btn_filterSettings_Click"/>
+                                <Grid Height="Auto" />
+                                <TextBox Margin="8,10,34,0" Text="{Binding Path=AppModelInstance.Options.FilterOptions.SearchTerm, Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{StaticResource DarkTextBox}"
+                                         TextChanged="SearchInput_TextChanged" />
+                                <Button Height="20" Width="20" Margin="0,14,37,0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                        fa:Content.Icon="SolidXmark" Style="{StaticResource TransparentRedButton}" Click="ClearSearch_Click" />
+                                <TextBlock HorizontalAlignment="Left" Margin="19,17,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top"
+                                           FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}"
+                                           Visibility="{Binding Path=AppModelInstance.SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}" />
+                                <Button x:Name="btn_filterSettings" Height="25" Width="20" FontSize="20" Margin="0,11,7,0" HorizontalAlignment="Right"
+                                        VerticalAlignment="Top" fa:Content.Icon="SolidSliders" Style="{StaticResource TransparentButton}" Click="btn_filterSettings_Click" />
                             </Grid>
                         </Grid>
                     </TabItem>
                     <TabItem>
                         <TabItem.Header>
-                            <Label fa:Icon.Content="SolidLeaf" FontSize="20" Foreground="{DynamicResource ForegroundDefault}"/>
+                            <Label fa:Content.Icon="SolidLeaf" FontSize="20" Foreground="{DynamicResource ForegroundDefault}" />
                         </TabItem.Header>
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
-                                <ListBox x:Name="lbox_sceneList" ItemsSource="{Binding Path=AppModelInstance.SceneList}" Background="{x:Null}" BorderBrush="{x:Null}" ScrollViewer.CanContentScroll="False"
-                         Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0" SelectionChanged="SceneListBox_SelectionChanged" GotFocus="SceneListBox_GotFocus">
+                                <ListBox x:Name="lbox_sceneList" ItemsSource="{Binding Path=AppModelInstance.SceneList}" Background="{x:Null}"
+                                         BorderBrush="{x:Null}" ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}"
+                                         HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0"
+                                         SelectionChanged="SceneListBox_SelectionChanged" GotFocus="SceneListBox_GotFocus">
                                     <ListBox.Resources>
                                         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
                                             <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem" />
@@ -202,24 +243,36 @@
                                                     </Border>-->
                                                     <Border Height="38" VerticalAlignment="Top" CornerRadius="5,5,5,5">
                                                         <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill"/>
+                                                            <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill" />
                                                         </Border.Background>
                                                         <Border.OpacityMask>
                                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                                <GradientStop Color="Black" Offset="1"/>
-                                                                <GradientStop Color="Black" Offset="0.5"/>
-                                                                <GradientStop Offset="0.2"/>
+                                                                <GradientStop Color="Black" Offset="1" />
+                                                                <GradientStop Color="Black" Offset="0.5" />
+                                                                <GradientStop Offset="0.2" />
                                                             </LinearGradientBrush>
                                                         </Border.OpacityMask>
                                                     </Border>
-                                                    <TextBlock Text="{Binding SceneName, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="15,10,60,0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" FontWeight="Bold" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
-                                                    <fa:FontAwesomeImage Icon="SolidMusic" Foreground="{DynamicResource ForegroundDimmed}" Height="15" Margin="13,45,10,5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <Label Content="{Binding Path=SceneAudioTrack.Name, FallbackValue=No Audiotrack, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="33,38,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="13" Foreground="{DynamicResource ForegroundDimmed}" />
-                                                    <fa:FontAwesomeImage Icon="SolidBolt" Foreground="{DynamicResource ForegroundDimmed}" Height="15" Margin="17,70,10,5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <TextBlock Text="{Binding Path=SceneSoundEffects.Count, StringFormat={}{0} Sound Effects, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="37,68,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="13" Foreground="{DynamicResource ForegroundDimmed}"/>
-                                                    <Button Width="30" fa:Icon.Content="SolidTrash" FontSize="18" Margin="0,5,20,15" Visibility="Collapsed" HorizontalAlignment="Right" Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Bottom" Click="RemoveScene_Click" />
-                                                    <Button Tag="{Binding}" fa:Icon.Content="SolidPlayCircle"  FontSize="35" Margin="0,0,30,0" HorizontalAlignment="Right" Style="{StaticResource TransparentButton}" Height="45" VerticalAlignment="Center" Click="PlayScene_Click"  />
-                                                    <!--<Image Source="{Binding ImageSource}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
+                                                    <TextBlock Text="{Binding SceneName, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="15,10,60,0"
+                                                               TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" FontWeight="Bold"
+                                                               VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource ForegroundDefault}" />
+                                                    <fa:FontAwesomeImage Icon="SolidMusic" Foreground="{DynamicResource ForegroundDimmed}" Height="15"
+                                                                         Margin="13,45,10,5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                                    <Label Content="{Binding Path=SceneAudioTrack.Name, FallbackValue=No Audiotrack, UpdateSourceTrigger=PropertyChanged}"
+                                                           Height="35" Margin="33,38,60,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="13"
+                                                           Foreground="{DynamicResource ForegroundDimmed}" />
+                                                    <fa:FontAwesomeImage Icon="SolidBolt" Foreground="{DynamicResource ForegroundDimmed}" Height="15"
+                                                                         Margin="17,70,10,5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                                    <TextBlock Text="{Binding Path=SceneSoundEffects.Count, StringFormat={}{0} Sound Effects,
+                                                               UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="37,68,60,0" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Top" FontSize="13" Foreground="{DynamicResource ForegroundDimmed}" />
+                                                    <Button Width="30" fa:Content.Icon="SolidTrash" FontSize="18" Margin="0,5,20,15" Visibility="Collapsed"
+                                                            HorizontalAlignment="Right" Style="{StaticResource TransparentRedButton}" Height="30"
+                                                            VerticalAlignment="Bottom" Click="RemoveScene_Click" />
+                                                    <Button Tag="{Binding}" fa:Content.Icon="SolidCirclePlay" FontSize="35" Margin="0,0,30,0"
+                                                            HorizontalAlignment="Right" Style="{StaticResource TransparentButton}" Height="45"
+                                                            VerticalAlignment="Center" Click="PlayScene_Click" />
+                                                    <!--<Image Source="{Binding ImageSource}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />-->
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -229,7 +282,7 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <GridSplitter Grid.Column="2" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch" x:Name="gsp_SplitterHorizontal"/>
+                <GridSplitter Grid.Column="2" Background="{DynamicResource BackgroundA}" HorizontalAlignment="Stretch" x:Name="gsp_SplitterHorizontal" />
                 <Grid Grid.Column="3" Background="{DynamicResource BackgroundB}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="140" />
@@ -269,17 +322,18 @@
                         </Grid>
 
                         <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
-                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Icon.Content="SolidRedo" Width="23" FontSize="20" Margin="5,0,15,0"
+                            <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidRepeat" Width="23" FontSize="20" Margin="5,0,15,0"
                                           IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat,
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,
-                                          Converter={StaticResource IsDefaultAudioToBooleanConverter}}"/>
-                            <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidPause" Width="20" FontSize="20"
+                                          Converter={StaticResource IsDefaultAudioToBooleanConverter}}" />
+                            <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidPause" Width="20" FontSize="20"
                                     Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
-                            <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidPlay" Width="20" FontSize="20"
+                            <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidPlay" Width="20" FontSize="20"
                                     Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" IsEnabled="False" />
-                            <Button Name="btn_PlayNextAudio" Style="{StaticResource TransparentButton}" fa:Icon.Content="SolidForward" Width="22" FontSize="20"
-                                    Margin="0,0,15,0" Click="btn_PlayNextAudio_Click" IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,
+                            <Button Name="btn_PlayNextAudio" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidForward" Width="22" FontSize="20"
+                                    Margin="0,0,15,0" Click="btn_PlayNextAudio_Click"
+                                    IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,
                                     Mode=TwoWay, Converter={StaticResource NextAudioTrackToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
 
@@ -290,12 +344,13 @@
                         <Label Content="SOUND EFFECTS PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top"
                            FontSize="9" Margin="0,5,0,0" HorizontalContentAlignment="Center" />
                         <ListBox Background="{x:Null}" Margin="0,30,0,0" BorderBrush="{x:Null}"
-                             ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch" SelectionChanged="SoundEffectsListBox_SelectionChanged" GotFocus="SoundEffectsListBox_GotFocus">
+                                 ItemsSource="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingSoundEffects}" HorizontalContentAlignment="Stretch"
+                                 SelectionChanged="SoundEffectsListBox_SelectionChanged" GotFocus="SoundEffectsListBox_GotFocus">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Height="30" Margin="2,1,2,1" Background="{DynamicResource BackgroundF}">
                                         <Label Content="{Binding Path=CurrentAudio.Name}" Foreground="{DynamicResource ForegroundDefault}" Margin="10,0,0,0" />
-                                        <Button HorizontalAlignment="Right" fa:Icon.Content="SolidTimes" Style="{StaticResource TransparentRedButton}" Margin="0,0,10,0"
+                                        <Button HorizontalAlignment="Right" fa:Content.Icon="SolidXmark" Style="{StaticResource TransparentRedButton}" Margin="0,0,10,0"
                                             Click="StopSoundEffect_Click" />
                                     </Grid>
                                 </DataTemplate>
@@ -314,7 +369,8 @@
                      tz:Transitionz.Visibility="{Binding Path=AudioDropPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="350" MinHeight="350" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="350" MinHeight="350"
+                    CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=AudioDropPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
@@ -329,12 +385,14 @@
                      tz:Transitionz.Visibility="{Binding Path=SettingsPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" CornerRadius="10"
+                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=SettingsPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30" Margin="20" Style="{StaticResource TransparentRedButton}" fa:Icon.Content="SolidTimesCircle" FontSize="26" Click="HideSettings_Click" />
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30" Margin="20" Style="{StaticResource TransparentRedButton}"
+                            fa:Content.Icon="SolidCircleXmark" FontSize="26" Click="HideSettings_Click" />
                     <uc:UserApplicationOptions />
                 </Grid>
             </Border>
@@ -345,12 +403,13 @@
                      tz:Transitionz.Visibility="{Binding Path=AudioDeletionPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
+                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=AudioDeletionPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <uc:AudioDeletion x:Name="uc_fileDeletion"/>
+                    <uc:AudioDeletion x:Name="uc_fileDeletion" />
                 </Grid>
             </Border>
         </Grid>
@@ -360,12 +419,13 @@
                      tz:Transitionz.Visibility="{Binding Path=ImageSelectionPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
+                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=ImageSelectionPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <uc:ImageSelection x:Name="uc_imageSelection"/>
+                    <uc:ImageSelection x:Name="uc_imageSelection" />
                 </Grid>
             </Border>
         </Grid>
@@ -375,12 +435,13 @@
                      tz:Transitionz.Visibility="{Binding Path=SceneDeletionPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
+                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=SceneDeletionPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <uc:SceneDeletion x:Name="uc_sceneDeletion"/>
+                    <uc:SceneDeletion x:Name="uc_sceneDeletion" />
                 </Grid>
             </Border>
         </Grid>
@@ -390,12 +451,13 @@
                      tz:Transitionz.Visibility="{Binding Path=FilterPanelVisibility}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10" Margin="50" MaxWidth="700" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
+            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10"
+                    Margin="50" MaxWidth="700" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=FilterPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <uc:FilterSettings x:Name="uc_filterSettings"/>
+                    <uc:FilterSettings x:Name="uc_filterSettings" />
                 </Grid>
             </Border>
         </Grid>

@@ -1,9 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+                    xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
                     xmlns:local="clr-namespace:WizHat.DreamingPhoenix.Styles">
-
-
     <Style x:Key="SortIndicatorToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
@@ -36,10 +34,10 @@
                             <Setter TargetName="lbl_onOffIndicator" Property="Foreground" Value="{DynamicResource ForegroundHot}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="lbl_onOffIndicator" Property="fa:Icon.Content" Value="SolidSortAlphaDownAlt" />
+                            <Setter TargetName="lbl_onOffIndicator" Property="fa:Content.Icon" Value="SolidArrowDownZA" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="lbl_onOffIndicator" Property="fa:Icon.Content" Value="SolidSortAlphaDown" />
+                            <Setter TargetName="lbl_onOffIndicator" Property="fa:Content.Icon" Value="SolidArrowDownAZ" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
                         </Trigger>

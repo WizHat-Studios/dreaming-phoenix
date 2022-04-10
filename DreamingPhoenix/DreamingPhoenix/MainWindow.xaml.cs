@@ -89,7 +89,12 @@ namespace WizHat.DreamingPhoenix
             grid_ImageSelection.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
-            uc_DropPanel.AudioFilesProcessed += async (s, e) => { AudioDropPanelVisibility = Visibility.Hidden; AppModelInstance.SaveData(); await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions); };
+            uc_DropPanel.AudioFilesProcessed += async (s, e) =>
+            {
+                AudioDropPanelVisibility = Visibility.Hidden;
+                AppModelInstance.SaveData();
+                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            };
             uc_fileDeletion.OperationProcessed += (s, e) => { AudioDeletionPanelVisibility = Visibility.Hidden; };
             uc_sceneDeletion.OperationProcessed += (s, e) => { SceneDeletionPanelVisibility = Visibility.Hidden; };
             uc_imageSelection.OperationProcessed += (s, e) => { ImageSelectionPanelVisibility = Visibility.Hidden; };
@@ -218,7 +223,6 @@ namespace WizHat.DreamingPhoenix
                     throw new NotSupportedException("The given type is not supported for adjustable settings");
             }
         }
-
 
         protected void SelectCurrentItem(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -403,7 +407,7 @@ namespace WizHat.DreamingPhoenix
 
         private void AudioTrackNameDisplay_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-           
+
             if (AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack == null)
                 return;
 

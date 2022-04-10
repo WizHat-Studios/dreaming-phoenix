@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
              xmlns:root="clr-namespace:WizHat.DreamingPhoenix"
              xmlns:sorting="clr-namespace:WizHat.DreamingPhoenix.Sorting"
@@ -38,8 +38,8 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="FILTER BY TYPE" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
-                        <ToggleButton x:Name="tglbtn_effects" ToolTip="Soundeffect" Width="50" Height="30" VerticalAlignment="Center" fa:Icon.Content="SolidBolt" HorizontalAlignment="Right" Margin="0,0,20,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Path=NewFilterOptions.IncludeSoundEffects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Grid.Column="1"/>
-                        <ToggleButton ToolTip="Audiotrack" Width="50" Height="30" VerticalAlignment="Center" fa:Icon.Content="SolidMusic" HorizontalAlignment="Right" Margin="0,0,70,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Path=NewFilterOptions.IncludeAudioTracks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Grid.Column="1"/>
+                        <ToggleButton x:Name="tglbtn_effects" ToolTip="Soundeffect" Width="50" Height="30" VerticalAlignment="Center" fa:Content.Icon="SolidBoltLightning" HorizontalAlignment="Right" Margin="0,0,20,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Path=NewFilterOptions.IncludeSoundEffects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Grid.Column="1"/>
+                        <ToggleButton ToolTip="Audiotrack" Width="50" Height="30" VerticalAlignment="Center" fa:Content.Icon="SolidMusic" HorizontalAlignment="Right" Margin="0,0,70,0" Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Path=NewFilterOptions.IncludeAudioTracks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Grid.Column="1"/>
                     </Grid>
                 </Border>
                 <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
@@ -50,7 +50,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="SORT BY" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
                         <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type sorting:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0"/>
-                        <ToggleButton Margin="0,0,10,0" FontSize="20" fa:Icon.Content="SolidSortAlphaDown" HorizontalAlignment="Right" Width="30" IsChecked="{Binding Path=NewFilterOptions.SortDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SortDirectionConverter}}" VerticalAlignment="Center" Style="{StaticResource SortIndicatorToggleButton}" Grid.Column="1" Height="30"/>
+                        <ToggleButton Margin="0,0,10,0" FontSize="20" fa:Content.Icon="SolidArrowDownAZ" HorizontalAlignment="Right" Width="30" IsChecked="{Binding Path=NewFilterOptions.SortDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SortDirectionConverter}}" VerticalAlignment="Center" Style="{StaticResource SortIndicatorToggleButton}" Grid.Column="1" Height="30"/>
                     </Grid>
                 </Border>
                 <Border Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">

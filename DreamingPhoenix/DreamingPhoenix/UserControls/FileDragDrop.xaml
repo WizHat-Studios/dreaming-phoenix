@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
-             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FileDragDrop}"
              d:DesignHeight="450" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True">
@@ -22,10 +22,10 @@
             </Border>
             
             <Grid Margin="0,156,0,0" VerticalAlignment="Top" Height="101">
-                <ToggleButton x:Name="tglbtn_audioTrack" Margin="0,-30,140,0" Style="{StaticResource TransparentToggleButton}" fa:Icon.Content="SolidMusic"
+                <ToggleButton x:Name="tglbtn_audioTrack" Margin="0,-30,140,0" Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidMusic"
                               HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45"
                               IsChecked="True" Click="AudioTrack_Clicked"/>
-                <ToggleButton x:Name="tglbtn_soundEffect" Margin="140,-30,0,0" Style="{StaticResource TransparentToggleButton}" fa:Icon.Content="SolidBolt"
+                <ToggleButton x:Name="tglbtn_soundEffect" Margin="140,-30,0,0" Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidBolt"
                               HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45" Click="SoundEffect_Clicked"/>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Top" Content="SOUND EFFECT" Foreground="{DynamicResource ForegroundDefault}"
                        Margin="140,70,0,0" FontSize="12"/>
@@ -48,7 +48,7 @@
                    FontWeight="Normal" Height="23" FontSize="10"/>
         </Grid>
         <Grid x:Name="grd_convert" Visibility="Collapsed">
-            <fa:FontAwesomeImage Icon="SolidExclamationTriangle" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <fa:FontAwesomeImage Icon="SolidTriangleExclamation" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
                              Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
             <Label Content="{Binding FileName}" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileNameConvert"
                    VerticalAlignment="Top" FontWeight="Bold" FontSize="14" />

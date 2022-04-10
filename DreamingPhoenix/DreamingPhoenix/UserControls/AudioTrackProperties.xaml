@@ -7,7 +7,7 @@
              xmlns:combobox="clr-namespace:WizHat.DreamingPhoenix.Styles.ComboBox"
              xmlns:hk="clr-namespace:WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector"
              xmlns:dp="clr-namespace:WizHat.DreamingPhoenix"
-             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="800">
@@ -32,9 +32,9 @@
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=Track.IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                    <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                     <Label Content="AUDIO FILE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
-                    <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                     </StackPanel>
                 </DockPanel>
 
@@ -66,7 +66,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Icon.Content="SolidTimes" FontSize="16" Click="RemoveNextTrack_Click"/>
+                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Content.Icon="SolidXmark" FontSize="16" Click="RemoveNextTrack_Click"/>
                     <combobox:SearchComboBox x:Name="cmb_nextAudioTrack" Style="{StaticResource ComboBox}"
                                              Height="25" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
                                              IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
@@ -111,7 +111,7 @@
                 <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">
                     <Grid Margin="10,10,0,0" HorizontalAlignment="Stretch">
                         <Label Content="TAGS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" />
-                        <Button FontSize="13" DockPanel.Dock="Right" fa:Icon.Content="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddNewTag_Click" />
+                        <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddNewTag_Click" />
                     </Grid>
                     <ItemsControl ItemsSource="{Binding Track.Tags}" Margin="10,0,10,10">
                         <ItemsControl.ItemsPanel>
@@ -124,7 +124,7 @@
                                 <Border CornerRadius="10" BorderBrush="{DynamicResource AccentC}" BorderThickness="1" Margin="5" HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBox Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource TransparentTextBox}" Margin="5,0,0,0"/>
-                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" fa:Icon.Content="SolidTimes" Width="20" Margin="0,0,5,0" Click="RemoveTag_Click"/>
+                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" fa:Content.Icon="SolidXmark" Width="20" Margin="0,0,5,0" Click="RemoveTag_Click"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -136,11 +136,11 @@
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Icon.Content="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
+            <Button Height="50" Width="50" fa:Content.Icon="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteTrack_Click"/>
-            <Button Height="50" Width="50" fa:Icon.Content="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Track.IsAudioFilePathValid}"
+            <Button Height="50" Width="50" fa:Content.Icon="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Track.IsAudioFilePathValid}"
                     Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
-            <ToggleButton Height="50" Width="50" fa:Icon.Content="SolidRedo" HorizontalAlignment="Left" Margin="70,0,0,0"
+            <ToggleButton Height="50" Width="50" fa:Content.Icon="SolidRepeat" HorizontalAlignment="Left" Margin="70,0,0,0"
                           Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           FontSize="20"/>
         </Grid>

@@ -7,7 +7,7 @@
              xmlns:combobox="clr-namespace:WizHat.DreamingPhoenix.Styles.ComboBox"
              xmlns:hk="clr-namespace:WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector"
              xmlns:dp="clr-namespace:WizHat.DreamingPhoenix"
-             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="800">
@@ -48,7 +48,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="BACKGROUND" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120"
                            Margin="10,0,0,0" FontSize="13" />
-                    <Button  VerticalAlignment="Center" ToolTip="Choose Image" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentButton}" DockPanel.Dock="Right" fa:Icon.Content="RegularImages" FontSize="16" Click="ReloadImage_Click"/>
+                    <Button  VerticalAlignment="Center" ToolTip="Choose Image" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentButton}" DockPanel.Dock="Right" fa:Content.Icon="RegularImages" FontSize="16" Click="ReloadImage_Click"/>
                     <Grid DockPanel.Dock="Right">
                         <Label Content="NO BACKGROUND" Foreground="{DynamicResource ForegroundDimmed}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <Border  Height="30" CornerRadius="5"
@@ -56,7 +56,7 @@
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding Scene.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill"/>
                         </Border.Background>
-                        <Button x:Name="btn_removeBackground" Visibility="Collapsed" Width="100" Style="{StaticResource TransparentRedButton}" fa:Icon.Content="SolidTimes" Click="btn_removeBackground_Click"/>
+                        <Button x:Name="btn_removeBackground" Visibility="Collapsed" Width="100" Style="{StaticResource TransparentRedButton}" fa:Content.Icon="SolidXmark" Click="btn_removeBackground_Click"/>
                     </Border>
                     </Grid>
                 </DockPanel>
@@ -71,7 +71,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Icon.Content="SolidTimes" FontSize="16" Click="RemoveAudioTrack_Click"/>
+                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Content.Icon="SolidXmark" FontSize="16" Click="RemoveAudioTrack_Click"/>
                     <combobox:SearchComboBox x:Name="cmb_audioTrack" Style="{StaticResource ComboBox}"
                                              Height="25" Margin="0,0,0,0"
                                              IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
@@ -98,7 +98,7 @@
                                 </ItemsPanelTemplate>
                             </combobox:SearchComboBox.ItemsPanel>
                         </combobox:SearchComboBox>
-                        <Button FontSize="13" DockPanel.Dock="Right" fa:Icon.Content="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
+                        <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
                     </Grid>
                     <ListBox Height="250" ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
                         <ListBox.ItemTemplate>
@@ -106,7 +106,7 @@
                                 <Border CornerRadius="5" BorderBrush="{DynamicResource BackgroundG}" BorderThickness="1" Margin="5,10,5,0" HorizontalAlignment="Stretch">
                                     <Grid Height="30">
                                         <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0"/>
-                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" HorizontalAlignment="Right" fa:Icon.Content="SolidTimes" Width="20" Margin="0,0,5,0" Click="RemoveSoundEffect_Click" />
+                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" HorizontalAlignment="Right" fa:Content.Icon="SolidXmark" Width="20" Margin="0,0,5,0" Click="RemoveSoundEffect_Click" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -120,9 +120,9 @@
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" fa:Icon.Content="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
+            <Button Height="50" Width="50" fa:Content.Icon="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteScene_Click"/>
-            <Button Height="50" Width="50" fa:Icon.Content="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0"
+            <Button Height="50" Width="50" fa:Content.Icon="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0"
                     Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
         </Grid>
     </Grid>

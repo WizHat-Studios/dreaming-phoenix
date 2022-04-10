@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
-             xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              d:DataContext="{d:DesignInstance local:AudioDeletion}"
              mc:Ignorable="d" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True" Height="345">
     <Grid>
         <Grid x:Name="grd_audio" Visibility="Visible">
             <Grid Margin="0,20,0,0" Height="100" VerticalAlignment="Top">
                 <fa:FontAwesomeImage Icon="SolidLeaf" Margin="0,0,0,0" Width="65" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" Height="65"/>
-                <fa:FontAwesomeImage Icon="SolidTimes" Margin="49,60,0,0" Width="42" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ErrorNormal}" Height="30"/>
+                <fa:FontAwesomeImage Icon="SolidXmark" Margin="49,60,0,0" Width="42" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ErrorNormal}" Height="30"/>
             </Grid>
 
             <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
