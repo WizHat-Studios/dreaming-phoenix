@@ -3,6 +3,7 @@ using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     public partial class UserApplicationOptions : UserControl
     {
         public AppOptions Options { get; set; } = AppModel.Instance.Options;
+
+        public string Version { get; set; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public UserApplicationOptions()
         {
@@ -62,6 +65,11 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 audio.CheckIfFileExistsOnDisk();
             }
+        }
+
+        private void btn_cleanCache_Click(object sender, RoutedEventArgs e)
+        {
+            Cache.CacheManager.Instance.CleanUpCache();
         }
     }
 }
