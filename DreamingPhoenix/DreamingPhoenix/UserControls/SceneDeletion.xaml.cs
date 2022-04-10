@@ -1,5 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -14,8 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.UserControls
+namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
     /// Interaction logic for SceneDeletion.xaml

@@ -11,8 +11,9 @@ using System.Windows.Threading;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     [DebuggerDisplay("{CurrentAudio.GetType() == typeof(AudioTrack) ? \"(AudioTrack)\" : \"(SoundEffect)\",nq} {CurrentAudio.Name,nq} - Volume: {System.Math.Round(AudioTrackReader.Volume * 100)}")]
     public class PlayableAudio : INotifyPropertyChanged
@@ -101,7 +102,7 @@ namespace DreamingPhoenix.AudioHandling
             CurrentAudio.CheckIfFileExistsOnDisk();
             if (!CurrentAudio.IsAudioFilePathValid)
             {
-                MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

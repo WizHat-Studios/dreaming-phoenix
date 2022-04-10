@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
-                    xmlns:local="clr-namespace:DreamingPhoenix.Styles">
+                    xmlns:local="clr-namespace:WizHat.DreamingPhoenix.Styles">
 
 
     <Style x:Key="SortIndicatorToggleButton" TargetType="{x:Type ToggleButton}">

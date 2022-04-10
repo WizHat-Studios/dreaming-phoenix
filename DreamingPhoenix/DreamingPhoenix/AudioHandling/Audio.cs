@@ -7,24 +7,25 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
+using WizHat.DreamingPhoenix.AudioProperties;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     public abstract class Audio : INotifyPropertyChanged
     {
         private string audioFile;
-        
+
         /// <summary>
         /// Path to the audio file
         /// </summary>
         public string AudioFile
         {
             get { return audioFile; }
-            set 
-            { 
+            set
+            {
                 audioFile = value;
                 IsAudioFilePathValid = File.Exists(audioFile);
-                NotifyPropertyChanged(); 
+                NotifyPropertyChanged();
             }
         }
 
@@ -105,11 +106,11 @@ namespace DreamingPhoenix.AudioHandling
 
         public Category Category
         {
-            get 
+            get
             {
                 if (category == null)
                     category = new Category() { Name = "None" };
-                return category; 
+                return category;
             }
             set { category = value; NotifyPropertyChanged(); }
         }

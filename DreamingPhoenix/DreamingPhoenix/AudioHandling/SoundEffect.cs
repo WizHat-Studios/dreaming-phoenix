@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     /// <summary>
     /// Short audio

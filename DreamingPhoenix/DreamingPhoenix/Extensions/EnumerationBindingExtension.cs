@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Markup;
 
-namespace DreamingPhoenix.Extensions
+namespace WizHat.DreamingPhoenix.Extensions
 {
     public class EnumerationBindingExtension : MarkupExtension
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.Sorting
 {
     public enum SortType
     {

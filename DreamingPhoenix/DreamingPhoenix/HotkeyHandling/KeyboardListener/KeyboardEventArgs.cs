@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
+namespace WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener
 {
     public class KeyboardEventArgs : HandledEventArgs
     {

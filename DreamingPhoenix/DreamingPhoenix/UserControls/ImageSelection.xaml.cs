@@ -1,5 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -13,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Cache;
 
-namespace DreamingPhoenix.UserControls
+namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
     /// Interaction logic for ImageSelection.xaml
@@ -58,9 +59,9 @@ namespace DreamingPhoenix.UserControls
         {
             Scene.ImageSource = SelectedImage;
             string oldCacheID = Scene.ImageCacheID;
-            Scene.ImageCacheID = Cache.CacheManager.Instance.GetNewCacheID();
-            Cache.CacheManager.Instance.CleanUpCacheID(oldCacheID);
-            Cache.CacheManager.Instance.SaveImageToCache(SelectedImage as BitmapSource, Scene.ImageCacheID);
+            Scene.ImageCacheID = CacheManager.Instance.GetNewCacheID();
+            CacheManager.Instance.CleanUpCacheID(oldCacheID);
+            CacheManager.Instance.SaveImageToCache(SelectedImage as BitmapSource, Scene.ImageCacheID);
             OperationProcessed?.Invoke(this, EventArgs.Empty);
         }
 

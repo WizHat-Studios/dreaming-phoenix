@@ -1,4 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
+﻿using WizHat.DreamingPhoenix.AudioHandling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,8 +7,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using WizHat.DreamingPhoenix.Sorting;
+using WizHat.DreamingPhoenix.AudioProperties;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.Data
 {
     public class FilterOptions : INotifyPropertyChanged, ICloneable
     {

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
+namespace WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct KeyboardEventData

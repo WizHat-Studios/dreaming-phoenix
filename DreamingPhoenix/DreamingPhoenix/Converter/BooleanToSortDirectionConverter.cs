@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WizHat.DreamingPhoenix.Sorting;
 
-namespace DreamingPhoenix.Converter
+namespace WizHat.DreamingPhoenix.Converter
 {
     class BooleanToSortDirectionConverter : IValueConverter
     {

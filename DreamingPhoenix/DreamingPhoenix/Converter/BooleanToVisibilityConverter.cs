@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DreamingPhoenix.Converter
+namespace WizHat.DreamingPhoenix.Converter
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {

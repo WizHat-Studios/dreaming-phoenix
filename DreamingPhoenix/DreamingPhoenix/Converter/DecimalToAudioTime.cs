@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace DreamingPhoenix.Converter
+namespace WizHat.DreamingPhoenix.Converter
 {
     public class DecimalToAudioTime : IValueConverter
     {
@@ -17,7 +17,7 @@ namespace DreamingPhoenix.Converter
                 double mod = seconds % 60;
                 minutes = (seconds - mod) / 60;
             }
-            seconds = seconds - (minutes * 60);
+            seconds = seconds - minutes * 60;
 
             return string.Format("{0:00}:{1:00}", minutes, seconds);
         }

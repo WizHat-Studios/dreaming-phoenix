@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
 
-namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
+namespace WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener
 {
     class WindowsHookHandle : SafeHandleZeroOrMinusOneIsInvalid
     {

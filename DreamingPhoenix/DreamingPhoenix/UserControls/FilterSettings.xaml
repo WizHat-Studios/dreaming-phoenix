@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="DreamingPhoenix.UserControls.FilterSettings"
+﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.FilterSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:DreamingPhoenix.Converter"
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:fa="clr-namespace:DSaladin.FontAwesomeWPF;assembly=FontAwesomeWPF"
-             xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
-             xmlns:root="clr-namespace:DreamingPhoenix"
-             xmlns:enumExtension="clr-namespace:DreamingPhoenix.Extensions"
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
+             xmlns:root="clr-namespace:WizHat.DreamingPhoenix"
+             xmlns:sorting="clr-namespace:WizHat.DreamingPhoenix.Sorting"
+             xmlns:enumExtension="clr-namespace:WizHat.DreamingPhoenix.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="500">
     <UserControl.Resources>
@@ -48,7 +49,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="SORT BY" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
-                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type root:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0"/>
+                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type sorting:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0"/>
                         <ToggleButton Margin="0,0,10,0" FontSize="20" fa:Icon.Content="SolidSortAlphaDown" HorizontalAlignment="Right" Width="30" IsChecked="{Binding Path=NewFilterOptions.SortDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SortDirectionConverter}}" VerticalAlignment="Center" Style="{StaticResource SortIndicatorToggleButton}" Grid.Column="1" Height="30"/>
                     </Grid>
                 </Border>

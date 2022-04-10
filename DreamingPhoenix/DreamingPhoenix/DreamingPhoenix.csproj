@@ -5,6 +5,21 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Images\DreamingPhoenix.ico</ApplicationIcon>
+    <Authors>WizHat</Authors>
+    <Company>WizHat</Company>
+    <Product>Dreaming Phoenix</Product>
+    <AssemblyName>WizHat.DreamingPhoenix</AssemblyName>
+    <RootNamespace>WizHat.DreamingPhoenix</RootNamespace>
+    <PackageProjectUrl>https://github.com/WizHat-Studios/dreaming-phoenix</PackageProjectUrl>
+    <PackageIcon>DreamingPhoenix.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/WizHat-Studios/dreaming-phoenix</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Version>1.0.0.0</Version>
+    <Description>An open source soundboard for playing music and sound effects in real time.</Description>
+    <Copyright>WizHat</Copyright>
+    <PackageLicenseFile>D:\WizHat Studios\repos\dreaming-phoenix\LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,9 +42,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="UserControls\AudioDeletion.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\DreamingPhoenix-0.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Images\DreamingPhoenix.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

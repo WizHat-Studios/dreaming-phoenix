@@ -1,5 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
-using DreamingPhoenix.Styles.ComboBox;
+﻿using WizHat.DreamingPhoenix.Styles.ComboBox;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,8 +15,11 @@ using System.Windows.Shapes;
 using System.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.AudioProperties;
 
-namespace DreamingPhoenix.UserControls
+namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
     /// Interaction logic for SoundEffectProperties.xaml

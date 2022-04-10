@@ -1,6 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
-using DreamingPhoenix.Styles.Scheme;
-using NAudio.CoreAudioApi;
+﻿using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -15,15 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.Styles.Scheme;
 
-namespace DreamingPhoenix.UserControls
+namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
     /// Interaction logic for UserApplicationOptions.xaml
     /// </summary>
     public partial class UserApplicationOptions : UserControl
     {
-
         public AppOptions Options { get; set; } = AppModel.Instance.Options;
 
         public UserApplicationOptions()

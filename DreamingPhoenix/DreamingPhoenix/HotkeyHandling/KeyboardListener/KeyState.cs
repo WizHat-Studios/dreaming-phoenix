@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
+namespace WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener
 {
     public enum KeyState
     {

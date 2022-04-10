@@ -1,4 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
+﻿using WizHat.DreamingPhoenix.AudioHandling;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.UserControls
+namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
     /// Interaction logic for FileDragDrop.xaml

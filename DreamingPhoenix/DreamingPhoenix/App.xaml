@@ -1,7 +1,7 @@
-﻿<Application x:Class="DreamingPhoenix.App"
+﻿<Application x:Class="WizHat.DreamingPhoenix.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DreamingPhoenix"
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

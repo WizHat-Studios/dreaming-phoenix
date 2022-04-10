@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.Persistence
+namespace WizHat.DreamingPhoenix.Persistence
 {
     public class PersistentData
     {

@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Linq;
 
-namespace DreamingPhoenix.Styles.ComboBox
+namespace WizHat.DreamingPhoenix.Styles.ComboBox
 {
     public class SearchComboBox : System.Windows.Controls.ComboBox
     {

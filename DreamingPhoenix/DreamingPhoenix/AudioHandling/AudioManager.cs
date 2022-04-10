@@ -14,8 +14,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     /// <summary>
     /// Manager for all kind of audio.
@@ -69,7 +70,7 @@ namespace DreamingPhoenix.AudioHandling
             if (!File.Exists(audioToPlay.AudioFile))
             {
                 audioToPlay.IsAudioFilePathValid = false;
-                MessageBox.Show(String.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

@@ -1,13 +1,13 @@
-﻿using DreamingPhoenix.Styles.Scheme;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using WizHat.DreamingPhoenix.Styles.Scheme;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.Data
 {
     public class AppOptions : INotifyPropertyChanged
     {
@@ -50,10 +50,10 @@ namespace DreamingPhoenix
         {
             get { return selectedColorScheme; }
             set
-            { 
-                selectedColorScheme = value; 
+            {
+                selectedColorScheme = value;
                 if (value >= 0 && value < ColorScheme.Themes.Count)
-                    ((App)Application.Current).ChangeTheme(ColorScheme.Themes[value].ThemeDestination); 
+                    ((App)Application.Current).ChangeTheme(ColorScheme.Themes[value].ThemeDestination);
                 NotifyPropertyChanged();
             }
         }
@@ -62,15 +62,15 @@ namespace DreamingPhoenix
 
         public FilterOptions FilterOptions
         {
-            get 
+            get
             {
                 if (filterOptions == null)
                 {
                     filterOptions = new FilterOptions();
                 }
-                return filterOptions; 
+                return filterOptions;
             }
-            set { filterOptions = value; NotifyPropertyChanged();}
+            set { filterOptions = value; NotifyPropertyChanged(); }
         }
 
 

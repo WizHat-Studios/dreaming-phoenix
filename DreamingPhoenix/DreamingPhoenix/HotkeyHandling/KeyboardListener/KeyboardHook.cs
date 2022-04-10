@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
+namespace WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener
 {
     public class KeyboardHook : IDisposable
     {
@@ -27,7 +27,7 @@ namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
                 using (ProcessModule module = currentProcess.MainModule)
                 {
                     // Set windows hook
-                    _hookHandle = new WindowsHookHandle(Native.SetWindowsHookEx((int) WindowsHookType.WH_KEYBOARD_LL, _keyboardProc,
+                    _hookHandle = new WindowsHookHandle(Native.SetWindowsHookEx((int)WindowsHookType.WH_KEYBOARD_LL, _keyboardProc,
                         Native.GetModuleHandle(module.ModuleName), 0));
                 }
             }
@@ -39,7 +39,7 @@ namespace DreamingPhoenix.HotkeyHandling.KeyboardListener
             if (nCode >= 0)
             {
                 // Get key state
-                KeyState state = (KeyState) wParam.ToInt32();
+                KeyState state = (KeyState)wParam.ToInt32();
                 // Get key data
                 KeyboardEventData data = Marshal.PtrToStructure<KeyboardEventData>(lParam);
                 // Create event arguments

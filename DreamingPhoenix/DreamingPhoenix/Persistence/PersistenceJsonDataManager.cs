@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace DreamingPhoenix.Persistence
+namespace WizHat.DreamingPhoenix.Persistence
 {
     public class PersistenceJsonDataManager : IPersistenceDataManager
     {

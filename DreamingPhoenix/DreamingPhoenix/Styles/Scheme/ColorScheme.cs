@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DreamingPhoenix.Styles.Scheme
+namespace WizHat.DreamingPhoenix.Styles.Scheme
 {
     public class ColorScheme
     {

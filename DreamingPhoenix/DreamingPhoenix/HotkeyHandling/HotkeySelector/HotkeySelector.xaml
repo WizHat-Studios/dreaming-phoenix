@@ -1,7 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:hk="clr-namespace:DreamingPhoenix.HotkeyHandling.HotkeySelector">
+    xmlns:hk="clr-namespace:WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector">
 
 
     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type hk:HotkeySelector}">

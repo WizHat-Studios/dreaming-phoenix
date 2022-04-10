@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DreamingPhoenix.Persistence
+namespace WizHat.DreamingPhoenix.Persistence
 {
     public interface IPersistenceDataManager
     {

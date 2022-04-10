@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     [DebuggerDisplay("(Scene) {SceneName,np} - AudioTrack: {SceneAudioTrack.Name,np}, SoundEffectsCount: {SceneSoundEffects.Count,np}")]
     public class Scene : INotifyPropertyChanged

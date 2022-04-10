@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 using System.Text;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     /// <summary>
     /// Audio Track Reader State

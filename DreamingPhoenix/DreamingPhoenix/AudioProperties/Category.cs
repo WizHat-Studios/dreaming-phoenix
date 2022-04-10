@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.AudioProperties
 {
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
@@ -25,10 +25,10 @@ namespace DreamingPhoenix
 
         public Color Color
         {
-            get 
+            get
             {
-                string hash = (BitConverter.ToUInt32(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name)), 0)).ToString();
-                return (Color)ColorConverter.ConvertFromString("#" + hash.Substring(0, 6)); 
+                string hash = BitConverter.ToUInt32(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name)), 0).ToString();
+                return (Color)ColorConverter.ConvertFromString("#" + hash.Substring(0, 6));
             }
         }
 

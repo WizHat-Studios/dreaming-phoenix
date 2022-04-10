@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     [DebuggerDisplay("Current State: {State.ToString(),np} - File: {FileName}")]
     public class NAudioTrackReader : WaveStream, ISampleProvider
@@ -84,7 +84,7 @@ namespace DreamingPhoenix.AudioHandling
             lockObject = new object();
             FileName = fileName;
             CreateReaderStream(fileName);
-            sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
+            sourceBytesPerSample = readerStream.WaveFormat.BitsPerSample / 8 * readerStream.WaveFormat.Channels;
             sampleChannel = new SampleChannel(readerStream, true);
             destBytesPerSample = 4 * sampleChannel.WaveFormat.Channels;
             length = SourceToDest(readerStream.Length);
@@ -103,7 +103,7 @@ namespace DreamingPhoenix.AudioHandling
             lockObject = new object();
             FileName = fileName;
             CreateReaderStream(fileName);
-            sourceBytesPerSample = (readerStream.WaveFormat.BitsPerSample / 8) * readerStream.WaveFormat.Channels;
+            sourceBytesPerSample = readerStream.WaveFormat.BitsPerSample / 8 * readerStream.WaveFormat.Channels;
             sampleChannel = new SampleChannel(readerStream, true);
             destBytesPerSample = 4 * sampleChannel.WaveFormat.Channels;
             length = SourceToDest(readerStream.Length);
@@ -231,7 +231,7 @@ namespace DreamingPhoenix.AudioHandling
             lock (lockObject)
             {
                 fadeSamplePosition = 0;
-                fadeSampleCount = (int)((fadeDurationInMilliseconds * readerStream.WaveFormat.SampleRate) / 1000);
+                fadeSampleCount = (int)(fadeDurationInMilliseconds * readerStream.WaveFormat.SampleRate / 1000);
                 fadeState = FadeState.FadingIn;
             }
         }
@@ -245,7 +245,7 @@ namespace DreamingPhoenix.AudioHandling
             lock (lockObject)
             {
                 fadeSamplePosition = 0;
-                fadeSampleCount = (int)((fadeDurationInMilliseconds * readerStream.WaveFormat.SampleRate) / 1000);
+                fadeSampleCount = (int)(fadeDurationInMilliseconds * readerStream.WaveFormat.SampleRate / 1000);
                 fadeState = FadeState.FadingOut;
             }
         }
@@ -263,7 +263,7 @@ namespace DreamingPhoenix.AudioHandling
             int sample = 0;
             while (sample < sourceSamplesRead)
             {
-                float multiplier = 1.0f - (fadeSamplePosition / (float)fadeSampleCount);
+                float multiplier = 1.0f - fadeSamplePosition / (float)fadeSampleCount;
                 for (int ch = 0; ch < readerStream.WaveFormat.Channels; ch++)
                 {
                     buffer[offset + sample++] *= multiplier;
@@ -300,7 +300,7 @@ namespace DreamingPhoenix.AudioHandling
             int sample = 0;
             while (sample < sourceSamplesRead)
             {
-                float multiplier = (fadeSamplePosition / (float)fadeSampleCount);
+                float multiplier = fadeSamplePosition / (float)fadeSampleCount;
                 for (int ch = 0; ch < readerStream.WaveFormat.Channels; ch++)
                 {
                     buffer[offset + sample++] *= multiplier;

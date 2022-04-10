@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DreamingPhoenix.Styles
+namespace WizHat.DreamingPhoenix.Styles
 {
     public partial class CustomWindow : ResourceDictionary
     {

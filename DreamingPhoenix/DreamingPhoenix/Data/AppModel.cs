@@ -1,5 +1,4 @@
-﻿using DreamingPhoenix.AudioHandling;
-using DreamingPhoenix.Styles.Scheme;
+﻿using WizHat.DreamingPhoenix.Styles.Scheme;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -10,8 +9,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.AudioProperties;
+using WizHat.DreamingPhoenix.Sorting;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.Data
 {
     public class AppModel : INotifyPropertyChanged
     {
@@ -23,7 +25,7 @@ namespace DreamingPhoenix
         /// </summary>
         public static AppModel Instance
         {
-            get 
+            get
             {
                 if (instance == null)
                     instance = new AppModel();
@@ -32,7 +34,7 @@ namespace DreamingPhoenix
             }
         }
 
-        public bool SearchActive { get { return !String.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
+        public bool SearchActive { get { return !string.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
 
 
         private ObservableCollection<Audio> searchResultAudioList;
@@ -41,7 +43,7 @@ namespace DreamingPhoenix
         /// </summary>
         public ObservableCollection<Audio> SearchResultAudioList
         {
-            get 
+            get
             {
                 return searchResultAudioList;
             }
@@ -78,7 +80,7 @@ namespace DreamingPhoenix
                             matchesTagInSearchTerm = true;
                     }
 
-                    if ((!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm)) && !matchesTagInSearchTerm)
+                    if (!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm) && !matchesTagInSearchTerm)
                         continue;
 
                     if (!filterOtions.IncludeAudioTracks && audio is AudioTrack)
@@ -105,13 +107,13 @@ namespace DreamingPhoenix
                         if (!includesRequiredTag)
                             continue;
                     }
-                    
-                        
+
+
 
                     filteredList.Add(audio);
                 }
 
-                switch(filterOtions.SortType)
+                switch (filterOtions.SortType)
                 {
                     case SortType.NAME:
                         if (filterOtions.SortDirection == SortDirection.ASCENDING)

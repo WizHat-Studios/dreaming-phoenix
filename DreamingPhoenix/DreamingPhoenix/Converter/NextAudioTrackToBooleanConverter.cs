@@ -1,12 +1,12 @@
-﻿using DreamingPhoenix.AudioHandling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
+using WizHat.DreamingPhoenix.AudioHandling;
 
-namespace DreamingPhoenix.Converter
+namespace WizHat.DreamingPhoenix.Converter
 {
     public class NextAudioTrackToBooleanConverter : IValueConverter
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using WizHat.DreamingPhoenix;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DreamingPhoenix.HotkeyHandling.HotkeySelector
+namespace WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector
 {
     public class HotkeySelector : Button
     {
@@ -47,7 +48,7 @@ namespace DreamingPhoenix.HotkeyHandling.HotkeySelector
         static HotkeySelector()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HotkeySelector), new FrameworkPropertyMetadata(typeof(HotkeySelector)));
-            ContentControl.ContentProperty.OverrideMetadata(typeof(HotkeySelector), new FrameworkPropertyMetadata("None"));
+            ContentProperty.OverrideMetadata(typeof(HotkeySelector), new FrameworkPropertyMetadata("None"));
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
@@ -109,7 +110,7 @@ namespace DreamingPhoenix.HotkeyHandling.HotkeySelector
         private static void OnSelectedHotkeyPropertyChanged(DependencyObject source,
             DependencyPropertyChangedEventArgs e)
         {
-            HotkeySelector hotkeySelector = ((HotkeySelector) source);
+            HotkeySelector hotkeySelector = (HotkeySelector)source;
             hotkeySelector.SelectedHotkey = (Key)e.NewValue;
             hotkeySelector.Content = hotkeySelector.SelectedHotkeyText;
         }
@@ -117,7 +118,7 @@ namespace DreamingPhoenix.HotkeyHandling.HotkeySelector
         private static void OnModifierKeysPropertyChanged(DependencyObject source,
             DependencyPropertyChangedEventArgs e)
         {
-            HotkeySelector hotkeySelector = ((HotkeySelector)source);
+            HotkeySelector hotkeySelector = (HotkeySelector)source;
             hotkeySelector.ModifierKeys = (ModifierKeys)e.NewValue;
             hotkeySelector.Content = hotkeySelector.SelectedHotkeyText;
         }

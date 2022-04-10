@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace DreamingPhoenix.Converter
+namespace WizHat.DreamingPhoenix.Converter
 {
     public class ObjectToPlayingStringConverter : IValueConverter
     {

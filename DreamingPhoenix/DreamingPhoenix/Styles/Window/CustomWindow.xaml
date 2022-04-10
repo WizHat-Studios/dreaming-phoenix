@@ -1,7 +1,7 @@
-﻿<ResourceDictionary x:Class="DreamingPhoenix.Styles.CustomWindow"
+﻿<ResourceDictionary x:Class="WizHat.DreamingPhoenix.Styles.CustomWindow"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DreamingPhoenix.Styles">
+                    xmlns:local="clr-namespace:WizHat.DreamingPhoenix.Styles">
 
     <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
         <Setter Property="WindowChrome.WindowChrome">

@@ -15,9 +15,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Cache;
+using WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector;
+using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -71,7 +75,7 @@ namespace DreamingPhoenix
             set { imageSelectionPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
-        HotkeyHandling.KeyboardListener.KeyboardHook HotKeyHook = new HotkeyHandling.KeyboardListener.KeyboardHook();
+        KeyboardHook HotKeyHook = new WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardHook();
 
         public MainWindow()
         {
@@ -94,9 +98,9 @@ namespace DreamingPhoenix
             SubscribeToAudioTrack();
         }
 
-        private void HotKeyHook_OnKeyboard(object sender, HotkeyHandling.KeyboardListener.KeyboardEventArgs e)
+        private void HotKeyHook_OnKeyboard(object sender, WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardEventArgs e)
         {
-            if (e.KeyState != HotkeyHandling.KeyboardListener.KeyState.WM_KEYUP || HotkeyHandling.HotkeySelector.HotkeySelector.GlobalIsInSelectionModeLock)
+            if (e.KeyState != KeyState.WM_KEYUP || HotkeySelector.GlobalIsInSelectionModeLock)
                 return;
 
             foreach (Audio audio in AppModelInstance.AudioList)
@@ -261,7 +265,7 @@ namespace DreamingPhoenix
                 CheckFileExists = true,
                 CheckPathExists = true,
                 Multiselect = true,
-                Filter = "Audio Files|" + AudioHandling.FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
+                Filter = "Audio Files|" + FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
             };
             FileDialog.Title = "Select Object File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -323,7 +327,7 @@ namespace DreamingPhoenix
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             AppModelInstance.SaveData();
-            Cache.CacheManager.Instance.CleanUpCache();
+            CacheManager.Instance.CleanUpCache();
         }
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
@@ -393,7 +397,7 @@ namespace DreamingPhoenix
 
             foreach (Scene scene in AppModelInstance.SceneList)
             {
-                scene.ImageSource = Cache.CacheManager.Instance.GetImageFromCache(scene.ImageCacheID);
+                scene.ImageSource = CacheManager.Instance.GetImageFromCache(scene.ImageCacheID);
             }
         }
 

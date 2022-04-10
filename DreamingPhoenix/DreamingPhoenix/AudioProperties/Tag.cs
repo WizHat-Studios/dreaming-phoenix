@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DreamingPhoenix
+namespace WizHat.DreamingPhoenix.AudioProperties
 {
     public class Tag : INotifyPropertyChanged, IEquatable<Tag>
     {

@@ -1,13 +1,14 @@
-﻿using DreamingPhoenix.AudioHandling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.Data;
 
-namespace DreamingPhoenix.Cache
+namespace WizHat.DreamingPhoenix.Cache
 {
     public class CacheManager
     {
@@ -31,7 +32,7 @@ namespace DreamingPhoenix.Cache
 
         public CacheManager()
         {
-            System.IO.Directory.CreateDirectory(IMAGE_CACHE_FOLDER_PATH);
+            Directory.CreateDirectory(IMAGE_CACHE_FOLDER_PATH);
         }
 
         public string GetNewCacheID()
@@ -85,7 +86,7 @@ namespace DreamingPhoenix.Cache
                     File.Delete(IMAGE_CACHE_FOLDER_PATH + cacheID);
                 }
                 catch (Exception) { }
-               
+
             }
         }
 
