@@ -32,9 +32,9 @@
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=AreAudioFilesValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                         <Label Content="SOME FILES IN SCENE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
-                        <fa:FontAwesomeImage Icon="SolidExclamationCircle" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                        <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
                     </StackPanel>
                 </DockPanel>
 

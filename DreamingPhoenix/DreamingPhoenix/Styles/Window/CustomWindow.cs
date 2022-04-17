@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using static WizHat.DreamingParrot.ParrotWindows.ParrotWindow;
 
 namespace WizHat.DreamingPhoenix.Styles
 {
