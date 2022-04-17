@@ -58,6 +58,18 @@ namespace WizHat.DreamingPhoenix.Data
             }
         }
 
+        private bool fadeAudioOnPause = false;
+
+        public bool FadeAudioOnPause
+        {
+            get { return fadeAudioOnPause; }
+            set
+            {
+                fadeAudioOnPause = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private FilterOptions filterOptions;
 
         public FilterOptions FilterOptions

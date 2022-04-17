@@ -39,6 +39,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
 
         private StopMode stopMode = StopMode.Normal;
         private Thread timeTickerThread;
+        private int defaultFadeOutSpeed = 500;
 
         private Audio currentAudio;
         /// <summary>
@@ -189,17 +190,21 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             if (!isAudioTrack)
                 return;
 
+            int delay = 0;
+            if (AppModel.Instance.Options.FadeAudioOnPause)
+                delay = defaultFadeOutSpeed;
+
             // if it's currently playing, fade it out and stop the ticker
             if (AudioTrackReader.State == NAudioState.Playing)
             {
-                AudioTrackReader.Pause(500);
-                await Task.Delay(500);
+                AudioTrackReader.Pause(delay);
+                await Task.Delay(delay);
                 timeTickerThread.Interrupt();
             }
             // if it's currently paused, fade it in and start the ticker
             else if (AudioTrackReader.State == NAudioState.Paused)
             {
-                AudioTrackReader.Play(500);
+                AudioTrackReader.Play(delay);
                 RestartThread();
             }
         }
@@ -238,6 +243,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             // Use the FadeOutSpeed of the AudioTrack if it's not a force stop
             if (isAudioTrack && !force)
                 fadeOutSpeed = ((AudioTrack)CurrentAudio).FadeOutSpeed;
+            else if (!isAudioTrack && !force)
+                fadeOutSpeed = defaultFadeOutSpeed;
 
             // On force stop, reset Audio to default
             if (force)
