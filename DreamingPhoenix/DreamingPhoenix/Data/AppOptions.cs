@@ -20,7 +20,7 @@ namespace WizHat.DreamingPhoenix.Data
             set { extendedModeEnabled = value; NotifyPropertyChanged(); }
         }
 
-        private float defaultAudioTrackVolume;
+        private float defaultAudioTrackVolume = 0.25f;
 
         public float DefaultAudioTrackVolume
         {
@@ -28,7 +28,7 @@ namespace WizHat.DreamingPhoenix.Data
             set { defaultAudioTrackVolume = value; NotifyPropertyChanged(); }
         }
 
-        private float defaultSoundEffectVolume;
+        private float defaultSoundEffectVolume = 0.25f;
 
         public float DefaultSoundEffectVolume
         {
