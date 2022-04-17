@@ -69,35 +69,15 @@
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="120" 
+                    <Label Content="AUDIOTRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
                     <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Content.Icon="SolidXmark" FontSize="16" Click="RemoveAudioTrack_Click"/>
-                    <combobox:SearchComboBox x:Name="cmb_audioTrack" Style="{StaticResource ComboBox}"
-                                             Height="25" Margin="0,0,0,0"
-                                             IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
-                                             IsReadOnly="False" StaysOpenOnEdit="True"
-                                             VerticalAlignment="Center" Loaded="cmb_audioTrack_Loaded" SelectionChanged="cmb_audioTrack_SelectionChanged">
-                        <combobox:SearchComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                            </ItemsPanelTemplate>
-                        </combobox:SearchComboBox.ItemsPanel>
-                    </combobox:SearchComboBox>
+                    <Button Style="{DynamicResource TransparentButton}" Margin="5" Content="{Binding Path=Scene.SceneAudioTrack.Name, FallbackValue=No Audiotrack selected}" Click="SelectAudioTrack_Click"/>
                 </DockPanel>
 
                 <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">
                     <Grid Margin="10,10,0,0" HorizontalAlignment="Stretch">
                         <Label Content="SOUND EFFECTS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Width="120" />
-                        <combobox:SearchComboBox x:Name="cmb_soundEffects" Style="{StaticResource ComboBox}"
-                                             Height="25" Margin="120,0,40,0" VerticalAlignment="Center"
-                                             IsTextSearchEnabled="False" ItemsSource="{Binding SoundEffects}" DisplayMemberPath="Name"
-                                             IsReadOnly="False" StaysOpenOnEdit="True">
-                            <combobox:SearchComboBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                                </ItemsPanelTemplate>
-                            </combobox:SearchComboBox.ItemsPanel>
-                        </combobox:SearchComboBox>
                         <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
                     </Grid>
                     <ListBox Height="250" ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">

@@ -67,17 +67,7 @@
                     <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
                     <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Content.Icon="SolidXmark" FontSize="16" Click="RemoveNextTrack_Click"/>
-                    <combobox:SearchComboBox x:Name="cmb_nextAudioTrack" Style="{StaticResource ComboBox}"
-                                             Height="25" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                                             IsTextSearchEnabled="False" ItemsSource="{Binding Tracks}" DisplayMemberPath="Name"
-                                             IsReadOnly="False" StaysOpenOnEdit="True" Loaded="cmb_nextAudioTrack_Loaded"
-                                             SelectionChanged="cmb_nextAudioTrack_SelectionChanged">
-                        <combobox:SearchComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                            </ItemsPanelTemplate>
-                        </combobox:SearchComboBox.ItemsPanel>
-                    </combobox:SearchComboBox>
+                    <Button Style="{DynamicResource TransparentButton}" Margin="5" Content="{Binding Path=Track.NextAudioTrack.Name, FallbackValue=No Audiotrack selected}" Click="SelectNextAudioTrack_Click"/>
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">

@@ -46,20 +46,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             AppModel.Instance.UpdateAvailableCategories();
             Track = audioTrack;
             Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
-        }
-
-        private void cmb_nextAudioTrack_Loaded(object sender, RoutedEventArgs e)
-        {
-            cmb_nextAudioTrack.SelectedItem = Track.NextAudioTrack;
-        }
-
-        private void cmb_nextAudioTrack_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cmb_nextAudioTrack.SelectedIndex == -1)
-                return;
-
-            Track.NextAudioTrack = (AudioTrack)cmb_nextAudioTrack.SelectedItem;
-        }
+        }       
 
         private void tbx_audioFile_PreviewDragOver(object sender, DragEventArgs e)
         {
@@ -102,7 +89,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveNextTrack_Click(object sender, RoutedEventArgs e)
         {
             Track.NextAudioTrack = null;
-            cmb_nextAudioTrack.SelectedItem = null;
         }
 
         private void DeleteTrack_Click(object sender, RoutedEventArgs e)
@@ -132,6 +118,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             if (Track.Tags == null)
                 Track.Tags = new ObservableCollection<Tag>();
             Track.Tags.Add(new Tag() { Text = "New Tag" });
+        }
+
+        private async void SelectNextAudioTrack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Audio newNextAudioTrack = await mainWindow.ShowAudioSelectionDialog(typeof(AudioTrack), Track.NextAudioTrack);
+
+            if (newNextAudioTrack != null)
+                Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;
         }
     }
 }

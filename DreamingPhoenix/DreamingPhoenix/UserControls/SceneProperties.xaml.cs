@@ -83,23 +83,13 @@ namespace WizHat.DreamingPhoenix.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        private void AddSoundEffect_Click(object sender, RoutedEventArgs e)
+        private async void AddSoundEffect_Click(object sender, RoutedEventArgs e)
         {
-            if (cmb_soundEffects.SelectedItem != null)
-                Scene.SceneSoundEffects.Add(cmb_soundEffects.SelectedItem as SoundEffect);
-        }
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Audio newSoundEffect = await mainWindow.ShowAudioSelectionDialog(typeof(SoundEffect));
 
-        private void cmb_audioTrack_Loaded(object sender, RoutedEventArgs e)
-        {
-            cmb_audioTrack.SelectedItem = Scene.SceneAudioTrack;
-        }
-
-        private void cmb_audioTrack_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cmb_audioTrack.SelectedIndex == -1)
-                return;
-
-            Scene.SceneAudioTrack = (AudioTrack)cmb_audioTrack.SelectedItem;
+            if (newSoundEffect != null)
+                Scene.SceneSoundEffects.Add((SoundEffect)newSoundEffect);                
         }
 
         private void RemoveSoundEffect_Click(object sender, RoutedEventArgs e)
@@ -110,7 +100,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveAudioTrack_Click(object sender, RoutedEventArgs e)
         {
             Scene.SceneAudioTrack = null;
-            cmb_audioTrack.SelectedItem = null;
         }
 
         private void DeleteScene_Click(object sender, RoutedEventArgs e)
@@ -158,6 +147,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             Scene.ImageSource = null;
             CacheManager.Instance.CleanUpCacheID(Scene.ImageCacheID);
             Scene.ImageCacheID = null;
+        }
+
+        private async void SelectAudioTrack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Audio newAudioTrack = await mainWindow.ShowAudioSelectionDialog(typeof(AudioTrack), Scene.SceneAudioTrack);
+
+            if (newAudioTrack != null)
+                Scene.SceneAudioTrack = (AudioTrack)newAudioTrack;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace WizHat.DreamingPhoenix.Cache
 {
     public class CacheManager
     {
-        private string IMAGE_CACHE_FOLDER_PATH { get; set; } = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "/cache/images/";
+        private string IMAGE_CACHE_FOLDER_PATH { get; set; } = Path.Combine(AppContext.BaseDirectory, "/cache/images/");
 
         private static CacheManager instance;
 
