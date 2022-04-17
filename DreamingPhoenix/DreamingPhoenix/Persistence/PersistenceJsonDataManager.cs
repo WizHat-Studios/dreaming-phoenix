@@ -10,26 +10,27 @@ namespace WizHat.DreamingPhoenix.Persistence
 {
     public class PersistenceJsonDataManager : IPersistenceDataManager
     {
-        private readonly string ConfigurationFileName = "DreamingPhoenix_UserData.json";
-        private JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+        private readonly string configurationFileName = "DreamingPhoenix_UserData.json";
+        private string ConfigurationFilePath
+        {
+            get { return Path.Combine(AppContext.BaseDirectory, configurationFileName); }
+        }
+        private readonly JsonSerializerSettings jsonSerializerSettings = new() { TypeNameHandling = TypeNameHandling.Auto, PreserveReferencesHandling = PreserveReferencesHandling.Objects };
 
         public PersistentData Load()
         {
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string configFilePath = assemblyPath + "\\" + ConfigurationFileName;
-
-            if (!File.Exists(configFilePath))
+            if (!File.Exists(ConfigurationFilePath))
             {
-                return new PersistentData();
+                return new();
             }
 
-            string fileContent = File.ReadAllText(configFilePath);
+            string fileContent = File.ReadAllText(ConfigurationFilePath);
 
-            PersistentData data = new PersistentData();
+            PersistentData data = new();
 
             try
             {
-                data = JsonConvert.DeserializeObject<PersistentData>(fileContent, JsonSerializerSettings);
+                data = JsonConvert.DeserializeObject<PersistentData>(fileContent, jsonSerializerSettings);
             }
             catch
             {
@@ -41,9 +42,7 @@ namespace WizHat.DreamingPhoenix.Persistence
 
         public bool Save(PersistentData dataToSave)
         {
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            File.WriteAllText(assemblyPath + "\\" + ConfigurationFileName, JsonConvert.SerializeObject(dataToSave, Formatting.Indented, JsonSerializerSettings));
+            File.WriteAllText(ConfigurationFilePath, JsonConvert.SerializeObject(dataToSave, Formatting.Indented, jsonSerializerSettings));
 
             return true;
         }
