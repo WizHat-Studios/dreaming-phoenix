@@ -97,6 +97,15 @@ namespace WizHat.DreamingPhoenix.UserControls
                 }
             }
 
+            if (audioToDelete is AudioTrack)
+            {
+                foreach (AudioTrack track in AppModel.Instance.AudioList.Where(x => x.GetType() == typeof(AudioTrack)))
+                {
+                    if (track.NextAudioTrack == audioToDelete)
+                        track.NextAudioTrack = null;
+                }
+            }
+
             AppModel.Instance.SaveData();
             await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
