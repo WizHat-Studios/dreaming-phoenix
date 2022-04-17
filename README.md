@@ -59,9 +59,24 @@ Currently the following features are supported:
 
 ## Getting Started
 ### Prerequisites
-* [.NET Core 3.1 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) installed
+* [.NET Core 5.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/5.0) installed
 ### Installation
-TODO
+
+1. Download the [latest release](https://github.com/WizHat-Studios/dreaming-phoenix/releases/lastest) from the release page.
+2. Extract the downloaded `.zip` file to a directory of your choice.
+3. Start the `WizHat.DreamingPhoenix.exe` in the directory.
+4. Optionally add a shortcut to your desktop.
+5. Profit.
+
+## Tips & Tricks
+
+### Adding Audio
+If you add audio which is contained in the base- or subfolder of the `WizHat.DreamingPhoenix.exe` file, the programm will still be able to find your audio when the location of the program has changed.
+
+### Categories
+If you give your audio file a category, it will be marked by a specific color. Use these colors to quickly determine at what kind of audio you're looking at.
+
+
 ## License
 
 This project is distributed under the GPL-3.0 License. See the [LICENSE](./LICENSE) file for more information.
