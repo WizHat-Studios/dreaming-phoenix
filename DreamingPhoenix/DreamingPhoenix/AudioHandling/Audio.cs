@@ -133,6 +133,10 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         {
             if (!File.Exists(audioFile))
                 throw new FileNotFoundException("Audio File not found", audioFile);
+
+            if (audioFile.StartsWith(AppContext.BaseDirectory))
+                audioFile = Path.GetRelativePath(AppContext.BaseDirectory, audioFile);
+
             AudioFile = audioFile;
             Name = name;
         }
