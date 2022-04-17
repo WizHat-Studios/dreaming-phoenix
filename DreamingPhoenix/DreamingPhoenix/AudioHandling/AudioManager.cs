@@ -93,7 +93,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             // Stop all sound effects
             foreach (PlayableAudio sf in CurrentlyPlayingSoundEffects)
             {
-                StopAudio(sf, true);
+                StopAudio(sf, false);
             }
 
             CurrentlyPlayingSoundEffects.Clear();
