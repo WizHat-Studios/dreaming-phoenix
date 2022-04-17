@@ -14,7 +14,7 @@
         d:DataContext="{d:DesignInstance local:MainWindow}"
         Title="Dreaming Phoenix" Height="450" Width="851"
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
-        Background="{DynamicResource BackgroundA}" BorderBrush="{DynamicResource AccentE}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop"
+        Background="{DynamicResource BackgroundA}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop"
         DragOver="Window_DragOver" MinHeight="450" MinWidth="850" Loaded="window_MainWindow_Loaded">
     <Window.Resources>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter" />
