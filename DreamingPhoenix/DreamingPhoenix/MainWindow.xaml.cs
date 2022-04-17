@@ -164,7 +164,7 @@ namespace WizHat.DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, true);
+            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, !AppModelInstance.Options.FadeSoundEffectsOnStop, AppModelInstance.Options.FadeSoundEffectsOnStop);
         }
 
         private void RemoveAudio_Click(object sender, RoutedEventArgs e)
