@@ -47,7 +47,7 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="Slider"  TargetType="Slider">
+    <ControlTemplate x:Key="Slider" TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -64,7 +64,6 @@
                 <Track.Thumb>
                     <Thumb Style="{StaticResource SliderThumb}"  />
                 </Track.Thumb>
-             
             </Track>
         </Grid>
     </ControlTemplate>

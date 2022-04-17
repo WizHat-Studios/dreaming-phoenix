@@ -17,6 +17,17 @@
                         Background="{DynamicResource AccentE}"
                         HorizontalAlignment="Left" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Minimum" Value="0" />
+                                <Condition Property="Maximum" Value="0" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Indicator" Property="Background" Value="{DynamicResource BackgroundE}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
