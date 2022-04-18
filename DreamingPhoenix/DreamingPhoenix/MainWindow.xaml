@@ -314,9 +314,9 @@
 
                         <Grid Margin="10" VerticalAlignment="Bottom" Height="20">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="45" />
                                 <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="45" />
                             </Grid.ColumnDefinitions>
                             <Label Content="{Binding ElementName=pgb_audioTrack, Path=Value, Converter={StaticResource DecimalToAudioTimeConverter}}"
                                Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas"
