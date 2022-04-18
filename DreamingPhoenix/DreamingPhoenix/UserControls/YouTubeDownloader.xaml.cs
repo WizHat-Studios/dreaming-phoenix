@@ -125,7 +125,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             OperationProcessed?.Invoke(this, EventArgs.Empty);
             YouTubeURL = "";
             DownloadedPath = "";
-            pgb_downloadProgress.Value = 0;
+            pgb_downloadProgress.SetPercent(0);
             btn_add.IsEnabled = false;
         }
 

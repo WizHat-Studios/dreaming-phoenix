@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WizHat.DreamingPhoenix.Data;
 using YoutubeExplode;
 using YoutubeExplode.Converter;
@@ -38,13 +39,13 @@ namespace WizHat.DreamingPhoenix.ExternalAudio
             if (File.Exists(LocalFFMPEG))
                 return true;
 
-            if (CommandLinePathResolver.TryGetFullPathForCommand("ffmpeg") != "")
+            if (CommandLinePathResolver.TryGetFullPathForCommand("ffmpeg") != null)
                 return true;
 
             return false;
         }
 
-        public async Task<bool> DownloadAudio(string url)
+        public async Task<bool> DownloadAudio(string url, bool showYouTubeErrors = true)
         {
             if (!FFMPEGExists())
                 return false;
@@ -55,10 +56,14 @@ namespace WizHat.DreamingPhoenix.ExternalAudio
 
             try
             {
+                
                 youtubeVideo = await youtube.Videos.GetAsync(url);
             }
             catch
             {
+                if (showYouTubeErrors)
+                    MessageBox.Show($"The youtube video with the url {url} could not be found", "Video not found");
+
                 return false;
             }
 

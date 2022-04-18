@@ -20,6 +20,7 @@ using WizHat.DreamingPhoenix.Cache;
 using WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector;
 using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.ExternalAudio;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -473,6 +474,22 @@ namespace WizHat.DreamingPhoenix
 
         private void btn_addYouTube_Click(object sender, RoutedEventArgs e)
         {
+            if (!YouTubeAudio.FFMPEGExists())
+            {
+                string downloadLink = "https://ffbinaries.com/downloads";
+                string text = $"To download audio from youtube, you have to download ffmpeg. \r\nDownload link: {downloadLink} \r\nPlease place the downloaded exe file in the same directory as Dreaming Phoenix";
+                MessageBoxResult result = MessageBox.Show(text, "ffmpeg.exe missing", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = downloadLink,
+                        UseShellExecute = true
+                    });
+                }
+                return;
+            }
+
             YouTubeDownloaderPanelVisibility = Visibility.Visible;
         }
     }
