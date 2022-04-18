@@ -93,8 +93,9 @@
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged"
                                          GotFocus="AudioListBox_GotFocus" Margin="0,43,0,0">
                                     <ListBox.Resources>
-                                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{ StaticResource TransparentListBoxItem}">
+                                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
                                             <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem" />
+                                            <EventSetter Event="MouseDoubleClick" Handler="AudioListBoxItem_MouseDoubleClick" />
                                         </Style>
                                         <DataTemplate DataType="{x:Type audio:AudioTrack}">
                                             <Border Background="{DynamicResource BackgroundB}" CornerRadius="5" Margin="5,2.5,5,2.5">
@@ -122,7 +123,7 @@
                                                             IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
                                                             Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                                             Click="PlayAudioTrack_Click" />
-                                                    
+
                                                     <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}"
                                                             Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
