@@ -145,7 +145,7 @@
                                                                     <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
                                                                         <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
                                                                         <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
-                                                                                SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
+                                                                                SmallChange="0.05" LargeChange="0.1" Margin="40,0,0,0" />
                                                                     </Grid>
                                                                 </Border>
 
@@ -205,7 +205,7 @@
                                                                     <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
                                                                         <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
                                                                         <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
-                                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
+                                                                            SmallChange="0.05" LargeChange="0.1" Margin="40,0,0,0" />
                                                                     </Grid>
                                                                 </Border>
 
