@@ -128,28 +128,34 @@
                                                             Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <Grid Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
-                                                              RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
-                                                              Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="1*" />
-                                                                <ColumnDefinition Width="250" />
-                                                            </Grid.ColumnDefinitions>
+                                                        <Grid>
+                                                            <Border Width="10" HorizontalAlignment="Left" CornerRadius="0,0,0,5"
+                                                                        Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
+                                                                        Converter={StaticResource ColorMediaBrushConverter}}" />
+                                                            
+                                                            <Grid Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                                  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                                  Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="250" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
-                                                                <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
-                                                                    <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
-                                                                    <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
-                                                                            SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
-                                                                </Grid>
-                                                            </Border>
+                                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
+                                                                    <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
+                                                                        <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
+                                                                        <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
+                                                                                SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
+                                                                    </Grid>
+                                                                </Border>
 
-                                                            <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
-                                                                <Grid>
-                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
-                                                                                       ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}" />
-                                                                </Grid>
-                                                            </Border>
+                                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
+                                                                    <Grid>
+                                                                        <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
+                                                                                           ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}" />
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
                                                         </Grid>
                                                     </Border>
                                                 </Grid>
@@ -184,26 +190,32 @@
                                                             Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <Grid Margin="5,0,5,5">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="1*" />
-                                                                <ColumnDefinition Width="250" />
-                                                            </Grid.ColumnDefinitions>
+                                                        <Grid>
+                                                            <Border Width="10" HorizontalAlignment="Left" CornerRadius="0,0,0,5"
+                                                                    Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    Converter={StaticResource ColorMediaBrushConverter}}" />
+                                                            
+                                                            <Grid Margin="5,0,5,5">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="250" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
-                                                                <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
-                                                                    <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
-                                                                    <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
+                                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5"  Grid.Column="0">
+                                                                    <Grid HorizontalAlignment="Stretch" Margin="7,5,0,0" VerticalAlignment="Center">
+                                                                        <Label fa:Content.Icon="SolidVolumeHigh" Foreground="{DynamicResource ForegroundDefault}" FontSize="20" />
+                                                                        <Slider Value="{Binding Volume, Mode=TwoWay}" Height="20" VerticalAlignment="Center" Minimum="0" Maximum="1"
                                                                             SmallChange="0.05" LargeChange="0.1" Margin="35,0,0,0" />
-                                                                </Grid>
-                                                            </Border>
+                                                                    </Grid>
+                                                                </Border>
 
-                                                            <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
-                                                                <Grid>
-                                                                    <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
+                                                                <Border Margin="2.5,0,2.5,0" CornerRadius="0,0,5,5" Grid.Column="1">
+                                                                    <Grid>
+                                                                        <hk:HotkeySelector Margin="7,11,4,7" Height="35" SelectedHotkey="{Binding HotKey, Mode=TwoWay}"
                                                                                        ModifierKeys="{Binding HotkeyModifiers, Mode=TwoWay}" />
-                                                                </Grid>
-                                                            </Border>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
                                                         </Grid>
                                                     </Border>
                                                 </Grid>

@@ -21,6 +21,7 @@ using WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector;
 using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.ExternalAudio;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix
 {
