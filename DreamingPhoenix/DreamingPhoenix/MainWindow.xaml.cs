@@ -20,6 +20,7 @@ using WizHat.DreamingPhoenix.Cache;
 using WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector;
 using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.ExternalAudio;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -45,6 +46,14 @@ namespace WizHat.DreamingPhoenix
         {
             get { return audioDropPanelVisibility; }
             set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
+        private Visibility youtubeDownloaderPanelVisibility = Visibility.Hidden;
+
+        public Visibility YouTubeDownloaderPanelVisibility
+        {
+            get { return youtubeDownloaderPanelVisibility; }
+            set { youtubeDownloaderPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
         private Visibility audioDeletionPanelVisibility = Visibility.Hidden;
@@ -90,6 +99,7 @@ namespace WizHat.DreamingPhoenix
 
             grid_AppOptions.Visibility = Visibility.Visible;
             grid_DropPanel.Visibility = Visibility.Visible;
+            grid_YouTubeDownloader.Visibility = Visibility.Visible;
             grid_AcceptDeletion.Visibility = Visibility.Visible;
             grid_filterSettings.Visibility = Visibility.Visible;
             grid_AcceptSceneDeletion.Visibility = Visibility.Visible;
@@ -100,6 +110,12 @@ namespace WizHat.DreamingPhoenix
             uc_DropPanel.AudioFilesProcessed += async (s, e) =>
             {
                 AudioDropPanelVisibility = Visibility.Hidden;
+                AppModelInstance.SaveData();
+                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            };
+            uc_youtubeDownloader.OperationProcessed += async (s, e) =>
+            {
+                YouTubeDownloaderPanelVisibility = Visibility.Hidden;
                 AppModelInstance.SaveData();
                 await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
             };
@@ -464,6 +480,27 @@ namespace WizHat.DreamingPhoenix
             lbox_sceneList.Focus();
         }
 
+        private void btn_addYouTube_Click(object sender, RoutedEventArgs e)
+        {
+            if (!YouTubeAudio.FFMPEGExists())
+            {
+                string downloadLink = "https://ffbinaries.com/downloads";
+                string text = $"To download audio from youtube, you have to download ffmpeg. \r\nDownload link: {downloadLink} \r\nPlease place the downloaded exe file in the same directory as Dreaming Phoenix";
+                MessageBoxResult result = MessageBox.Show(text, "ffmpeg.exe missing", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = downloadLink,
+                        UseShellExecute = true
+                    });
+                }
+                return;
+            }
+
+            YouTubeDownloaderPanelVisibility = Visibility.Visible;
+        }
+        
         public async Task<Audio> ShowAudioSelectionDialog(Type selectionType, Audio previousAudio = null)
         {
             TaskCompletionSource<Audio> tcs = new TaskCompletionSource<Audio>();

@@ -70,7 +70,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 DefaultExt = "mp3",
                 CheckFileExists = true,
                 CheckPathExists = true,
-                InitialDirectory = System.IO.Path.GetDirectoryName(Track.AudioFile),
+                InitialDirectory = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(Track.AudioFile)),
                 Filter = "Audio Files|" + FileExtension.GetDialogExtensions(AppModel.Instance.ValidAudioExtensions)
             };
             FileDialog.Title = "Select Audio File";
