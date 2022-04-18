@@ -74,7 +74,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             Normal,
             Repeat,
             NextTrack,
-            Force
+            Force,
+            SoftForce
         }
 
         /// <summary>
@@ -225,7 +226,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         /// Stop playing the audio
         /// </summary>
         /// <param name="force">if true, fadeoutspeed 0 is used, otherwise the audio fadeoutspeed is used</param>
-        public void Stop(bool force = false)
+        /// <param name="softForce">if true, fadeoutspeed is still used, but repeats should be ignored</param>
+        public void Stop(bool force = false, bool softForce = false)
         {
             bool isAudioTrack = CurrentAudio.GetType() == typeof(AudioTrack);
             double fadeOutSpeed = 0;
@@ -239,6 +241,9 @@ namespace WizHat.DreamingPhoenix.AudioHandling
                     AudioTrackReader.AudioStopped += OnAudioStopped;
                 }
             }
+
+            if (softForce)
+                stopMode = StopMode.SoftForce;
 
             // Use the FadeOutSpeed of the AudioTrack if it's not a force stop
             if (isAudioTrack && !force)
@@ -266,6 +271,13 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         /// </summary>
         private void OnAudioStopped(object sender, EventArgs e)
         {
+            bool disableRepeat = false;
+            if (stopMode == StopMode.SoftForce)
+            {
+                disableRepeat = true;
+                stopMode = StopMode.Normal;
+            }
+
             if (stopMode == StopMode.Force)
                 stopMode = StopMode.Normal;
 
@@ -274,7 +286,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
                 timeTickerThread.Interrupt();
 
             // Only play next track if mode is normal or repeat
-            if (stopMode == StopMode.Normal || stopMode == StopMode.Repeat)
+            if ((stopMode == StopMode.Normal || stopMode == StopMode.Repeat) && !disableRepeat)
             {
                 // Prioritize repeat
                 if (CurrentAudio.Repeat)

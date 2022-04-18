@@ -93,7 +93,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             // Stop all sound effects
             foreach (PlayableAudio sf in CurrentlyPlayingSoundEffects)
             {
-                StopAudio(sf, false);
+                StopAudio(sf, false, true);
             }
 
             CurrentlyPlayingSoundEffects.Clear();
@@ -164,9 +164,9 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         /// Stop specific audio with FadeOutSpeed
         /// </summary>
         /// <param name="audio">The audio to stop</param>
-        public void StopAudio(PlayableAudio audio, bool force = false)
+        public void StopAudio(PlayableAudio audio, bool hardStop = false, bool softStop = false)
         {
-            audio.Stop(force);
+            audio.Stop(hardStop, softStop);
         }
 
         /// <summary>

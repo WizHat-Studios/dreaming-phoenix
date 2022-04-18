@@ -84,6 +84,13 @@ namespace WizHat.DreamingPhoenix
             set { imageSelectionPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        private Visibility audioSelectionPanelVisibility = Visibility.Hidden;
+        public Visibility AudioSelectionPanelVisibility
+        {
+            get { return audioSelectionPanelVisibility; }
+            set { audioSelectionPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
         KeyboardHook HotKeyHook = new WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardHook();
 
         public MainWindow()
@@ -97,6 +104,7 @@ namespace WizHat.DreamingPhoenix
             grid_filterSettings.Visibility = Visibility.Visible;
             grid_AcceptSceneDeletion.Visibility = Visibility.Visible;
             grid_ImageSelection.Visibility = Visibility.Visible;
+            grid_AudioSelection.Visibility = Visibility.Visible;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
             uc_DropPanel.AudioFilesProcessed += async (s, e) =>
@@ -172,7 +180,7 @@ namespace WizHat.DreamingPhoenix
         {
             if (((Button)sender).DataContext == null)
                 return;
-            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, true);
+            AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, !AppModelInstance.Options.FadeSoundEffectsOnStop, AppModelInstance.Options.FadeSoundEffectsOnStop);
         }
 
         private void RemoveAudio_Click(object sender, RoutedEventArgs e)
@@ -491,6 +499,22 @@ namespace WizHat.DreamingPhoenix
             }
 
             YouTubeDownloaderPanelVisibility = Visibility.Visible;
+        }
+        
+        public async Task<Audio> ShowAudioSelectionDialog(Type selectionType, Audio previousAudio = null)
+        {
+            TaskCompletionSource<Audio> tcs = new TaskCompletionSource<Audio>();
+            uc_audioSelection.SetupAudioSelection(selectionType, previousAudio);
+            AudioSelectionPanelVisibility = Visibility.Visible;
+            uc_audioSelection.DialogClosed += (s, e) =>
+            {
+                tcs.SetResult((Audio)e.ReturnValue);
+            };
+
+            Audio returnValue = await tcs.Task;
+            AudioSelectionPanelVisibility = Visibility.Collapsed;
+
+            return returnValue;
         }
     }
 }
