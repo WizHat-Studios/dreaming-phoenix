@@ -185,6 +185,100 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         }
         #endregion
 
+        public bool IsWrongSampleRate(string fileName)
+        {
+            return GetSampleRate(fileName) != 44100;
+        }
+
+        private int GetSampleRate(string fileName)
+        {
+            WaveStream readerStream = null;
+            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new WaveFileReader(fileName);
+                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                {
+                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                    readerStream = new BlockAlignReductionStream(readerStream);
+                }
+            }
+            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new MediaFoundationReader(fileName);
+            }
+            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new AiffFileReader(fileName);
+            }
+            else
+            {
+                // fall back to media foundation reader, see if that can play it
+                readerStream = new MediaFoundationReader(fileName);
+            }
+
+            int sampleRate = readerStream.WaveFormat.SampleRate;
+            readerStream.Close();
+            return sampleRate;
+        }
+
+        public bool ConvertToSampleRate(ref string fileName)
+        {
+            WaveStream readerStream = null;
+            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new WaveFileReader(fileName);
+                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                {
+                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                    readerStream = new BlockAlignReductionStream(readerStream);
+                }
+            }
+            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new Mp3FileReader(fileName);
+            }
+            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+            {
+                readerStream = new AiffFileReader(fileName);
+            }
+            else
+            {
+                // fall back to media foundation reader, see if that can play it
+                readerStream = new MediaFoundationReader(fileName);
+            }
+
+            string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Converted.wav");
+            if (File.Exists(outFile))
+            {
+                MessageBox.Show(string.Format("File {0} already exists", outFile));
+                return false;
+            }
+
+            int outRate = 44100;
+            if (readerStream.WaveFormat.SampleRate == outRate)
+            {
+                return false;
+            }
+
+            var outFormat = new WaveFormat(outRate, readerStream.WaveFormat.Channels);
+            var resampler = new MediaFoundationResampler(readerStream, outFormat);
+            try
+            {
+                WaveFileWriter.CreateWaveFile(outFile, resampler);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            resampler.Dispose();
+            readerStream.Close();
+            File.Delete(fileName);
+            File.Move(outFile, Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "." + Path.GetExtension(outFile)));
+
+            return true;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {

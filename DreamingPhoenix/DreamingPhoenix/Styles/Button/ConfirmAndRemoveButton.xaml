@@ -28,7 +28,9 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="#333333" />
+                            <!--<Setter Property="Foreground" Value="#333333" />-->
+                            <Setter Property="Background" Value="{DynamicResource BackgroundD}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource BackgroundB}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource ErrorDark}" />
@@ -72,7 +74,9 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="#333333" />
+                            <!--<Setter Property="Foreground" Value="#333333" />-->
+                            <Setter Property="Background" Value="{DynamicResource BackgroundD}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource BackgroundB}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource OKDark}" />

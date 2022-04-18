@@ -32,6 +32,7 @@
     <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SciChart.Wpf.UI.Transitionz" Version="3.1.251" />
+    <PackageReference Include="YoutubeExplode.Converter" Version="6.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,6 +81,9 @@
     <Page Update="UserControls\AudioDeletion.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\YouTubeDownloader.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="UserControls\SoundEffectProperties.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

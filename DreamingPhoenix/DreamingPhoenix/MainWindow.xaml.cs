@@ -47,6 +47,14 @@ namespace WizHat.DreamingPhoenix
             set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
+        private Visibility youtubeDownloaderPanelVisibility = Visibility.Hidden;
+
+        public Visibility YouTubeDownloaderPanelVisibility
+        {
+            get { return youtubeDownloaderPanelVisibility; }
+            set { youtubeDownloaderPanelVisibility = value; NotifyPropertyChanged(); }
+        }
+
         private Visibility audioDeletionPanelVisibility = Visibility.Hidden;
         public Visibility AudioDeletionPanelVisibility
         {
@@ -83,6 +91,7 @@ namespace WizHat.DreamingPhoenix
 
             grid_AppOptions.Visibility = Visibility.Visible;
             grid_DropPanel.Visibility = Visibility.Visible;
+            grid_YouTubeDownloader.Visibility = Visibility.Visible;
             grid_AcceptDeletion.Visibility = Visibility.Visible;
             grid_filterSettings.Visibility = Visibility.Visible;
             grid_AcceptSceneDeletion.Visibility = Visibility.Visible;
@@ -92,6 +101,12 @@ namespace WizHat.DreamingPhoenix
             uc_DropPanel.AudioFilesProcessed += async (s, e) =>
             {
                 AudioDropPanelVisibility = Visibility.Hidden;
+                AppModelInstance.SaveData();
+                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            };
+            uc_youtubeDownloader.OperationProcessed += async (s, e) =>
+            {
+                YouTubeDownloaderPanelVisibility = Visibility.Hidden;
                 AppModelInstance.SaveData();
                 await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
             };
@@ -454,6 +469,11 @@ namespace WizHat.DreamingPhoenix
             tabcontrol_main.SelectedIndex = 1;
             lbox_sceneList.SelectedItem = newScene;
             lbox_sceneList.Focus();
+        }
+
+        private void btn_addYouTube_Click(object sender, RoutedEventArgs e)
+        {
+            YouTubeDownloaderPanelVisibility = Visibility.Visible;
         }
     }
 }
