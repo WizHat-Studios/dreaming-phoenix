@@ -45,8 +45,8 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             get
             {
-                if (DownloadedPath == "")
-                    return "";
+                if (DownloadedPath == null)
+                    return null;
 
                 return Path.GetFileNameWithoutExtension(downloadedPath);
             }
@@ -81,8 +81,19 @@ namespace WizHat.DreamingPhoenix.UserControls
                 DownloadedPath = e.Value;
             };
 
+            grid_youtubeUrl.Visibility = Visibility.Collapsed;
+            btn_downloadVideo.IsEnabled = false;
+
             if (await youtubeAudio.DownloadAudio(YouTubeURL))
+            {
                 btn_add.IsEnabled = true;
+                border_downloadedMessage.Visibility = Visibility.Visible; 
+            }
+            else
+            {
+                grid_youtubeUrl.Visibility = Visibility.Visible;
+                btn_downloadVideo.IsEnabled = true;
+            }    
         }
 
         private void AudioTrack_Clicked(object sender, RoutedEventArgs e)
@@ -123,16 +134,35 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void Close()
         {
             OperationProcessed?.Invoke(this, EventArgs.Empty);
-            YouTubeURL = "";
-            DownloadedPath = "";
+            YouTubeURL = null;
+            DownloadedPath = null;
             pgb_downloadProgress.SetPercent(0);
             btn_add.IsEnabled = false;
+            grid_youtubeUrl.Visibility = Visibility.Visible;
+            border_downloadedMessage.Visibility = Visibility.Collapsed;
+            btn_downloadVideo.IsEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void tbox_youtubeUrl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tblock_videoLinkHint == null)
+                return;
+
+            if (string.IsNullOrEmpty(tbox_youtubeUrl.Text))
+                tblock_videoLinkHint.Visibility = Visibility.Visible;
+            else
+                tblock_videoLinkHint.Visibility = Visibility.Collapsed;
+        }
+
+        private void PasteLink_Click(object sender, RoutedEventArgs e)
+        {
+            YouTubeURL = Clipboard.GetText(TextDataFormat.Text);
         }
     }
 }
