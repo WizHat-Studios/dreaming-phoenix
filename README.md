@@ -82,10 +82,11 @@ If you give your audio file a category, it will be marked by a specific color. U
 This project is distributed under the GPL-3.0 License. See the [LICENSE](./LICENSE) file for more information.
 
 ## Acknowledgments
-This project has been made possible with the help of the following resources.
+This project has been made possible with the help of the following resources and people.
 
 * [Font Awesome](https://fontawesome.com/)
 * [Font Awesome WPF](https://github.com/DSaladinCH/fontawesome-wpf)
+* [Alexander C. (talehuntdesign)](https://de.fiverr.com/freelancers/talehuntdesign)
 * [Transitionz](https://github.com/ABTSoftware/SciChart.Wpf.UI)
 * [NAudio](https://github.com/naudio/NAudio)
 * [Newtonsoft Json](https://www.newtonsoft.com/json)

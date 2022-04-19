@@ -88,7 +88,23 @@
                         </TabItem.Header>
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
-                                <ListBox ItemsSource="{Binding Path=AppModelInstance.SearchResultAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                <Grid x:Name="grid_emptyListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY AUDIO YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                        <Label Content="CLICK THE PLUS OR DRAG AN AUDIO FILE HERE TO GET ROCKIN'" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Label Content="OOPS, LOOKS LIKE WE HAVEN'T FOUND ANYTHING." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                        <Label Content="TRY SOME OTHER FILTERS OR SEARCH FOR SOMETHING ELSE" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <ListBox x:Name="lbox_audioList" ItemsSource="{Binding Path=AppModelInstance.SearchResultAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
                                          ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged"
                                          GotFocus="AudioListBox_GotFocus" Margin="0,43,0,0">
@@ -230,6 +246,15 @@
                         </TabItem.Header>
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
+
+                                <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" Visibility="Visible">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY SCENES YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                        <Label Content="CREATE A SCENE TO PLAY MULTIPLE AUDIOS AT ONCE!" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
                                 <ListBox x:Name="lbox_sceneList" ItemsSource="{Binding Path=AppModelInstance.SceneList}" Background="{x:Null}"
                                          BorderBrush="{x:Null}" ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}"
                                          HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0"

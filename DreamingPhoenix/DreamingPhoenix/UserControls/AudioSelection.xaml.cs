@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -76,6 +77,31 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
+
+            ((INotifyCollectionChanged)lbox_selectableAudioList.Items).CollectionChanged += DetermineAudioListPrompt;
+        }
+
+        private void DetermineAudioListPrompt(object sender, NotifyCollectionChangedEventArgs e)
+        {
+
+            if (FilteredAudioList.Count == 0)
+            {
+                if (AudioList.Count == 0)
+                {
+                    grid_emptyListboxPrompt.Visibility = Visibility.Visible;
+                    grid_noSearchListboxPrompt.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    grid_emptyListboxPrompt.Visibility = Visibility.Collapsed;
+                    grid_noSearchListboxPrompt.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                grid_emptyListboxPrompt.Visibility = Visibility.Collapsed;
+                grid_noSearchListboxPrompt.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void SetupAudioSelection(Type selectionType, Audio previousAudio)

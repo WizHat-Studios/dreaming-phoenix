@@ -21,6 +21,7 @@ using WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector;
 using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.ExternalAudio;
+using System.Collections.Specialized;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -123,8 +124,48 @@ namespace WizHat.DreamingPhoenix
             uc_sceneDeletion.OperationProcessed += (s, e) => { SceneDeletionPanelVisibility = Visibility.Hidden; };
             uc_imageSelection.OperationProcessed += (s, e) => { ImageSelectionPanelVisibility = Visibility.Hidden; };
 
+            // Cast lbox_audioList to get the collection changed.
+            // We need to do this as we cannot use the Collection Changed of the AppModel ObservableCollectio due it being reset many times at runtime.
+            ((INotifyCollectionChanged)lbox_audioList.Items).CollectionChanged += DetermineAudioListPrompt;
+            ((INotifyCollectionChanged)lbox_sceneList.Items).CollectionChanged += DetermineSceneListPrompt;
+
             this.DataContext = this;
             SubscribeToAudioTrack();
+        }
+
+        private void DetermineSceneListPrompt(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (AppModelInstance.SceneList.Count == 0)
+            {
+                grid_emptySceneListboxPrompt.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid_emptySceneListboxPrompt.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void DetermineAudioListPrompt(object sender, NotifyCollectionChangedEventArgs e)
+        {
+
+            if (AppModelInstance.SearchResultAudioList.Count == 0)
+            {
+                if (AppModelInstance.AudioList.Count == 0)
+                {
+                    grid_emptyListboxPrompt.Visibility = Visibility.Visible;
+                    grid_noSearchListboxPrompt.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    grid_emptyListboxPrompt.Visibility = Visibility.Collapsed;
+                    grid_noSearchListboxPrompt.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                grid_emptyListboxPrompt.Visibility = Visibility.Collapsed;
+                grid_noSearchListboxPrompt.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void HotKeyHook_OnKeyboard(object sender, WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardEventArgs e)

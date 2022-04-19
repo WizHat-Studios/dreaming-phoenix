@@ -24,7 +24,12 @@
 
   <ItemGroup>
     <None Remove="Fonts\PhoenixFont-Regular.otf" />
+    <None Remove="Images\Biscuit\Biscuit_Guitar.png" />
     <None Remove="Images\DreamingPhoenix.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Biscuit\Biscuit_Guitar.png" />
   </ItemGroup>
 
   <ItemGroup>

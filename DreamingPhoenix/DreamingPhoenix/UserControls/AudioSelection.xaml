@@ -44,7 +44,23 @@
             <TextBox Height="30" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Margin="10,85,10,0" Style="{DynamicResource DarkTextBox}"/>
             <TextBlock HorizontalAlignment="Left" Margin="19,92,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}" Visibility="{Binding Path=SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}"/>
 
-            <ListBox ItemsSource="{Binding FilteredAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
+            <Grid x:Name="grid_emptyListboxPrompt" Visibility="Collapsed" Margin="10,115,10,165">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                    <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY AUDIO YET TO SELECT FROM HERE." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                    <Label Content="" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="grid_noSearchListboxPrompt" Visibility="Collapsed" Margin="10,115,10,165">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                    <Label Content="OOPS, LOOKS LIKE THERE IS NO AUDIO WITH THAT NAME" FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                    <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <ListBox x:Name="lbox_selectableAudioList" ItemsSource="{Binding FilteredAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
                                          ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,115,10,165" SelectedItem="{Binding SelectedAudio}">
                 <ListBox.Resources>
