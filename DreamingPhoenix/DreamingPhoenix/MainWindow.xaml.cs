@@ -22,6 +22,7 @@ using WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.ExternalAudio;
 using System.Collections.Specialized;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -246,14 +247,19 @@ namespace WizHat.DreamingPhoenix
         {
             if (((ListBox)sender).SelectedItem == null)
                 return;
-            SetPropertiesPanelFromAudio(((Audio)((ListBox)sender).SelectedItem));
+            SetPropertiesPanelFromAudio((Audio)((ListBox)sender).SelectedItem);
         }
 
         private void AudioListBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (((ListBox)sender).SelectedItem == null)
                 return;
-            SetPropertiesPanelFromAudio(((Audio)((ListBox)sender).SelectedItem));
+            SetPropertiesPanelFromAudio((Audio)((ListBox)sender).SelectedItem);
+        }
+
+        private void AudioListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            AppModel.Instance.AudioManager.PlayAudio((Audio)((ListBoxItem)sender).DataContext);
         }
 
         private void SetPropertiesPanelFromAudio(Audio audio)
