@@ -12,7 +12,8 @@ namespace WizHat.DreamingPhoenix.Cache
 {
     public class CacheManager
     {
-        private string IMAGE_CACHE_FOLDER_PATH { get; set; } = Path.Combine(AppContext.BaseDirectory, "/cache/images/");
+        // Do NOT use Path.Combine as this creates a relative URI but later an absolute URI is needed!!!
+        private string IMAGE_CACHE_FOLDER_PATH { get; set; } = AppContext.BaseDirectory + "cache/images/";
 
         private static CacheManager instance;
 
