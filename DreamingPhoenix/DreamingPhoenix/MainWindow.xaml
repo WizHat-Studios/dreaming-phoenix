@@ -279,14 +279,29 @@
                                         <DataTemplate DataType="{x:Type audio:Scene}">
                                             <Border Background="{DynamicResource BackgroundA}" CornerRadius="5" Margin="5,2.5,5,2.5">
                                                 <Grid Height="100">
-                                                    <!--<Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" CornerRadius="5">
-                                                        <Grid>
-                                                            <fa:FontAwesomeImage Icon="SolidLeaf" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
-                                                        </Grid>
-                                                    </Border>-->
-                                                    <Border Height="38" VerticalAlignment="Top" CornerRadius="5,5,5,5">
+
+                                                    <Border Height="38" VerticalAlignment="Top" CornerRadius="5,5,5,5" 
+                                                            Visibility="{Binding Path=AppModelInstance.Options.UseFullHeightForSceneBackground,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                            Converter={StaticResource InvertedBooleanVisibilityConverter}}" >
                                                         <Border.Background>
                                                             <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill" />
+                                                        </Border.Background>
+                                                        <Border.OpacityMask>
+                                                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                                                <GradientStop Color="Black" Offset="1" />
+                                                                <GradientStop Color="Black" Offset="0.5" />
+                                                                <GradientStop Offset="0.2" />
+                                                            </LinearGradientBrush>
+                                                        </Border.OpacityMask>
+                                                    </Border>
+
+                                                    <Border Height="100" VerticalAlignment="Top" CornerRadius="5,5,5,5" 
+                                                            Visibility="{Binding Path=AppModelInstance.Options.UseFullHeightForSceneBackground,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                                        <Border.Background>
+                                                            <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill" Opacity="0.4" />
                                                         </Border.Background>
                                                         <Border.OpacityMask>
                                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">

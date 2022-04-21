@@ -82,6 +82,18 @@ namespace WizHat.DreamingPhoenix.Data
             }
         }
 
+        private bool useFullHeightForSceneBackground = false;
+
+        public bool UseFullHeightForSceneBackground
+        {
+            get { return useFullHeightForSceneBackground; }
+            set
+            {
+                useFullHeightForSceneBackground = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private FilterOptions filterOptions;
 
         public FilterOptions FilterOptions

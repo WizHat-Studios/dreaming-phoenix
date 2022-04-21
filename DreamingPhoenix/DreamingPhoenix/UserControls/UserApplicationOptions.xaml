@@ -60,6 +60,17 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
+                        <TextBlock Text="USE FULL HEIGHT FOR SCENE BACKGROUND" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
+                        <ToggleButton Width="50" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" Style="{StaticResource OnOffIndicatorToggleButton}" IsChecked="{Binding Path=Options.UseFullHeightForSceneBackground}" FontSize="12" Grid.Column="1"/>
+                    </Grid>
+                </Border>
+
+                <Border Height="60" Background="{DynamicResource BackgroundA}" Margin="0,0,0,10" BorderThickness="1" BorderBrush="{DynamicResource AccentE}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
                         <TextBlock Text="DEFAULT AUDIO TRACK VOLUME" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
                         <Slider Height="20" VerticalAlignment="Center" Margin="20,0,60,0" Maximum="1" Minimum="0" SmallChange="0.05" LargeChange="0.1" Grid.Column="1" Value="{Binding Path=Options.DefaultAudioTrackVolume}"/>
                         <Label Content="{Binding Path=Options.DefaultAudioTrackVolume, Converter={StaticResource FloatToPercentageConverter}}" Height="30" VerticalAlignment="Center" Margin="20,0,20,0" Grid.Column="1" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
