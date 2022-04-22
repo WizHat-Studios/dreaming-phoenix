@@ -224,6 +224,11 @@ namespace WizHat.DreamingPhoenix.Data
             new FileExtension("aac")
         };
 
+        public List<FileExtension> ValidScenePackageExtensions = new List<FileExtension>()
+        {
+            new FileExtension("zip")
+        };
+
         public AppModel()
         {
             LoadData();

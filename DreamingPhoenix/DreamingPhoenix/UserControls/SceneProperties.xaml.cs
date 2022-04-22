@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Cache;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.Persistence;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -156,6 +157,16 @@ namespace WizHat.DreamingPhoenix.UserControls
 
             if (newAudioTrack != null)
                 Scene.SceneAudioTrack = (AudioTrack)newAudioTrack;
+        }
+
+        private void ExportScene_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                IPersistenceDataManager persistenceDataManager = new PersistenceJsonDataManager();
+                persistenceDataManager.ExportScene(saveFileDialog.FileName, Scene);
+            }
         }
     }
 }

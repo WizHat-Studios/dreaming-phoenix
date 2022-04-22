@@ -7,7 +7,7 @@
              xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FileDragDrop}"
-             d:DesignHeight="450" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True">
+             d:DesignHeight="450" d:DesignWidth="500" Width="500" IsHitTestVisible="True" AllowDrop="True">
     <Grid>
         <Grid x:Name="grd_audio" Visibility="Visible">
             <fa:FontAwesomeImage Icon="RegularFileAudio" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -20,7 +20,7 @@
                     <TextBox x:Name="tbox_newFileName" Height="30" Margin="10,8,10,9" Style="{StaticResource TransparentTextBox}" Text="{Binding AudioName}"/>
                 </Grid>
             </Border>
-            
+
             <Grid Margin="0,156,0,0" VerticalAlignment="Top" Height="101">
                 <ToggleButton x:Name="tglbtn_audioTrack" Margin="0,-30,140,0" Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidMusic"
                               HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" FontSize="45"
@@ -63,7 +63,7 @@
                     </Grid>
                 </Border>
             </StackPanel>
-            
+
             <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     Background="{DynamicResource BackgroundA}">
                 <Grid>
@@ -74,6 +74,48 @@
                 </Grid>
             </Border>
             <Label Content="{Binding DirectoryPath}" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePathConvert"
+                   VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
+        </Grid>
+        <Grid x:Name="grd_sceneImport" Visibility="Collapsed">
+            <StackPanel Margin="18,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <fa:FontAwesomeImage Icon="SolidLeaf"  Width="30" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" Height="50"/>
+                <Label Content="Scene Import" Margin="10,2,0,0" Height="30" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Margin="0,50,0,0">
+                <Border Margin="20,20,20,0" Background="{DynamicResource BackgroundA}" Height="140" CornerRadius="5">
+                    <Grid>
+
+                        <Border VerticalAlignment="Stretch" CornerRadius="5,5,5,5">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding ImportedScene.ImageSource}" Stretch="UniformToFill" Opacity="0.3" />
+                            </Border.Background>
+                        </Border>
+
+                        <Label Content="{Binding ImportedScene.SceneName, FallbackValue=Loading...}" Foreground="{DynamicResource ForegroundDefault}" Margin="0,20,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <ProgressBar Name="pgb_loadingScene" Visibility="Collapsed" Margin="10,55,10,10" VerticalAlignment="Top" Height="15" IsIndeterminate="True" Style="{DynamicResource pgb2}" />
+                        <fa:FontAwesomeImage Icon="SolidMusic" Foreground="{DynamicResource ForegroundDefault}" Margin="13,0,0,42" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Label Content="{Binding ImportedScene.SceneAudioTrack.Name, FallbackValue=Loading...}" Foreground="{DynamicResource ForegroundDefault}" Margin="50,0,0,40" HorizontalContentAlignment="Left" VerticalAlignment="Bottom"/>
+                        <fa:FontAwesomeImage Icon="SolidBolt" Foreground="{DynamicResource ForegroundDefault}" Margin="15,0,0,12" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <TextBlock Text="{Binding ImportedScene.SceneSoundEffects.Count, StringFormat={}{0} SoundEffects,FallbackValue=Loading...}" Foreground="{DynamicResource ForegroundDefault}" Margin="50,0,0,13" Padding="5,0,0,0" VerticalAlignment="Bottom"/>
+                    </Grid>
+                </Border>
+                <Grid Margin="20,10,20,10">
+                    <Label Content="Import directory:" HorizontalAlignment="Left" Foreground="{DynamicResource ForegroundDefault}" ToolTip="The directory to which all audio files will be saved to."/>
+                    <TextBox Text="{Binding ImportedSceneStoragePath, TargetNullValue={}\\imported_scene_audio}" Style="{DynamicResource DarkTextBox}" IsReadOnly="True" Margin="100,0,60,0"/>
+                    <Button x:Name="btn_browseSceneStoragePath" Content="..." Width="50" HorizontalAlignment="Right" Click="btn_browseSceneStoragePath_Click"/>
+                </Grid>
+            </StackPanel>
+
+            <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                    Background="{DynamicResource BackgroundA}">
+                <Grid>
+                    <Button Name="btn_cancelImport" Height="40" Click="Cancel_Click" Margin="200,0,0,0" Width="120" Content="Cancel" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
+                    <Button Name="btn_import" Height="40" Margin="0,0,200,0" Width="120" Content="Import" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Style="{StaticResource GreenButton}" Click="btn_import_Click"/>
+                </Grid>
+            </Border>
+            <Label Content="{Binding DirectoryPath}" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePathConvert1"
                    VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
         </Grid>
     </Grid>

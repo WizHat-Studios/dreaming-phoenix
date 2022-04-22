@@ -303,11 +303,11 @@ namespace WizHat.DreamingPhoenix
 
         private void Window_PreviewDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            List<string> files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
 
             AudioDropPanelVisibility = Visibility.Visible;
             this.Activate();
-            uc_DropPanel.OnDrop(files.ToList());
+            uc_DropPanel.OnDrop(files);
         }
 
         private void Window_DragOver(object sender, DragEventArgs e)
@@ -315,9 +315,12 @@ namespace WizHat.DreamingPhoenix
             bool allowDrop = false;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
+            if (files == null)
+                return;
+
             foreach (string file in files)
             {
-                if (FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file))
+                if (FileExtension.EndsWith(AppModelInstance.ValidAudioExtensions, file) || FileExtension.EndsWith(AppModelInstance.ValidScenePackageExtensions, file))
                 {
                     allowDrop = true;
                     break;

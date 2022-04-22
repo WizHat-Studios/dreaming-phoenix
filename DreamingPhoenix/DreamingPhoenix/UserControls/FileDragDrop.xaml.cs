@@ -27,6 +27,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     {
         private List<string> droppedFiles = new List<string>();
 
+        private Persistence.IPersistenceDataManager persistenceDataManager = new Persistence.PersistenceJsonDataManager();
+
         public event EventHandler AudioFilesProcessed;
 
         private string directoryPath;
@@ -77,6 +79,30 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
+        private Scene importedScene = null;
+
+        public Scene ImportedScene
+        {
+            get { return importedScene; }
+            set
+            {
+                importedScene = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string importedSceneStoragePath = null;
+
+        public string ImportedSceneStoragePath
+        {
+            get { return importedSceneStoragePath; }
+            set
+            {
+                importedSceneStoragePath = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public FileDragDrop()
         {
             InitializeComponent();
@@ -122,27 +148,41 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
 
             string path = droppedFiles[0];
-            if (!FileExtension.EndsWith(AppModel.Instance.ValidAudioExtensions, path))
+            if (!FileExtension.EndsWith(AppModel.Instance.ValidAudioExtensions, path) && !FileExtension.EndsWith(AppModel.Instance.ValidScenePackageExtensions, path))
             {
                 droppedFiles.RemoveAt(0);
                 ProcessNextFile();
                 return;
             }
 
-            FileName = Path.GetFileNameWithoutExtension(path);
-            AudioName = Path.GetFileNameWithoutExtension(path);
-            FileNameExt = Path.GetFileName(path);
-            DirectoryPath = Path.GetDirectoryName(path);
-
-            if (AppModel.Instance.AudioManager.IsWrongSampleRate(path))
+            if (FileExtension.EndsWith(AppModel.Instance.ValidScenePackageExtensions, path))
             {
+                grd_sceneImport.Visibility = Visibility.Visible;
                 grd_audio.Visibility = Visibility.Hidden;
-                grd_convert.Visibility = Visibility.Visible;
+                grd_convert.Visibility = Visibility.Hidden;
+
+                
+                ImportedScene = persistenceDataManager.PeekScene(path);
             }
             else
-            {
-                grd_audio.Visibility = Visibility.Visible;
-                grd_convert.Visibility = Visibility.Hidden;
+            { 
+                FileName = Path.GetFileNameWithoutExtension(path);
+                AudioName = Path.GetFileNameWithoutExtension(path);
+                FileNameExt = Path.GetFileName(path);
+                DirectoryPath = Path.GetDirectoryName(path);
+
+                if (AppModel.Instance.AudioManager.IsWrongSampleRate(path))
+                {
+                    grd_sceneImport.Visibility = Visibility.Hidden;
+                    grd_audio.Visibility = Visibility.Hidden;
+                    grd_convert.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grd_audio.Visibility = Visibility.Visible;
+                    grd_sceneImport.Visibility = Visibility.Hidden;
+                    grd_convert.Visibility = Visibility.Hidden;
+                }
             }
         }
 
@@ -210,6 +250,27 @@ namespace WizHat.DreamingPhoenix.UserControls
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void btn_import_Click(object sender, RoutedEventArgs e)
+        {
+            persistenceDataManager.ImportScene(droppedFiles[0], ImportedSceneStoragePath);
+            droppedFiles.RemoveAt(0);
+            ProcessNextFile();
+            
+        }
+
+        private void btn_browseSceneStoragePath_Click(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    ImportedSceneStoragePath = dialog.SelectedPath;
+                }
+            }
         }
     }
 }
