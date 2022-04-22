@@ -301,7 +301,9 @@
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                             Converter={StaticResource BooleanToVisibilityConverter}}" >
                                                         <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill" Opacity="0.4" />
+                                                            <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill" 
+                                                                        Opacity="{Binding Path=AppModelInstance.Options.FullHeightSceneBackgroundOpacity,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                                         </Border.Background>
                                                         <Border.OpacityMask>
                                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">

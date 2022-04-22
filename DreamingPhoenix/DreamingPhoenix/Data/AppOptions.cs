@@ -94,6 +94,18 @@ namespace WizHat.DreamingPhoenix.Data
             }
         }
 
+        private float fullHeightSceneBackgroundOpacity = 0.4f;
+
+        public float FullHeightSceneBackgroundOpacity
+        {
+            get { return fullHeightSceneBackgroundOpacity; }
+            set
+            {
+                fullHeightSceneBackgroundOpacity = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private FilterOptions filterOptions;
 
         public FilterOptions FilterOptions
