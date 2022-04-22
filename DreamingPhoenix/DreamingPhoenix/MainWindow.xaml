@@ -90,7 +90,7 @@
                             <Grid Background="{DynamicResource BackgroundC}">
                                 <Grid x:Name="grid_emptyListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY AUDIO YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                         <Label Content="CLICK THE PLUS OR DRAG AN AUDIO FILE HERE TO GET ROCKIN'" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                     </StackPanel>
@@ -98,7 +98,7 @@
 
                                 <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="OOPS, LOOKS LIKE WE HAVEN'T FOUND ANYTHING." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                         <Label Content="TRY SOME OTHER FILTERS OR SEARCH FOR SOMETHING ELSE" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                     </StackPanel>
@@ -262,7 +262,7 @@
 
                                 <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" Visibility="Visible">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150"/>
+                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY SCENES YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                         <Label Content="CREATE A SCENE TO PLAY MULTIPLE AUDIOS AT ONCE!" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                     </StackPanel>
