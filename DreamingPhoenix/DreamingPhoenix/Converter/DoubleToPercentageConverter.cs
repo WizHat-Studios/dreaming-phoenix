@@ -6,11 +6,11 @@ using System.Windows.Data;
 
 namespace WizHat.DreamingPhoenix.Converter
 {
-    public class FloatToPercentageConverter : IValueConverter
+    public class DoubleToPercentageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Round((float)value * 100, 0).ToString() + " %";
+            return Math.Round((double)value * 100, 0).ToString() + " %";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

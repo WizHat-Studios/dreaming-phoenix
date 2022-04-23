@@ -110,7 +110,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
 
             // Create new Reader and subscribe to all events
             AudioTrackReader = new NAudioTrackReader(CurrentAudio.AudioFile);
-            AudioTrackReader.Volume = CurrentAudio.Volume;
+            AudioTrackReader.Volume = (float)CurrentAudio.Volume;
             AudioTrackReader.AudioStopped += (s, e) => OnAudioStopped(s, e);
             AudioTrackReader.AudioPaused += (s, e) => AudioPaused?.Invoke(this, EventArgs.Empty);
             AudioTrackReader.AudioStarted += (s, e) => AudioStarted?.Invoke(this, EventArgs.Empty);
@@ -119,7 +119,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             CurrentAudio.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CurrentAudio.Volume) && AudioTrackReader != null)
-                    AudioTrackReader.Volume = CurrentAudio.Volume;
+                    AudioTrackReader.Volume = (float)CurrentAudio.Volume;
             };
 
             // Insert Reader to MixingSampleProvider

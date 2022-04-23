@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ namespace WizHat.DreamingPhoenix.Data
 {
     public class AppOptions : INotifyPropertyChanged
     {
+        public event EventHandler OnDefaultOutputDeviceChanged;
 
         private bool extendedModeEnabled = false;
 
@@ -20,17 +22,17 @@ namespace WizHat.DreamingPhoenix.Data
             set { extendedModeEnabled = value; NotifyPropertyChanged(); }
         }
 
-        private float defaultAudioTrackVolume = 0.25f;
+        private double defaultAudioTrackVolume = 0.25;
 
-        public float DefaultAudioTrackVolume
+        public double DefaultAudioTrackVolume
         {
             get { return defaultAudioTrackVolume; }
             set { defaultAudioTrackVolume = value; NotifyPropertyChanged(); }
         }
 
-        private float defaultSoundEffectVolume = 0.25f;
+        private double defaultSoundEffectVolume = 0.25;
 
-        public float DefaultSoundEffectVolume
+        public double DefaultSoundEffectVolume
         {
             get { return defaultSoundEffectVolume; }
             set { defaultSoundEffectVolume = value; NotifyPropertyChanged(); }
@@ -41,7 +43,22 @@ namespace WizHat.DreamingPhoenix.Data
         public int DefaultOutputDevice
         {
             get { return defaultOutputDevice; }
-            set { defaultOutputDevice = value; NotifyPropertyChanged(); }
+            set
+            {
+                defaultOutputDevice = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
+        public int DefaultOutputDeviceIndex
+        {
+            get { return DefaultOutputDevice + 1; }
+            set
+            {
+                DefaultOutputDevice = value - 1;
+                NotifyPropertyChanged();
+            }
         }
 
         private int selectedColorScheme;
@@ -94,9 +111,9 @@ namespace WizHat.DreamingPhoenix.Data
             }
         }
 
-        private float fullHeightSceneBackgroundOpacity = 0.4f;
+        private double fullHeightSceneBackgroundOpacity = 0.4;
 
-        public float FullHeightSceneBackgroundOpacity
+        public double FullHeightSceneBackgroundOpacity
         {
             get { return fullHeightSceneBackgroundOpacity; }
             set
@@ -140,7 +157,17 @@ namespace WizHat.DreamingPhoenix.Data
 
         public AppOptions()
         {
-
+            AppModel.Loaded += (s, e) =>
+            {
+                PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(DefaultOutputDevice))
+                    {
+                        AppModel.Instance.ChangeOutputDevice(AppModel.Instance.Options.DefaultOutputDevice);
+                        OnDefaultOutputDeviceChanged?.Invoke(this, EventArgs.Empty);
+                    }
+                };
+            };
         }
 
 

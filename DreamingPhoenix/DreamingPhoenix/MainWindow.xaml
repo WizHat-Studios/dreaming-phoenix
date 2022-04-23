@@ -465,9 +465,10 @@
                     BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
                     tz:Transitionz.Visibility="{Binding Path=SettingsPanelVisibility}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
+                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}"
+                    MaxWidth="750" MaxHeight="900">
                 <Grid>
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30" Margin="20" Style="{StaticResource TransparentRedButton}"
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30" Margin="40,40,40,40" Style="{StaticResource TransparentRedButton}"
                             fa:Content.Icon="SolidCircleXmark" FontSize="26" Click="HideSettings_Click" />
                     <uc:UserApplicationOptions />
                 </Grid>

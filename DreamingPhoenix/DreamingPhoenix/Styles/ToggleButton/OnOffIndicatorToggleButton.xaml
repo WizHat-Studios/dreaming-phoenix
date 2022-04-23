@@ -22,7 +22,6 @@
                         <Grid>
                             <Label x:Name="lbl_onOffIndicator" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
-                 
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
