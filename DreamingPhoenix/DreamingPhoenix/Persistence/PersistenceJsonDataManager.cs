@@ -5,6 +5,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WizHat.DreamingPhoenix.AudioHandling;
@@ -54,14 +56,12 @@ namespace WizHat.DreamingPhoenix.Persistence
             return true;
         }
 
-        public bool ExportScene(string exportFileNameWithPath, Scene sceneToExport)
+        public async Task<bool> ExportScene(string exportFileNameWithPath, Scene sceneToExport)
         {
-            string tempSceneId = Guid.NewGuid().ToString("n");
-
             Scene clonedScene = JsonConvert.DeserializeObject<Scene>(JsonConvert.SerializeObject(sceneToExport));
 
             List<string> filesToZip = new();
-            
+
             filesToZip.Add(clonedScene.SceneAudioTrack.AudioFile);
             clonedScene.SceneAudioTrack.AudioFile = Path.GetFileName(clonedScene.SceneAudioTrack.AudioFile);
 
@@ -79,15 +79,23 @@ namespace WizHat.DreamingPhoenix.Persistence
                     {
                         foreach (var file in filesToZip)
                         {
-                            archive.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                            var audioEntry = archive.CreateEntry(Path.GetFileName(file));
+
+                            using (var entryStream = audioEntry.Open())
+                            {
+                                using (var fileStream = new FileStream(file, FileMode.Open))
+                                {
+                                    await fileStream.CopyToAsync(entryStream);
+                                }
+                            }
                         }
 
-                        var demoFile = archive.CreateEntry("scene.json");
+                        var sceneFile = archive.CreateEntry("scene.json");
 
-                        using (var entryStream = demoFile.Open())
+                        using (var entryStream = sceneFile.Open())
                         using (var streamWriter = new StreamWriter(entryStream))
                         {
-                            streamWriter.Write(JsonConvert.SerializeObject(clonedScene, Formatting.Indented));
+                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented));
                         }
 
                         using (MemoryStream imgStream = new MemoryStream())
@@ -102,15 +110,15 @@ namespace WizHat.DreamingPhoenix.Persistence
                             var backgroundEntry = archive.CreateEntry("background.png");
                             imgStream.Read(imageData, 0, imageData.Length);
                             Stream bgStream = backgroundEntry.Open();
-                            bgStream.Write(imageData);
-                        
+                            await bgStream.WriteAsync(imageData);
+
                         }
                     }
 
                     using (var fileStream = new FileStream(exportFileNameWithPath, FileMode.Create))
                     {
                         memoryStream.Seek(0, SeekOrigin.Begin);
-                        memoryStream.CopyTo(fileStream);
+                        await memoryStream.CopyToAsync(fileStream);
                     }
                 }
 
@@ -123,7 +131,7 @@ namespace WizHat.DreamingPhoenix.Persistence
             return true;
         }
 
-        public Scene PeekScene(string fileName)
+        public async Task<Scene> PeekScene(string fileName)
         {
             Scene scene = null;
 
@@ -144,7 +152,7 @@ namespace WizHat.DreamingPhoenix.Persistence
                     using (var zipStream = backgroundEntry.Open())
                     using (var memoryStream = new MemoryStream())
                     {
-                        zipStream.CopyTo(memoryStream);
+                        await zipStream.CopyToAsync(memoryStream);
                         memoryStream.Position = 0;
 
                         var bitmap = new BitmapImage();
@@ -162,7 +170,8 @@ namespace WizHat.DreamingPhoenix.Persistence
             return scene;
         }
 
-        public void ImportScene(string packageFile, string saveDirectory)
+        
+        public async Task ImportScene(string packageFile, string saveDirectory)
         {
             Scene scene = null;
 
@@ -186,7 +195,7 @@ namespace WizHat.DreamingPhoenix.Persistence
                     using (var zipStream = backgroundEntry.Open())
                     using (var memoryStream = new MemoryStream())
                     {
-                        zipStream.CopyTo(memoryStream);
+                        await zipStream.CopyToAsync(memoryStream);
                         memoryStream.Position = 0;
 
                         var bitmap = new BitmapImage();
@@ -203,7 +212,13 @@ namespace WizHat.DreamingPhoenix.Persistence
                 {
                     // Background and scene don't need to be unpacked
                     if (entry.Name != "background.png" && entry.Name != "scene.json")
-                        entry.ExtractToFile(Path.Combine(saveDirectory, entry.Name), true);
+                    {
+                        using (Stream zipStream = entry.Open())
+                        using (FileStream fileStream = new FileStream(Path.Combine(saveDirectory, entry.Name), FileMode.Create))
+                        {
+                            await zipStream.CopyToAsync(fileStream);
+                        }
+                    }
                 }
 
                 // Change path of audios to match relative directory
@@ -211,6 +226,7 @@ namespace WizHat.DreamingPhoenix.Persistence
 
                 if (scene.SceneAudioTrack.AudioFile.StartsWith(AppContext.BaseDirectory))
                     scene.SceneAudioTrack.AudioFile = Path.GetRelativePath(AppContext.BaseDirectory, scene.SceneAudioTrack.AudioFile);
+
 
                 AppModel.Instance.AudioList.Add(scene.SceneAudioTrack);
 
@@ -220,11 +236,9 @@ namespace WizHat.DreamingPhoenix.Persistence
 
                     if (sfx.AudioFile.StartsWith(AppContext.BaseDirectory))
                         sfx.AudioFile = Path.GetRelativePath(AppContext.BaseDirectory, sfx.AudioFile);
-
+                    
                     AppModel.Instance.AudioList.Add(sfx);
                 }
-
-               
             }
 
             scene.ImageCacheID = Cache.CacheManager.Instance.GetNewCacheID();

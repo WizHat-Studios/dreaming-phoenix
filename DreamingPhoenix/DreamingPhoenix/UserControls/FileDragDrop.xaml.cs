@@ -103,6 +103,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
+        private bool isImportBusy = false;
+
+        public bool IsImportBusy
+        {
+            get { return isImportBusy; }
+            set { isImportBusy = value; NotifyPropertyChanged(); }
+        }
+
+
         public FileDragDrop()
         {
             InitializeComponent();
@@ -139,7 +148,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             ProcessNextFile();
         }
 
-        private void ProcessNextFile()
+        private async void ProcessNextFile()
         {
             if (droppedFiles.Count == 0)
             {
@@ -162,7 +171,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 grd_convert.Visibility = Visibility.Hidden;
 
                 
-                ImportedScene = persistenceDataManager.PeekScene(path);
+                ImportedScene = await persistenceDataManager.PeekScene(path);
             }
             else
             { 
@@ -252,9 +261,11 @@ namespace WizHat.DreamingPhoenix.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private void btn_import_Click(object sender, RoutedEventArgs e)
+        private async void btn_import_Click(object sender, RoutedEventArgs e)
         {
-            persistenceDataManager.ImportScene(droppedFiles[0], ImportedSceneStoragePath);
+            IsImportBusy = true;
+            await persistenceDataManager.ImportScene(droppedFiles[0], ImportedSceneStoragePath);
+            IsImportBusy = false;
             droppedFiles.RemoveAt(0);
             ProcessNextFile();
             
