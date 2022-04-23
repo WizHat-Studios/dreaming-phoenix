@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -47,6 +49,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             set { scene = value; NotifyPropertyChanged(); }
         }
 
+        private bool isDownloadBusy = false;
+
+        public bool IsDownloadBusy
+        {
+            get { return isDownloadBusy; }
+            set { isDownloadBusy = value; NotifyPropertyChanged(); }
+        }
+
+
 
 
         public ImageSelection()
@@ -91,17 +102,41 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        private void DownloadWebImage_Click(object sender, RoutedEventArgs e)
+        private async void DownloadWebImage_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                IsDownloadBusy = true;
                 var uri = new Uri(tbox_webLink.Text);
-                SelectedImage = new BitmapImage(uri);
+
+                BitmapImage bitmap = null;
+                var httpClient = new HttpClient();
+
+                using (var response = await httpClient.GetAsync(uri))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            await response.Content.CopyToAsync(stream);
+                            stream.Seek(0, SeekOrigin.Begin);
+
+                            bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.StreamSource = stream;
+                            bitmap.EndInit();
+                            bitmap.Freeze();
+                        }
+                    }
+                }
+
+                SelectedImage = bitmap;
             }
             catch (Exception)
             {
-
             }
+            IsDownloadBusy = false;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

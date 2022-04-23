@@ -4,9 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
-             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml" 
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              d:DataContext="{d:DesignInstance local:ImageSelection}"
              mc:Ignorable="d" Height="433" Width="520">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
     <Grid>
         <Grid x:Name="grd_image" Visibility="Visible">
             <Label Content="IMAGE PREVIEW" Margin="20,229,20,108" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundDimmed}" VerticalAlignment="Center"/>
@@ -45,7 +56,10 @@
                             <TextBox x:Name="tbox_webLink" Height="27" VerticalAlignment="Top" Style="{DynamicResource DarkTextBox}" Padding="4,4,25,0" Margin="15,15,15,0" TextChanged="tbox_webLink_TextChanged"/>
                             <TextBlock x:Name="tblock_webLinkHint" IsHitTestVisible="False" Height="27" VerticalAlignment="Top" Padding="9,5,5,5" Text="Paste link to web image here" Foreground="{DynamicResource ForegroundDimmed}" Margin="15,15,15,0"/>
                             <Button Style="{StaticResource TransparentButton}" ToolTip="Paste from Clipboard" fa:Content.Icon="RegularClipboard" HorizontalAlignment="Right" Margin="0,15,15,0" VerticalAlignment="Top" Height="27" Width="30" Click="PasteLink_Click"/>
-                            <Button Margin="0,40,0,0" Height="35" Content="Download Image" Width="150" HorizontalAlignment="Center" Click="DownloadWebImage_Click"/>
+                            <Button Visibility="{Binding IsDownloadBusy, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Margin="0,40,0,0" Height="35" Content="Download Image" Width="150" HorizontalAlignment="Center" Click="DownloadWebImage_Click"/>
+                            <Border Visibility="{Binding IsDownloadBusy, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,40,0,0" Height="35" Width="150" HorizontalAlignment="Center" Background="{DynamicResource AccentD}" CornerRadius="5">
+                                <local:LoadingSpinner Height="35"/>
+                            </Border>
                         </Grid>
                     </Border>
                 </TabItem>
