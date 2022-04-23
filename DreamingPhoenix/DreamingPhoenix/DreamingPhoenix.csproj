@@ -23,9 +23,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\UserOption\**" />
+    <EmbeddedResource Remove="Data\UserOption\**" />
+    <None Remove="Data\UserOption\**" />
+    <Page Remove="Data\UserOption\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Fonts\PhoenixFont-Regular.otf" />
     <None Remove="Images\Biscuit\Biscuit_Guitar.png" />
     <None Remove="Images\DreamingPhoenix.ico" />
+    <None Remove="Images\DreamingPhoenix.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +51,10 @@
   <ItemGroup>
     <Resource Include="Fonts\PhoenixFont-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DreamingPhoenix.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </Resource>
     <EmbeddedResource Include="Images\DreamingPhoenix.ico" />
   </ItemGroup>
@@ -62,10 +74,6 @@
 
   <ItemGroup>
     <None Update="Images\DreamingPhoenix-0.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="Images\DreamingPhoenix.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

@@ -36,9 +36,8 @@ namespace WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector
         }
         public bool IsSelectingHotkey { get; set; } = false;
 
-
-        public static readonly DependencyProperty SelectedHotkeyProperty = DependencyProperty.Register("SelectedHotkey", typeof(Key), typeof(HotkeySelector), new FrameworkPropertyMetadata(Key.NoName, OnSelectedHotkeyPropertyChanged));
-        public static readonly DependencyProperty ModifierKeysProperty = DependencyProperty.Register("ModifierKeys", typeof(ModifierKeys), typeof(HotkeySelector), new FrameworkPropertyMetadata(ModifierKeys.None, OnModifierKeysPropertyChanged));
+        public static readonly DependencyProperty SelectedHotkeyProperty = DependencyProperty.Register("SelectedHotkey", typeof(Key), typeof(HotkeySelector), new FrameworkPropertyMetadata(Key.NoName, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedHotkeyPropertyChanged));
+        public static readonly DependencyProperty ModifierKeysProperty = DependencyProperty.Register("ModifierKeys", typeof(ModifierKeys), typeof(HotkeySelector), new FrameworkPropertyMetadata(ModifierKeys.None, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnModifierKeysPropertyChanged));
 
         private string SelectedHotkeyText => (ModifierKeys.HasFlag(ModifierKeys.Shift) ? "[Shift]+" : "") +
                                              (ModifierKeys.HasFlag(ModifierKeys.Control) ? "[Ctrl]+" : "") +

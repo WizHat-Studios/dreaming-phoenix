@@ -12,7 +12,7 @@
              d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="800">
     <UserControl.Resources>
-        <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
+        <converters:DoubleToPercentageConverter x:Key="DoubleToPercentConverter"/>
         <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
@@ -48,7 +48,7 @@
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
                     <Label Content="VOLUME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
-                    <Label Content="{Binding Path=Track.Volume, Converter={StaticResource FloatToPercentConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" 
+                    <Label Content="{Binding Path=Track.Volume, Converter={StaticResource DoubleToPercentConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" 
                            HorizontalContentAlignment="Right" Margin="0,0,10,0" />
                     <Slider Value="{Binding Track.Volume, Mode=TwoWay}" Height="20" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" 
                             DockPanel.Dock="Right" VerticalAlignment="Center" />

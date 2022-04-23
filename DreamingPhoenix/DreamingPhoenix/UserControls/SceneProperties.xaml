@@ -12,7 +12,7 @@
              d:DataContext="{d:DesignInstance local:SceneProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="800">
     <UserControl.Resources>
-        <converters:FloatToPercentageConverter x:Key="FloatToPercentConverter"/>
+        <converters:DoubleToPercentageConverter x:Key="DoubleToPercentConverter"/>
         <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>

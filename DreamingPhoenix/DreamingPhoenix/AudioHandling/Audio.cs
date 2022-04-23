@@ -39,12 +39,12 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         }
 
 
-        private float volume;
+        private double volume;
 
         /// <summary>
         /// Volume of the audio file
         /// </summary>
-        public float Volume
+        public double Volume
         {
             get { return volume; }
             set { volume = value; NotifyPropertyChanged(); }

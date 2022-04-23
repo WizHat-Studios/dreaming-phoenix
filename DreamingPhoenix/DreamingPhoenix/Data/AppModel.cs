@@ -34,8 +34,9 @@ namespace WizHat.DreamingPhoenix.Data
             }
         }
 
-        public bool SearchActive { get { return !string.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
+        public static event EventHandler Loaded;
 
+        public bool SearchActive { get { return !string.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
 
         private ObservableCollection<Audio> searchResultAudioList;
         /// <summary>
@@ -243,6 +244,7 @@ namespace WizHat.DreamingPhoenix.Data
             LoadData();
             AudioList.CollectionChanged += (s, e) => { NotifyPropertyChanged(nameof(SearchResultAudioList)); };
             searchResultAudioList = audioList;
+            Loaded?.Invoke(this, EventArgs.Empty);
         }
 
         public void SaveData()
@@ -277,7 +279,7 @@ namespace WizHat.DreamingPhoenix.Data
                 Options = data.AppOptions;
                 WindowOptions = data.WindowOptions;
 
-                if (Options.DefaultOutputDevice - 1 > WaveOut.DeviceCount - 1)
+                if (Options.DefaultOutputDevice > WaveOut.DeviceCount - 1)
                     Options.DefaultOutputDevice = -1;
             }
         }
