@@ -65,6 +65,10 @@
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,115,10,165" SelectedItem="{Binding SelectedAudio}">
                 <ListBox.Resources>
 
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="AudioListBoxItem_MouseDoubleClick" />
+                    </Style>
+
                     <DataTemplate DataType="{x:Type audio:AudioTrack}">
                         <Border Background="{DynamicResource BackgroundC}" CornerRadius="5" Margin="5,2.5,5,2.5">
                             <Grid>
