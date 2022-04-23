@@ -4,12 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
-             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml" 
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FileDragDrop}"
              d:DesignHeight="450" d:DesignWidth="500" Width="500" IsHitTestVisible="True" AllowDrop="True">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
     <Grid>
-        <Grid x:Name="grd_audio" Visibility="Visible">
+        <Grid x:Name="grd_audio" Visibility="Collapsed">
             <fa:FontAwesomeImage Icon="RegularFileAudio" Margin="18,13,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Top"
                              Foreground="{DynamicResource ForegroundDefault}" Height="49"/>
             <Label Content="{Binding FileName}" Foreground="{DynamicResource ForegroundDefault}" Margin="75,13,10,0" x:Name="lbl_fileName"
@@ -76,7 +87,7 @@
             <Label Content="{Binding DirectoryPath}" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePathConvert"
                    VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
         </Grid>
-        <Grid x:Name="grd_sceneImport" Visibility="Collapsed">
+        <Grid x:Name="grd_sceneImport" Visibility="Visible">
             <StackPanel Margin="18,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <fa:FontAwesomeImage Icon="SolidLeaf"  Width="30" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" Height="50"/>
                 <Label Content="Scene Import" Margin="10,2,0,0" Height="30" VerticalAlignment="Top" Foreground="{DynamicResource ForegroundDefault}" FontWeight="Bold" HorizontalContentAlignment="Center"/>
@@ -111,12 +122,13 @@
                 <Grid>
                     <Button Name="btn_cancelImport" Height="40" Click="Cancel_Click" Margin="200,0,0,0" Width="120" Content="Cancel" VerticalAlignment="Center"
                             HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
-                    <Button Name="btn_import" Height="40" Margin="0,0,200,0" Width="120" Content="Import" VerticalAlignment="Center"
+                    <Button Name="btn_import" IsEnabled="{Binding IsImportBusy, Converter={StaticResource BooleanInvertConverter}}" Height="40" Margin="0,0,200,0" Width="120" Content="Import" VerticalAlignment="Center"
                             HorizontalAlignment="Center" Style="{StaticResource GreenButton}" Click="btn_import_Click"/>
+                    <Border Margin="0,0,200,0" Visibility="{Binding IsImportBusy, Converter={StaticResource BooleanToVisibilityConverter}}" Height="40" Width="120" Background="{DynamicResource OKNormal}" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource OKBright}">
+                        <local:LoadingSpinner Width="40" Height="40"/>
+                    </Border>
                 </Grid>
             </Border>
-            <Label Content="{Binding DirectoryPath}" Foreground="{DynamicResource ForegroundDimmed}" Margin="75,41,10,0" x:Name="lbl_filePathConvert1"
-                   VerticalAlignment="Top" FontWeight="Normal" FontSize="10" Height="26"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -165,6 +165,15 @@ namespace WizHat.DreamingPhoenix.Data
             set { options = value; NotifyPropertyChanged(); }
         }
 
+        private WindowOptions windowOptions = new WindowOptions();
+
+        public WindowOptions WindowOptions
+        {
+            get { return windowOptions; }
+            set { windowOptions= value; NotifyPropertyChanged(); }
+        }
+
+
         private ObservableCollection<Tag> availableTags = new ObservableCollection<Tag>();
 
         public ObservableCollection<Tag> AvailableTags
@@ -240,11 +249,19 @@ namespace WizHat.DreamingPhoenix.Data
 
         public void SaveData()
         {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            if (mainWindow.WindowState == WindowState.Normal)
+            {
+                WindowOptions.Height = mainWindow.Height;
+                WindowOptions.Width = mainWindow.Width;
+            }
+
             Persistence.PersistentData persistentData = new Persistence.PersistentData()
             {
                 AudioList = new List<Audio>(AudioList),
                 SceneList = new List<Scene>(SceneList),
-                AppOptions = Options
+                AppOptions = Options,
+                WindowOptions = WindowOptions
             };
 
             new Persistence.PersistenceJsonDataManager().Save(persistentData);
@@ -260,6 +277,7 @@ namespace WizHat.DreamingPhoenix.Data
                 data.AudioList.ForEach(x => AudioList.Add(x));
                 data.SceneList.ForEach(x => SceneList.Add(x));
                 Options = data.AppOptions;
+                WindowOptions = data.WindowOptions;
 
                 if (Options.DefaultOutputDevice > WaveOut.DeviceCount - 1)
                     Options.DefaultOutputDevice = -1;

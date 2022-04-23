@@ -144,5 +144,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             Close();
         }
+
+        private void AudioListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Close(SelectedAudio);
+        }
     }
 }

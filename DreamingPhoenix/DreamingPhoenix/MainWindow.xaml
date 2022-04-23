@@ -12,10 +12,12 @@
         xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindow}"
-        Title="Dreaming Phoenix" Height="450" Width="851"
+        Title="Dreaming Phoenix"
         Style="{StaticResource CustomWindowStyle}" Foreground="{DynamicResource ForegroundDefault}"
         Background="{DynamicResource BackgroundA}" Closing="Window_Closing" AllowDrop="True" PreviewDrop="Window_PreviewDrop"
-        DragOver="Window_DragOver" MinHeight="500" MinWidth="850" Loaded="window_MainWindow_Loaded">
+        DragOver="Window_DragOver" MinHeight="500" MinWidth="850" Loaded="window_MainWindow_Loaded"
+        Height="500" Width="700"
+        WindowStartupLocation="Manual" SourceInitialized="window_MainWindow_SourceInitialized">
     <Window.Resources>
         <converters:ObjectToPlayingStringConverter x:Key="ObjectToPlayingStringConverter" />
         <converters:DecimalToAudioTime x:Key="DecimalToAudioTimeConverter" />
@@ -37,9 +39,9 @@
             <Grid Background="{DynamicResource BackgroundC}" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="2*" MinWidth="450" />
+                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalLeft, Mode=TwoWay}" MinWidth="450" />
                     <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="1*" MinWidth="315" />
+                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalRight, Mode=TwoWay}" MinWidth="315" />
                 </Grid.ColumnDefinitions>
 
                 <Grid Background="{DynamicResource BackgroundA}">
@@ -346,9 +348,9 @@
                 <Grid Grid.Column="3" Background="{DynamicResource BackgroundB}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="140" />
-                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding AppModelInstance.WindowOptions.GridSplitterHorizontallRowOne, Mode=TwoWay}" />
                         <RowDefinition Height="5" />
-                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding AppModelInstance.WindowOptions.GridSplitterHorizontallRowThree, Mode=TwoWay}" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">

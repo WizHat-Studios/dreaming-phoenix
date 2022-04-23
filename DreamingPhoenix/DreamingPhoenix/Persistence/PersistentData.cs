@@ -11,5 +11,6 @@ namespace WizHat.DreamingPhoenix.Persistence
         public List<Audio> AudioList = new List<Audio>();
         public List<Scene> SceneList = new List<Scene>();
         public AppOptions AppOptions = new AppOptions();
+        public WindowOptions WindowOptions = new WindowOptions();
     }
 }

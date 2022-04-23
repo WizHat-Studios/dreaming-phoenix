@@ -9,7 +9,7 @@
              xmlns:dp="clr-namespace:WizHat.DreamingPhoenix"
              xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
-             d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
+             d:DataContext="{d:DesignInstance local:SceneProperties}"
              mc:Ignorable="d" d:Width="500" d:Height="800">
     <UserControl.Resources>
         <converters:DoubleToPercentageConverter x:Key="DoubleToPercentConverter"/>
@@ -80,7 +80,7 @@
                         <Label Content="SOUND EFFECTS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Width="120" />
                         <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
                     </Grid>
-                    <ListBox Height="250" ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
+                    <ListBox ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="5" BorderBrush="{DynamicResource BackgroundG}" BorderThickness="1" Margin="5,10,5,0" HorizontalAlignment="Stretch">
@@ -102,8 +102,12 @@
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
             <Button Height="50" Width="50" fa:Content.Icon="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteScene_Click" ToolTip="Delete scene"/>
-            <Button Height="50" Width="50" fa:Content.Icon="SolidFileExport" HorizontalAlignment="Right" Margin="0,0,70,0"
+            <Button Height="50" Visibility="{Binding IsExportBusy, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Width="50" fa:Content.Icon="SolidFileExport" HorizontalAlignment="Right" Margin="0,0,70,0"
                     Style="{StaticResource TransparentButton}" FontSize="20" ToolTip="Export scene" Click="ExportScene_Click"/>
+            <local:LoadingSpinner Height="50" Visibility="{Binding IsExportBusy, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentB}" Width="50" HorizontalAlignment="Right" Margin="0,0,74,0"/>
+            <Border x:Name="grid_exportedSuccess" Visibility="Collapsed" Margin="0,0,83,0" Height="30" Width="30" HorizontalAlignment="Right" Background="White" CornerRadius="20">
+                <fa:FontAwesomeImage Foreground="{DynamicResource OKNormal}" Icon="SolidCircleCheck"/>
+            </Border>
             <Separator RenderTransformOrigin="0.5,0.5" Height="10" HorizontalAlignment="Right" Margin="0,0,45,0" Width="40" Background="{DynamicResource ForegroundDimmed}">
                 <Separator.RenderTransform>
                     <TransformGroup>

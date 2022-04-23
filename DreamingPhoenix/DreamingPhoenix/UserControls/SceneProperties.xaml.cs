@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -58,6 +59,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             get { return areAudioFilesValid; }
             set { areAudioFilesValid = value; NotifyPropertyChanged(); }
         }
+
+        private bool isExportBusy = false;
+
+        public bool IsExportBusy
+        {
+            get { return isExportBusy; }
+            set { isExportBusy = value; NotifyPropertyChanged(); }
+        }
+
 
 
         public SceneProperties(Scene scene)
@@ -159,13 +169,24 @@ namespace WizHat.DreamingPhoenix.UserControls
                 Scene.SceneAudioTrack = (AudioTrack)newAudioTrack;
         }
 
-        private void ExportScene_Click(object sender, RoutedEventArgs e)
+        private async void ExportScene_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = "ZIP File (*.zip)|*.zip|All files (*.*)|*.*";
+            saveFileDialog.DefaultExt = ".zip";
+            saveFileDialog.FileName = Scene.SceneName;
+            saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                IsExportBusy = true;
                 IPersistenceDataManager persistenceDataManager = new PersistenceJsonDataManager();
-                persistenceDataManager.ExportScene(saveFileDialog.FileName, Scene);
+                await persistenceDataManager.ExportScene(saveFileDialog.FileName, Scene);
+                IsExportBusy = false;
+
+                grid_exportedSuccess.Visibility = Visibility.Visible;
+                await Task.Delay(5000);
+                grid_exportedSuccess.Visibility = Visibility.Collapsed;
+
             }
         }
     }

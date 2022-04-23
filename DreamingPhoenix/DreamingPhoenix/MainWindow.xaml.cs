@@ -566,5 +566,11 @@ namespace WizHat.DreamingPhoenix
 
             return returnValue;
         }
+
+        private void window_MainWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            this.Height = AppModelInstance.WindowOptions.Height;
+            this.Width = AppModelInstance.WindowOptions.Width;
+        }
     }
 }
