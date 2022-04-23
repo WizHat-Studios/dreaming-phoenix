@@ -99,7 +99,7 @@
         <Grid Margin="0,140,0,60">
             <ListBox x:Name="lsb_options" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource ForegroundDefault}"
                      HorizontalContentAlignment="Stretch" Margin="10,10,10,10" VirtualizingPanel.IsVirtualizing="False"
-                     VirtualizingPanel.ScrollUnit="Pixel">
+                     VirtualizingPanel.ScrollUnit="Pixel" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
                     </Style>
@@ -158,7 +158,7 @@
                                                   Value="{Binding Path=Options.SelectedColorScheme, ElementName=uc_mainAppOptions}"
                                                   List="{Binding Path=Themes, ElementName=uc_mainAppOptions}" />
 
-                        <options:UserActionOption Category="Others" OptionName="Reread all files from disk" ActionText="Read files"
+                        <options:UserActionOption Category="Others" OptionName="Reread all files from disk" ActionText="Read filesdddddddddddddddddddddddddddddddddddddddddddd"
                                                   ActionCommand="{Binding Path=ReadAllFilesFromDiskCommand, ElementName=uc_mainAppOptions}" />
                         <options:UserActionOption Category="Others" OptionName="Clean up image cache" ActionText="Clear cache"
                                                   ActionCommand="{Binding Path=CleanCacheCommand, ElementName=uc_mainAppOptions}" />
