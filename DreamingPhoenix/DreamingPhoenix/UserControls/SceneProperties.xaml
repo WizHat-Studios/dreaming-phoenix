@@ -80,7 +80,7 @@
                         <Label Content="SOUND EFFECTS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Width="120" />
                         <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddSoundEffect_Click" />
                     </Grid>
-                    <ListBox Height="250" ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
+                    <ListBox ItemsSource="{Binding Scene.SceneSoundEffects}" Background="{x:Null}" BorderThickness="0" Margin="10,0,10,10">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="5" BorderBrush="{DynamicResource BackgroundG}" BorderThickness="1" Margin="5,10,5,0" HorizontalAlignment="Stretch">
