@@ -174,12 +174,23 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 IsExportBusy = true;
                 IPersistenceDataManager persistenceDataManager = new PersistenceJsonDataManager();
-                await persistenceDataManager.ExportScene(saveFileDialog.FileName, Scene);
+                bool success = await persistenceDataManager.ExportScene(saveFileDialog.FileName, Scene);
                 IsExportBusy = false;
 
-                grid_exportedSuccess.Visibility = Visibility.Visible;
-                await Task.Delay(5000);
-                grid_exportedSuccess.Visibility = Visibility.Collapsed;
+                if (success)
+                {
+                    grid_exportedSuccess.Visibility = Visibility.Visible;
+                    await Task.Delay(5000);
+                    grid_exportedSuccess.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    grid_exportedFailed.Visibility = Visibility.Visible;
+                    await Task.Delay(5000);
+                    grid_exportedFailed.Visibility = Visibility.Collapsed;
+                }
+
+               
 
             }
         }
