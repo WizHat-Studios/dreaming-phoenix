@@ -22,7 +22,7 @@ namespace WizHat.DreamingPhoenix.Data
         public string SearchTerm
         {
             get { return searchTerm; }
-            set { searchTerm = value; NotifyPropertyChanged(); Debug.WriteLine("new value is " + value); }
+            set { searchTerm = value; NotifyPropertyChanged(); }
         }
 
         private SortDirection sortDirection;

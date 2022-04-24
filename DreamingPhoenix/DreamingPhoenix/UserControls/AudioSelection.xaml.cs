@@ -68,8 +68,6 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         public bool SearchActive { get { return !string.IsNullOrEmpty(SearchText); } }
 
-
-
         public AudioSelection(Type selectionType, Audio previousAudio = null)
         {
             InitializeComponent();

@@ -43,7 +43,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
-            AppModel.Instance.UpdateAvailableCategories();
             Track = audioTrack;
             Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
         }       
@@ -90,18 +89,17 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             Track.NextAudioTrack = null;
         }
-
-        private void DeleteTrack_Click(object sender, RoutedEventArgs e)
+        
+        private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ShowDialog(new AudioDeletion((Audio)(Track)));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            Track.Category = Category.Default;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
+        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            await mainWindow.ShowDialog(new AudioDeletion(Track));
+            mainWindow.grid_selectedAudioProperties.Children.Clear();
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
@@ -124,6 +122,21 @@ namespace WizHat.DreamingPhoenix.UserControls
 
             if (newNextAudioTrack != null)
                 Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;
+        }
+        
+        private async void SelectCategory_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Track.Category));
+
+            if (newCategory != null)
+                Track.Category = newCategory;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

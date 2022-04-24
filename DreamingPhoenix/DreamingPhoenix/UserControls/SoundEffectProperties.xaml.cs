@@ -82,10 +82,24 @@ namespace WizHat.DreamingPhoenix.UserControls
             this.Visibility = Visibility.Collapsed;*/
         }
 
+        private void RemoveCategory_Click(object sender, RoutedEventArgs e)
+        {
+            Sound.Category = Category.Default;
+        }
+
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
         {
             Tag tag = ((Button)sender).Tag as Tag;
             Sound.Tags.Remove(tag);
+        }
+
+        private async void SelectCategory_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Sound.Category));
+
+            if (newCategory != null)
+                Sound.Category = newCategory;
         }
 
         private void AddNewTag_Click(object sender, RoutedEventArgs e)

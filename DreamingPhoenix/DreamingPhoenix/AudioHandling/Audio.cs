@@ -109,13 +109,11 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             get
             {
                 if (category == null)
-                    category = new Category() { Name = "None" };
+                    category = Category.Default;
                 return category;
             }
             set { category = value; NotifyPropertyChanged(); }
         }
-
-
 
         /// <summary>
         /// Creates a new empty Audio

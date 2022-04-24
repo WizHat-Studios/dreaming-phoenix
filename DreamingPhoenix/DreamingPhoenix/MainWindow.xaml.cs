@@ -426,7 +426,10 @@ namespace WizHat.DreamingPhoenix
         private async void btn_filterSettings_Click(object sender, RoutedEventArgs e)
         {
             await ShowDialog(new FilterSettings());
+            Stopwatch watch = Stopwatch.StartNew();
             await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+            watch.Stop();
+            Debug.WriteLine("Elapsed Click: " + watch.ElapsedMilliseconds);
         }
 
         private async void SearchInput_TextChanged(object sender, TextChangedEventArgs e)

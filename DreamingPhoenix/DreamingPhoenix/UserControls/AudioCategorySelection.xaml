@@ -1,0 +1,132 @@
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.AudioCategorySelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
+             xmlns:audioprops="clr-namespace:WizHat.DreamingPhoenix.AudioProperties"
+             d:DataContext="{d:DesignInstance local:AudioCategorySelection}"
+             mc:Ignorable="d" 
+             Width="500" Height="550">
+    <local:DialogControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
+        <converters:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter" />
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter" />
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </local:DialogControl.Resources>
+    <Grid>
+        <Grid x:Name="grd_category" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="90" />
+            </Grid.RowDefinitions>
+            <Grid Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Label x:Name="lbl_categorySelected" Content="SELECT CATEGORY" Margin="0,0,0,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Center"
+                           Height="30" FontSize="15" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="8,0,8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center"
+                         Margin="10,0,10,0" Style="{DynamicResource DarkTextBox}" KeyUp="Search_KeyUp" />
+                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="19,0,19,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Center"
+                           FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}"
+                           Visibility="{Binding Path=SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}" />
+                <Button Grid.Column="1" Margin="10,6,10,6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" fa:Content.Icon="SolidPlus"
+                        Style="{DynamicResource GreenButton}" Padding="0,0,0,0" Click="AddCategory_Click" />
+            </Grid>
+
+            <Grid x:Name="grid_emptyListboxPrompt" Visibility="Collapsed" d:Visibility="Visible" Margin="10,10,10,10" Grid.Row="2">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY CATEGORY YET TO SELECT FROM HERE." FontWeight="DemiBold"
+                           Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                    <Label Content="" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="grid_noSearchListboxPrompt" Visibility="Collapsed" Margin="10,10,10,10" Grid.Row="2">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Label Content="OOPS, LOOKS LIKE THERE IS NO CATEGORY WITH THAT NAME" FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}"
+                           HorizontalContentAlignment="Center"/>
+                    <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT" FontSize="11" Foreground="{DynamicResource ForegroundDefault}"
+                           HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <ListBox Grid.Row="2" x:Name="lbox_selectableCategoryList" ItemsSource="{Binding FilteredCategories}" Background="{x:Null}" BorderBrush="{x:Null}"
+                     ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,10,10,10" SelectedItem="{Binding SelectedCategory}">
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="CategoryListBoxItem_MouseDoubleClick" />
+                    </Style>
+
+                    <DataTemplate DataType="{x:Type audioprops:Category}">
+                        <Border Background="{DynamicResource BackgroundC}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,60,0"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" FontSize="16"
+                                       Foreground="{DynamicResource ForegroundDefault}" />
+                                <Ellipse Fill="{Binding Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorMediaBrushConverter}}"
+                                         Grid.Column="1" Height="20" Width="20" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveCategory_Click">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentButton}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.Resources>
+            </ListBox>
+
+            <Border Grid.Row="3" Margin="10,10,10,10" VerticalAlignment="Stretch" Background="{DynamicResource BackgroundA}"
+                    BorderBrush="{DynamicResource AccentB}" BorderThickness="1" CornerRadius="5">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="SELECTED:" FontWeight="Bold" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <Label Content="{Binding Path=SelectedCategory.Name, FallbackValue=No category selected}" Foreground="{DynamicResource ForegroundDefault}"
+                           VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Background="{DynamicResource BackgroundA}" Grid.Row="4">
+                <Grid>
+                    <Button Height="40"  Margin="200,0,20,0" Width="120" Content="CANCEL" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Click="ButtonCancel_Click"/>
+                    <Button Height="40"  Margin="20,0,200,0" Width="120" Content="OK" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Style="{StaticResource GreenButton}" Click="ButtonOk_Click"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</local:DialogControl>

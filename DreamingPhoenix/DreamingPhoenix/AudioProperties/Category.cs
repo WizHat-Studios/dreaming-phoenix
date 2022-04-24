@@ -37,6 +37,14 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             return other.Name == Name;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not Category)
+                return false;
+
+            return ((Category)obj).Name == Name;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
