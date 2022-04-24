@@ -551,5 +551,13 @@ namespace WizHat.DreamingPhoenix
             this.Height = AppModelInstance.WindowOptions.Height;
             this.Width = AppModelInstance.WindowOptions.Width;
         }
+
+        private void DialogBackground_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (TopMostDialog.AllowExitOnBackgroundClick)
+            {
+                TopMostDialog.Close();
+            }
+        }
     }
 }

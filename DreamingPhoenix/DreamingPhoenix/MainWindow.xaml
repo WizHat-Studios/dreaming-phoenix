@@ -431,7 +431,7 @@
 
             <Grid Background="#99000000"
                      tz:Transitionz.Visibility="{Binding Path=TopMostDialog, Converter={StaticResource NullVisibilityConverter}, FallbackValue=Hidden}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
+                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}" MouseUp="DialogBackground_MouseUp">
             </Grid>
 
             <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10"
