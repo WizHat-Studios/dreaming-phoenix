@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.FileDragDrop"
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.FileDragDrop"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FileDragDrop}"
-             d:DesignHeight="450" d:DesignWidth="500" Width="500" IsHitTestVisible="True" AllowDrop="True">
+             d:DesignHeight="450" d:DesignWidth="500" Width="500" Height="360" IsHitTestVisible="True" AllowDrop="True">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -131,4 +131,4 @@
             </Border>
         </Grid>
     </Grid>
-</UserControl>
+</local:DialogControl>

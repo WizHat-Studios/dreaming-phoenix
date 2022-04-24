@@ -21,10 +21,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for SceneDeletion.xaml
     /// </summary>
-    public partial class SceneDeletion : UserControl, INotifyPropertyChanged
+    public partial class SceneDeletion : DialogControl, INotifyPropertyChanged
     {
-        public event EventHandler OperationProcessed;
-
         private Scene sceneToDelete;
 
         public Scene SceneToDelete
@@ -37,14 +35,10 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        public SceneDeletion()
+        public SceneDeletion(Scene sceneToDelete)
         {
             InitializeComponent();
             DataContext = this;
-        }
-
-        public void AcceptDelete(Scene sceneToDelete)
-        {
             SceneToDelete = sceneToDelete;
         }
 
@@ -57,7 +51,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             await Delete(sceneToDelete);
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
         private async Task Delete(Scene sceneToDelete)
@@ -68,7 +62,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
     }
 }

@@ -23,10 +23,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for FileDragDrop.xaml
     /// </summary>
-    public partial class AudioDeletion : UserControl, INotifyPropertyChanged
-    {
-        public event EventHandler OperationProcessed;
-
+    public partial class AudioDeletion : DialogControl, INotifyPropertyChanged
+    {   
         private Audio audioToDelete;
 
         public Audio AudioToDelete
@@ -51,14 +49,10 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        public AudioDeletion()
+        public AudioDeletion(Audio audioToDelete)
         {
             InitializeComponent();
             DataContext = this;
-        }
-
-        public void AcceptDelete(Audio audioToDelete)
-        {
             AudioToDelete = audioToDelete;
         }
 
@@ -71,12 +65,12 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             await Delete(audioToDelete);
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
-        public async void DeleteWithoutConfirmation(Audio audioToDelete)
+        public async void DeleteWithoutConfirmation()
         {
-            await Delete(audioToDelete);
+            await Delete(AudioToDelete);
         }
 
         private async Task Delete(Audio audioToDelete)
@@ -112,7 +106,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
     }
 }

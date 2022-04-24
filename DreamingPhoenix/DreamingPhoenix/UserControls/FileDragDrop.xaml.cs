@@ -23,7 +23,7 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for FileDragDrop.xaml
     /// </summary>
-    public partial class FileDragDrop : UserControl, INotifyPropertyChanged
+    public partial class FileDragDrop : DialogControl, INotifyPropertyChanged
     {
         private List<string> droppedFiles = new List<string>();
 
@@ -112,10 +112,13 @@ namespace WizHat.DreamingPhoenix.UserControls
         }
 
 
-        public FileDragDrop()
+        public FileDragDrop(List<string> filesDropped)
         {
             InitializeComponent();
             DataContext = this;
+
+            droppedFiles = filesDropped;
+            ProcessNextFile();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -142,17 +145,12 @@ namespace WizHat.DreamingPhoenix.UserControls
             ProcessNextFile();
         }
 
-        public void OnDrop(List<string> filesDropped)
-        {
-            droppedFiles = filesDropped;
-            ProcessNextFile();
-        }
-
         private async void ProcessNextFile()
         {
             if (droppedFiles.Count == 0)
             {
                 AudioFilesProcessed?.Invoke(this, EventArgs.Empty);
+                Close();
                 return;
             }
 

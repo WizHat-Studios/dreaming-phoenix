@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.SceneDeletion"
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.SceneDeletion"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
              xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              d:DataContext="{d:DesignInstance local:AudioDeletion}"
-             mc:Ignorable="d" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True" Height="345">
+             mc:Ignorable="d" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True" Height="345" Width="500">
     <Grid>
         <Grid x:Name="grd_audio" Visibility="Visible">
             <Grid Margin="0,20,0,0" Height="100" VerticalAlignment="Top">
@@ -27,4 +27,4 @@
             <TextBlock Text="{Binding Path=SceneToDelete.SceneName}" Margin="25,127,25,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" TextAlignment="Center" Width="450" TextTrimming="CharacterEllipsis"/>
         </Grid>
     </Grid>
-</UserControl>
+</local:DialogControl>

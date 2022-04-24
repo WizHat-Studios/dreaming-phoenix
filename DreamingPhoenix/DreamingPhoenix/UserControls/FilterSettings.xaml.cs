@@ -21,7 +21,7 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for FilterSettings.xaml
     /// </summary>
-    public partial class FilterSettings : UserControl, INotifyPropertyChanged
+    public partial class FilterSettings : DialogControl, INotifyPropertyChanged
     {
         public event EventHandler OperationProcessed;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,12 +40,12 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void btn_apply_Click(object sender, RoutedEventArgs e)
         {
             AppModel.Instance.Options.FilterOptions = (FilterOptions)NewFilterOptions.Clone();
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
         private void btn_cancel_Click(object sender, RoutedEventArgs e)
         {
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)

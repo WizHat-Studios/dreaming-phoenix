@@ -25,9 +25,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for FileDragDrop.xaml
     /// </summary>
-    public partial class YouTubeDownloader : UserControl, INotifyPropertyChanged
+    public partial class YouTubeDownloader : DialogControl, INotifyPropertyChanged
     {
-        public event EventHandler OperationProcessed;
 
         private string downloadedPath;
         public string DownloadedPath
@@ -129,18 +128,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void Close()
-        {
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
-            YouTubeURL = null;
-            DownloadedPath = null;
-            pgb_downloadProgress.SetPercent(0);
-            btn_add.IsEnabled = false;
-            grid_youtubeUrl.Visibility = Visibility.Visible;
-            border_downloadedMessage.Visibility = Visibility.Collapsed;
-            btn_downloadVideo.IsEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

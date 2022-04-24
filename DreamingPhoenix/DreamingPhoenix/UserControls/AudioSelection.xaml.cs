@@ -24,12 +24,9 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for AudioSelection.xaml
     /// </summary>
-    public partial class AudioSelection : UserControl, INotifyPropertyChanged
+    public partial class AudioSelection : DialogControl, INotifyPropertyChanged
     {
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
-
-        internal event DialogClosedEventHandler DialogClosed;
-        internal delegate void DialogClosedEventHandler(object sender, DialogClosedEventArgs e);
 
         private Audio selectedAudio;
 
@@ -73,11 +70,13 @@ namespace WizHat.DreamingPhoenix.UserControls
 
 
 
-        public AudioSelection()
+        public AudioSelection(Type selectionType, Audio previousAudio = null)
         {
             InitializeComponent();
             this.DataContext = this;
-
+            SelectedAudio = previousAudio;
+            AudioList = new ObservableCollection<Audio>(AppModelInstance.AudioList.Where(x => x.GetType() == selectionType));
+            SearchText = "";
             ((INotifyCollectionChanged)lbox_selectableAudioList.Items).CollectionChanged += DetermineAudioListPrompt;
         }
 
@@ -104,35 +103,11 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        public void SetupAudioSelection(Type selectionType, Audio previousAudio)
-        {
-            SelectedAudio = previousAudio;
-
-            AudioList = new ObservableCollection<Audio>(AppModelInstance.AudioList.Where(x => x.GetType() == selectionType));
-            SearchText = "";
-        }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void Close(Audio dialogResult = null)
-        {
-            DialogClosed?.Invoke(this, new DialogClosedEventArgs(dialogResult));
-            DialogClosed = null;
-        }
-
-        internal class DialogClosedEventArgs : EventArgs
-        {
-            public Audio ReturnValue { get; set; }
-
-            public DialogClosedEventArgs(Audio returnValue)
-            {
-                ReturnValue = returnValue;
-            }
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)

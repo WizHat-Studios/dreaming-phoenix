@@ -22,10 +22,8 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for ImageSelection.xaml
     /// </summary>
-    public partial class ImageSelection : UserControl, INotifyPropertyChanged
+    public partial class ImageSelection : DialogControl, INotifyPropertyChanged
     {
-        public event EventHandler OperationProcessed;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
@@ -60,10 +58,14 @@ namespace WizHat.DreamingPhoenix.UserControls
 
 
 
-        public ImageSelection()
+        public ImageSelection(Scene scene)
         {
             InitializeComponent();
             this.DataContext = this;
+
+            Scene = scene;
+            SelectedImage = Scene.ImageSource;
+            tbox_webLink.Text = "";
         }
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
@@ -73,14 +75,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             Scene.ImageCacheID = CacheManager.Instance.GetNewCacheID();
             CacheManager.Instance.CleanUpCacheID(oldCacheID);
             CacheManager.Instance.SaveImageToCache(SelectedImage as BitmapSource, Scene.ImageCacheID);
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SelectImageForScene(Scene scene)
-        {
-            Scene = scene;
-            SelectedImage = Scene.ImageSource;
-            tbox_webLink.Text = "";
+            Close();
         }
 
         private void ChooseImageFromDisk_Click(object sender, RoutedEventArgs e)
@@ -141,7 +136,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            OperationProcessed?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
         private void PasteLink_Click(object sender, RoutedEventArgs e)

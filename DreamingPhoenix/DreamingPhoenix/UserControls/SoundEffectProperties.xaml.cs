@@ -76,8 +76,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void DeleteSound_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.AudioDeletionPanelVisibility = Visibility.Visible;
-            mainWindow.uc_fileDeletion.AcceptDelete((Audio)Sound);
+            mainWindow.ShowDialog(new AudioDeletion((Audio)(Sound)));
             mainWindow.grid_selectedAudioProperties.Children.Clear();
             /*AppModel.Instance.AudioList.Remove(Sound);
             this.Visibility = Visibility.Collapsed;*/
