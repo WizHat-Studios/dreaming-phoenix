@@ -111,7 +111,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             tglbtn_audioTrack.IsChecked = !tglbtn_soundEffect.IsChecked;
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private async void Add_Click(object sender, RoutedEventArgs e)
         {
             if (tglbtn_audioTrack.IsChecked == true)
             {
@@ -123,6 +123,8 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
 
             Close();
+            AppModel.Instance.SaveData();
+            await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

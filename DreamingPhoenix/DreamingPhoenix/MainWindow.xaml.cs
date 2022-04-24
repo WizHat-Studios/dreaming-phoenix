@@ -71,22 +71,7 @@ namespace WizHat.DreamingPhoenix
 
             DialogStack.CollectionChanged += DialogStack_CollectionChanged;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
-
             DialogPanelVisibility = Visibility.Collapsed;
-
-            //uc_DropPanel.AudioFilesProcessed += async (s, e) =>
-            //{
-            //    AudioDropPanelVisibility = Visibility.Hidden;
-            //    AppModelInstance.SaveData();
-            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            //};
-
-            //uc_youtubeDownloader.OperationProcessed += async (s, e) =>
-            //{
-            //    YouTubeDownloaderPanelVisibility = Visibility.Hidden;
-            //    AppModelInstance.SaveData();
-            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            //};
 
             // Cast lbox_audioList to get the collection changed.
             // We need to do this as we cannot use the Collection Changed of the AppModel ObservableCollectio due it being reset many times at runtime.
