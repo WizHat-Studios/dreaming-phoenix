@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.FilterSettings"
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.FilterSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -83,4 +83,4 @@
             <Button x:Name="btn_cancel" Content="Cancel" HorizontalAlignment="Center"  Margin="140,0,0,20" VerticalAlignment="Bottom" Style="{StaticResource RedButton}" Width="120" Height="40" Click="btn_cancel_Click"/>
         </Grid>
     </Grid>
-</UserControl>
+</local:DialogControl>

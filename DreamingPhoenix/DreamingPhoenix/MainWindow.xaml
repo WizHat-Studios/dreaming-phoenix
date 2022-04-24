@@ -27,6 +27,7 @@
         <converters:IsDefaultAudioToBooleanConverter x:Key="IsDefaultAudioToBooleanConverter" />
         <converters:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter" />
         <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter" />
+        <converters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
 
         <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
             <converters:BooleanInvertConverter/>
@@ -39,9 +40,9 @@
             <Grid Background="{DynamicResource BackgroundC}" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalLeft, Mode=TwoWay}" MinWidth="450" />
+                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalColumnOne, Mode=TwoWay}" MinWidth="450" />
                     <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalRight, Mode=TwoWay}" MinWidth="315" />
+                    <ColumnDefinition Width="{Binding AppModelInstance.WindowOptions.GridSplitterVerticalColumnThree, Mode=TwoWay}" MinWidth="315" />
                 </Grid.ColumnDefinitions>
 
                 <Grid Background="{DynamicResource BackgroundA}">
@@ -150,7 +151,7 @@
                                                             <Border Width="10" HorizontalAlignment="Left" CornerRadius="0,0,0,5"
                                                                         Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
                                                                         Converter={StaticResource ColorMediaBrushConverter}}" />
-                                                            
+
                                                             <Grid Margin="5,0,5,5" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                                   RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                                   Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -212,7 +213,7 @@
                                                             <Border Width="10" HorizontalAlignment="Left" CornerRadius="0,0,0,5"
                                                                     Background="{Binding Path=Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,
                                                                     Converter={StaticResource ColorMediaBrushConverter}}" />
-                                                            
+
                                                             <Grid Margin="5,0,5,5">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="1*" />
@@ -426,135 +427,25 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="grid_DropPanel" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=AudioDropPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="350" MinHeight="350"
-                    CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=AudioDropPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:FileDragDrop x:Name="uc_DropPanel" />
-                </Grid>
-            </Border>
-        </Grid>
+        <Grid Background="{x:Null}" d:Visibility="Collapsed">
 
-        <Grid x:Name="grid_YouTubeDownloader" Visibility="Hidden">
             <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=YouTubeDownloaderPanelVisibility}"
+                     tz:Transitionz.Visibility="{Binding Path=TopMostDialog, Converter={StaticResource NullVisibilityConverter}, FallbackValue=Hidden}"
                      tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
             </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="350" MinHeight="350"
-                    CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=YouTubeDownloaderPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:YouTubeDownloader x:Name="uc_youtubeDownloader" />
-                </Grid>
-            </Border>
-        </Grid>
 
-        <Grid x:Name="grid_AppOptions" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=SettingsPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" CornerRadius="10"
-                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=SettingsPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}"
-                    MaxWidth="750" MaxHeight="900">
-                <Grid>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="30" Margin="80,60,40,40" Style="{StaticResource TransparentButton}"
-                            fa:Content.Icon="SolidArrowLeft" FontSize="26" Click="HideSettings_Click" />
-                    <uc:UserApplicationOptions />
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="grid_AcceptDeletion" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=AudioDeletionPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
-                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=AudioDeletionPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:AudioDeletion x:Name="uc_fileDeletion" />
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="grid_ImageSelection" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=ImageSelectionPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
-                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=ImageSelectionPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:ImageSelection x:Name="uc_imageSelection" />
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="grid_AudioSelection" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=AudioSelectionPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
-                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=AudioSelectionPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:AudioSelection x:Name="uc_audioSelection" />
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="grid_AcceptSceneDeletion" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=SceneDeletionPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
-            <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10"
-                    BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=SceneDeletionPanelVisibility}"
-                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
-                    tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
-                <Grid>
-                    <uc:SceneDeletion x:Name="uc_sceneDeletion" />
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="grid_filterSettings" Visibility="Hidden">
-            <Grid Background="#99000000"
-                     tz:Transitionz.Visibility="{Binding Path=FilterPanelVisibility}"
-                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}">
-            </Grid>
             <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10"
                     Margin="50" MaxWidth="700" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    tz:Transitionz.Visibility="{Binding Path=FilterPanelVisibility}"
+                    Height="{Binding Path=TopMostDialog.Height}" Width="{Binding Path=TopMostDialog.Width}"
+                    tz:Transitionz.Visibility="{Binding Path=DialogPanelVisibility, FallbackValue=Hidden}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">
                 <Grid>
-                    <uc:FilterSettings x:Name="uc_filterSettings" />
+                    <ContentPresenter Margin="0,0,0,0" Content="{Binding Path=TopMostDialog}"/>
                 </Grid>
             </Border>
+
+            
         </Grid>
 
     </Grid>

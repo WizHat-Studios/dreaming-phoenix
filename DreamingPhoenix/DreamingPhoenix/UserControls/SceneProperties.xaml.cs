@@ -97,7 +97,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void AddSoundEffect_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newSoundEffect = await mainWindow.ShowAudioSelectionDialog(typeof(SoundEffect));
+            Audio newSoundEffect = await mainWindow.ShowDialog<Audio>(new AudioSelection((typeof(SoundEffect))));
 
             if (newSoundEffect != null)
                 Scene.SceneSoundEffects.Add((SoundEffect)newSoundEffect);                
@@ -116,8 +116,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void DeleteScene_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.SceneDeletionPanelVisibility = Visibility.Visible;
-            mainWindow.uc_sceneDeletion.AcceptDelete((Scene)Scene);
+            mainWindow.ShowDialog(new SceneDeletion((Scene)Scene));
             mainWindow.grid_selectedAudioProperties.Children.Clear();
         }
 
@@ -131,13 +130,8 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void ReloadImage_Click(object sender, RoutedEventArgs e)
         {
-            //await Scene.LoadImage(Scene.ImageUri);
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ImageSelectionPanelVisibility = Visibility.Visible;
-            mainWindow.uc_imageSelection.SelectImageForScene(Scene);
-            //mainWindow.uc_imageSelection.AcceptDelete((Scene)Scene);
-
-            //Guid.NewGuid().ToString("n");
+            mainWindow.ShowDialog(new ImageSelection(Scene));
         }
 
         private void BackgroundImage_MouseEnter(object sender, MouseEventArgs e)
@@ -163,7 +157,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void SelectAudioTrack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newAudioTrack = await mainWindow.ShowAudioSelectionDialog(typeof(AudioTrack), Scene.SceneAudioTrack);
+            Audio newAudioTrack = await mainWindow.ShowDialog<Audio>(new AudioSelection(typeof(AudioTrack), Scene.SceneAudioTrack));
 
             if (newAudioTrack != null)
                 Scene.SceneAudioTrack = (AudioTrack)newAudioTrack;

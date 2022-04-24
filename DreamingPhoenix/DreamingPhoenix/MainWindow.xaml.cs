@@ -23,6 +23,7 @@ using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.ExternalAudio;
 using System.Collections.Specialized;
 using WizHat.DreamingPhoenix.Extensions;
+using WizHat.DreamingPhoenix.UserControls;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -34,64 +35,33 @@ namespace WizHat.DreamingPhoenix
         private bool pausePlayEnabled = true;
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
 
-        private Visibility settingsPanelVisibility = Visibility.Hidden;
-
-        public Visibility SettingsPanelVisibility
+        private ObservableStack<DialogControl> dialogStack = new ObservableStack<DialogControl>();
+        /// <summary>
+        /// Stack containing all active dialogs.
+        /// </summary>
+        public ObservableStack<DialogControl> DialogStack
         {
-            get { return settingsPanelVisibility; }
-            set { settingsPanelVisibility = value; NotifyPropertyChanged(); }
+            get { return dialogStack; }
+            set { dialogStack = value; NotifyPropertyChanged(); }
         }
 
-        private Visibility audioDropPanelVisibility = Visibility.Hidden;
-
-        public Visibility AudioDropPanelVisibility
+        public DialogControl topMostDialog = null;
+        /// <summary>
+        /// Dialog on top of the DialogStack
+        /// </summary>
+        public DialogControl TopMostDialog
         {
-            get { return audioDropPanelVisibility; }
-            set { audioDropPanelVisibility = value; NotifyPropertyChanged(); }
+            get { return topMostDialog; }
+            set { topMostDialog = value; NotifyPropertyChanged(); }
         }
 
-        private Visibility youtubeDownloaderPanelVisibility = Visibility.Hidden;
-
-        public Visibility YouTubeDownloaderPanelVisibility
+        private Visibility dialogPanelVisibility = Visibility.Collapsed;
+        public Visibility DialogPanelVisibility
         {
-            get { return youtubeDownloaderPanelVisibility; }
-            set { youtubeDownloaderPanelVisibility = value; NotifyPropertyChanged(); }
+            get { return dialogPanelVisibility; }
+            set { dialogPanelVisibility = value; NotifyPropertyChanged(); }
         }
 
-        private Visibility audioDeletionPanelVisibility = Visibility.Hidden;
-        public Visibility AudioDeletionPanelVisibility
-        {
-            get { return audioDeletionPanelVisibility; }
-            set { audioDeletionPanelVisibility = value; NotifyPropertyChanged(); }
-        }
-
-        private Visibility sceneDeletionPanelVisibility = Visibility.Hidden;
-        public Visibility SceneDeletionPanelVisibility
-        {
-            get { return sceneDeletionPanelVisibility; }
-            set { sceneDeletionPanelVisibility = value; NotifyPropertyChanged(); }
-        }
-
-        private Visibility filterPanelVisibility = Visibility.Hidden;
-        public Visibility FilterPanelVisibility
-        {
-            get { return filterPanelVisibility; }
-            set { filterPanelVisibility = value; NotifyPropertyChanged(); }
-        }
-
-        private Visibility imageSelectionPanelVisibility = Visibility.Hidden;
-        public Visibility ImageSelectionPanelVisibility
-        {
-            get { return imageSelectionPanelVisibility; }
-            set { imageSelectionPanelVisibility = value; NotifyPropertyChanged(); }
-        }
-
-        private Visibility audioSelectionPanelVisibility = Visibility.Hidden;
-        public Visibility AudioSelectionPanelVisibility
-        {
-            get { return audioSelectionPanelVisibility; }
-            set { audioSelectionPanelVisibility = value; NotifyPropertyChanged(); }
-        }
 
         KeyboardHook HotKeyHook = new WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardHook();
 
@@ -99,31 +69,24 @@ namespace WizHat.DreamingPhoenix
         {
             InitializeComponent();
 
-            grid_AppOptions.Visibility = Visibility.Visible;
-            grid_DropPanel.Visibility = Visibility.Visible;
-            grid_YouTubeDownloader.Visibility = Visibility.Visible;
-            grid_AcceptDeletion.Visibility = Visibility.Visible;
-            grid_filterSettings.Visibility = Visibility.Visible;
-            grid_AcceptSceneDeletion.Visibility = Visibility.Visible;
-            grid_ImageSelection.Visibility = Visibility.Visible;
-            grid_AudioSelection.Visibility = Visibility.Visible;
+            DialogStack.CollectionChanged += DialogStack_CollectionChanged;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
 
-            uc_DropPanel.AudioFilesProcessed += async (s, e) =>
-            {
-                AudioDropPanelVisibility = Visibility.Hidden;
-                AppModelInstance.SaveData();
-                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            };
-            uc_youtubeDownloader.OperationProcessed += async (s, e) =>
-            {
-                YouTubeDownloaderPanelVisibility = Visibility.Hidden;
-                AppModelInstance.SaveData();
-                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            };
-            uc_fileDeletion.OperationProcessed += (s, e) => { AudioDeletionPanelVisibility = Visibility.Hidden; };
-            uc_sceneDeletion.OperationProcessed += (s, e) => { SceneDeletionPanelVisibility = Visibility.Hidden; };
-            uc_imageSelection.OperationProcessed += (s, e) => { ImageSelectionPanelVisibility = Visibility.Hidden; };
+            DialogPanelVisibility = Visibility.Collapsed;
+
+            //uc_DropPanel.AudioFilesProcessed += async (s, e) =>
+            //{
+            //    AudioDropPanelVisibility = Visibility.Hidden;
+            //    AppModelInstance.SaveData();
+            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            //};
+
+            //uc_youtubeDownloader.OperationProcessed += async (s, e) =>
+            //{
+            //    YouTubeDownloaderPanelVisibility = Visibility.Hidden;
+            //    AppModelInstance.SaveData();
+            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            //};
 
             // Cast lbox_audioList to get the collection changed.
             // We need to do this as we cannot use the Collection Changed of the AppModel ObservableCollectio due it being reset many times at runtime.
@@ -132,6 +95,19 @@ namespace WizHat.DreamingPhoenix
 
             this.DataContext = this;
             SubscribeToAudioTrack();
+        }
+
+        private async void DialogStack_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (DialogStack.Count > 0)
+            {
+                TopMostDialog = DialogStack.Peek();
+            }
+            else
+            {
+                await Task.Delay(200);
+                TopMostDialog = null;
+            }
         }
 
         private void DetermineSceneListPrompt(object sender, NotifyCollectionChangedEventArgs e)
@@ -225,20 +201,20 @@ namespace WizHat.DreamingPhoenix
             AppModel.Instance.AudioManager.StopAudio((PlayableAudio)((Button)sender).DataContext, !AppModelInstance.Options.FadeSoundEffectsOnStop, AppModelInstance.Options.FadeSoundEffectsOnStop);
         }
 
-        private void RemoveAudio_Click(object sender, RoutedEventArgs e)
+        private async void RemoveAudio_Click(object sender, RoutedEventArgs e)
         {
             if (((Button)sender).DataContext == null)
                 return;
 
+            Audio audioToDelete = (Audio)((Button)sender).DataContext;
 
             if (Keyboard.Modifiers == ModifierKeys.Shift)
             {
-                uc_fileDeletion.DeleteWithoutConfirmation((Audio)((Button)sender).DataContext);
+                new AudioDeletion(audioToDelete).DeleteWithoutConfirmation();
             }
             else
             {
-                AudioDeletionPanelVisibility = Visibility.Visible;
-                uc_fileDeletion.AcceptDelete((Audio)((Button)sender).DataContext);
+                await ShowDialog(new AudioDeletion(audioToDelete));
             }
             grid_selectedAudioProperties.Children.Clear();
         }
@@ -305,9 +281,10 @@ namespace WizHat.DreamingPhoenix
         {
             List<string> files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
 
-            AudioDropPanelVisibility = Visibility.Visible;
+            
             this.Activate();
-            uc_DropPanel.OnDrop(files);
+
+            ShowDialog(new FileDragDrop(files));
         }
 
         private void Window_DragOver(object sender, DragEventArgs e)
@@ -348,8 +325,8 @@ namespace WizHat.DreamingPhoenix
             FileDialog.Title = "Select Object File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                AudioDropPanelVisibility = Visibility.Visible;
-                uc_DropPanel.OnDrop(FileDialog.FileNames.ToList());
+                
+                ShowDialog(new FileDragDrop(FileDialog.FileNames.ToList()));
             }
         }
 
@@ -408,15 +385,9 @@ namespace WizHat.DreamingPhoenix
             CacheManager.Instance.CleanUpCache();
         }
 
-        private void ShowSettings_Click(object sender, RoutedEventArgs e)
+        private async void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsPanelVisibility = Visibility.Visible;
-        }
-
-        private void HideSettings_Click(object sender, RoutedEventArgs e)
-        {
-            SettingsPanelVisibility = Visibility.Hidden;
-            AppModelInstance.SaveData();
+            await ShowDialog(new UserApplicationOptions());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -452,16 +423,10 @@ namespace WizHat.DreamingPhoenix
             AppModelInstance.Options.FilterOptions.SearchTerm = "";
         }
 
-        private void btn_filterSettings_Click(object sender, RoutedEventArgs e)
+        private async void btn_filterSettings_Click(object sender, RoutedEventArgs e)
         {
-            // DANKE DOMINIC! NACH 3H...
-            uc_filterSettings.Content = new UserControls.FilterSettings();
-            ((UserControls.FilterSettings)uc_filterSettings.Content).OperationProcessed += async (s, e) =>
-            {
-                FilterPanelVisibility = Visibility.Hidden;
-                await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
-            };
-            FilterPanelVisibility = Visibility.Visible;
+            await ShowDialog(new FilterSettings());
+            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
         }
 
         private async void SearchInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -515,8 +480,7 @@ namespace WizHat.DreamingPhoenix
             if (((Button)sender).DataContext == null)
                 return;
 
-            SceneDeletionPanelVisibility = Visibility.Visible;
-            uc_sceneDeletion.AcceptDelete((Scene)((Button)sender).DataContext);
+            ShowDialog(new SceneDeletion((Scene)((Button)sender).DataContext)).Wait();
 
             grid_selectedAudioProperties.Children.Clear();
         }
@@ -548,23 +512,38 @@ namespace WizHat.DreamingPhoenix
                 return;
             }
 
-            YouTubeDownloaderPanelVisibility = Visibility.Visible;
+            ShowDialog(new YouTubeDownloader());
         }
-        
-        public async Task<Audio> ShowAudioSelectionDialog(Type selectionType, Audio previousAudio = null)
+
+        /// <summary>
+        /// Shows a new dialog and awaits its closing with a return value.
+        /// </summary>
+        /// <typeparam name="T">Type of the return value</typeparam>
+        /// <param name="dialog">Dialog to display</param>
+        /// <returns>The return value of type T</returns>
+        public async Task<T> ShowDialog<T>(DialogControl dialog)
         {
-            TaskCompletionSource<Audio> tcs = new TaskCompletionSource<Audio>();
-            uc_audioSelection.SetupAudioSelection(selectionType, previousAudio);
-            AudioSelectionPanelVisibility = Visibility.Visible;
-            uc_audioSelection.DialogClosed += (s, e) =>
+            TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+            dialog.Owner = this;
+            dialog.DialogClosed += (s, e) =>
             {
-                tcs.SetResult((Audio)e.ReturnValue);
+                tcs.SetResult((T)e.ReturnValue);
+                DialogPanelVisibility = Visibility.Collapsed;
             };
+            DialogStack.Push(dialog);
+            DialogPanelVisibility = Visibility.Visible;
 
-            Audio returnValue = await tcs.Task;
-            AudioSelectionPanelVisibility = Visibility.Collapsed;
+            return await tcs.Task;
+        }
 
-            return returnValue;
+        /// <summary>
+        /// Shows a new dialog in the current window and awaits its closing.
+        /// </summary>
+        /// <param name="dialog">The dialog to display.</param>
+        /// <returns>void</returns>
+        public async Task ShowDialog(DialogControl dialog)
+        {
+            await ShowDialog<object>(dialog);
         }
 
         private void window_MainWindow_SourceInitialized(object sender, EventArgs e)

@@ -94,11 +94,8 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.AudioDeletionPanelVisibility = Visibility.Visible;
-            mainWindow.uc_fileDeletion.AcceptDelete((Audio)(Track));
+            mainWindow.ShowDialog(new AudioDeletion((Audio)(Track)));
             mainWindow.grid_selectedAudioProperties.Children.Clear();
-            /*AppModel.Instance.AudioList.Remove(Track);
-            this.Visibility = Visibility.Collapsed;*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -123,7 +120,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void SelectNextAudioTrack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newNextAudioTrack = await mainWindow.ShowAudioSelectionDialog(typeof(AudioTrack), Track.NextAudioTrack);
+            Audio newNextAudioTrack = await mainWindow.ShowDialog<Audio>(new AudioSelection(typeof(AudioTrack), Track.NextAudioTrack));
 
             if (newNextAudioTrack != null)
                 Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;

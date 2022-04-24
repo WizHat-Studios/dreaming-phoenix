@@ -28,7 +28,7 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// <summary>
     /// Interaction logic for UserApplicationOptions.xaml
     /// </summary>
-    public partial class UserApplicationOptions : UserControl
+    public partial class UserApplicationOptions : DialogControl
     {
         public RelayCommand ReadAllFilesFromDiskCommand { get; set; }
         public RelayCommand CleanCacheCommand { get; set; }
@@ -89,6 +89,12 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void CleanCache()
         {
             Cache.CacheManager.Instance.CleanUpCache();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            AppModel.Instance.SaveData();
+            Close();
         }
     }
 }
