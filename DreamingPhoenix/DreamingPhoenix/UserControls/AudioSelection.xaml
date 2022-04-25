@@ -46,7 +46,7 @@
 
             <Grid x:Name="grid_emptyListboxPrompt" Visibility="Collapsed" Margin="10,115,10,165">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                     <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY AUDIO YET TO SELECT FROM HERE." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                     <Label Content="" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                 </StackPanel>
@@ -54,8 +54,8 @@
 
             <Grid x:Name="grid_noSearchListboxPrompt" Visibility="Collapsed" Margin="10,115,10,165">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
-                    <Label Content="OOPS, LOOKS LIKE THERE IS NO AUDIO WITH THAT NAME" FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                    <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Label Content="LOOKS LIKE THERE IS NO AUDIO WITH THAT NAME" FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                     <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                 </StackPanel>
             </Grid>
