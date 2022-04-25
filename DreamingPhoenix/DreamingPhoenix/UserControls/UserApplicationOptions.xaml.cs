@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -62,20 +63,6 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 Themes.Add(theme.ThemeDisplayName);
             }
-
-            MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
-            List<string> tempOutputs = new();
-            Outputs.Add(WaveOut.GetCapabilities(-1).ProductName);
-            foreach (var endpoint in deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
-                tempOutputs.Add(endpoint.FriendlyName);
-
-            for (int n = 0; n < WaveOut.DeviceCount; n++)
-            {
-                string productName = WaveOut.GetCapabilities(n).ProductName;
-                if (tempOutputs.Exists(o => o.ToLower().StartsWith(productName.ToLower())))
-                    productName = tempOutputs.First(o => o.ToLower().StartsWith(productName.ToLower()));
-                Outputs.Add(productName);
-            }
         }
 
         private void ReadAllFilesFromDisk()
@@ -95,6 +82,35 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             AppModel.Instance.SaveData();
             Close();
+        }
+
+        private async void uc_mainAppOptions_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<object> newOutputs = await Task.Run(() =>
+            {
+                List<object> newOutputs = new();
+
+                MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
+                List<string> tempOutputs = new();
+                newOutputs.Add(WaveOut.GetCapabilities(-1).ProductName);
+                foreach (var endpoint in deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
+                    tempOutputs.Add(endpoint.FriendlyName);
+
+                for (int n = 0; n < WaveOut.DeviceCount; n++)
+                {
+                    string productName = WaveOut.GetCapabilities(n).ProductName;
+                    if (tempOutputs.Exists(o => o.ToLower().StartsWith(productName.ToLower())))
+                        productName = tempOutputs.First(o => o.ToLower().StartsWith(productName.ToLower()));
+                    newOutputs.Add(productName);
+                }
+
+                return newOutputs;
+            });
+
+            foreach (var output in newOutputs)
+            {
+                Outputs.Add(output);
+            }
         }
     }
 }
