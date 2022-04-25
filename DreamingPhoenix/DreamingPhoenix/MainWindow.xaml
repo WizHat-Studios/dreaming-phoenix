@@ -101,16 +101,25 @@
 
                                 <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
-                                        <Label Content="OOPS, LOOKS LIKE WE HAVEN'T FOUND ANYTHING." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
+                                        <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                                        <Label Content="OOPS, WHATEVER YOU WERE LOOKING FOR IS NOT HERE." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                         <Label Content="TRY SOME OTHER FILTERS OR SEARCH FOR SOMETHING ELSE" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
 
-                                <ListBox x:Name="lbox_audioList" ItemsSource="{Binding Path=AppModelInstance.SearchResultAudioList}" Background="{x:Null}" BorderBrush="{x:Null}"
+                                <ListBox x:Name="lbox_audioList" ItemsSource="{Binding Path=AudioListCollectionView}" Background="{x:Null}" BorderBrush="{x:Null}"
                                          ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="AudioListBox_SelectionChanged"
                                          GotFocus="AudioListBox_GotFocus" Margin="0,43,0,0">
+                                    <ListBox.GroupStyle>
+                                        <GroupStyle>
+                                            <GroupStyle.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" Foreground="{DynamicResource ForegroundDefault}" Margin="10" FontWeight="Bold" FontSize="14"/>
+                                                </DataTemplate>
+                                            </GroupStyle.HeaderTemplate>
+                                        </GroupStyle>
+                                    </ListBox.GroupStyle>
                                     <ListBox.Resources>
                                         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
                                             <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem" />
@@ -248,9 +257,9 @@
                                          TextChanged="SearchInput_TextChanged" />
                                 <Button Height="20" Width="20" Margin="0,14,37,0" HorizontalAlignment="Right" VerticalAlignment="Top"
                                         fa:Content.Icon="SolidXmark" Style="{StaticResource TransparentRedButton}" Click="ClearSearch_Click" />
-                                <TextBlock HorizontalAlignment="Left" Margin="19,17,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top"
+                                <TextBlock x:Name="tblock_searchPlaceholder" HorizontalAlignment="Left" Margin="19,17,0,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Top"
                                            FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}"
-                                           Visibility="{Binding Path=AppModelInstance.SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}" />
+                                           Visibility="Visible" />
                                 <Button x:Name="btn_filterSettings" Height="25" Width="20" FontSize="20" Margin="0,11,7,0" HorizontalAlignment="Right"
                                         VerticalAlignment="Top" fa:Content.Icon="SolidSliders" Style="{StaticResource TransparentButton}" Click="btn_filterSettings_Click" />
                             </Grid>
@@ -436,7 +445,7 @@
 
             <Border Background="{DynamicResource BackgroundB}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10"
                     Margin="50" MaxWidth="700" BorderThickness="1" BorderBrush="{DynamicResource AccentD}"
-                    Height="{Binding Path=TopMostDialog.Height}" Width="{Binding Path=TopMostDialog.Width}"
+                    Height="{Binding Path=TopMostDialog.Height}" Width="{Binding Path=TopMostDialog.Width}" MaxHeight="{Binding Path=TopMostDialog.MaxHeight}"
                     tz:Transitionz.Visibility="{Binding Path=DialogPanelVisibility, FallbackValue=Hidden}"
                     tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=200, TransitionOn=Visibility}"
                     tz:Transitionz.Translate="{tz:TranslateParams From='-20,0', To='0,0', Duration=200, TransitionOn=Visibility}">

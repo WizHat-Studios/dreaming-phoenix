@@ -91,10 +91,10 @@ namespace WizHat.DreamingPhoenix.UserControls
             Track.NextAudioTrack = null;
         }
 
-        private void DeleteTrack_Click(object sender, RoutedEventArgs e)
+        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ShowDialog(new AudioDeletion((Audio)(Track)));
+            await mainWindow.ShowDialog(new AudioDeletion(Track));
             mainWindow.grid_selectedAudioProperties.Children.Clear();
         }
 

@@ -134,6 +134,7 @@ namespace WizHat.DreamingPhoenix.Persistence
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("Failed to export scene: Exception " + ex.Message);
                 return false;
             }
 

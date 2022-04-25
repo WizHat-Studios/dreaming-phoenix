@@ -25,9 +25,9 @@ namespace WizHat.DreamingPhoenix.Data
             set { searchTerm = value; NotifyPropertyChanged(); Debug.WriteLine("new value is " + value); }
         }
 
-        private SortDirection sortDirection;
+        private ListSortDirection sortDirection;
 
-        public SortDirection SortDirection
+        public ListSortDirection SortDirection
         {
             get { return sortDirection; }
             set { sortDirection = value; NotifyPropertyChanged(); }

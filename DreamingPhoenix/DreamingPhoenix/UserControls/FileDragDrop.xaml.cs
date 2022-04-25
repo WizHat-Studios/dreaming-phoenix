@@ -149,7 +149,8 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 Close();
                 AppModel.Instance.SaveData();
-                await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
                 return;
             }
 
