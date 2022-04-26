@@ -1,0 +1,25 @@
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.ErrorMessage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
+             mc:Ignorable="d" d:DesignWidth="600" Width="600" Height="400" d:DataContext="{d:DesignInstance local:ErrorMessage}" >
+    <Grid>
+        <Grid>
+            <Grid Margin="0,50,0,0" Height="150" VerticalAlignment="Top">
+                <Image Source="/Images/Biscuit/Biscuit_Sad.png" />
+            </Grid>
+
+            <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                    Background="{DynamicResource BackgroundA}">
+                <Grid>
+                    <Button Height="40" Margin="0,0,0,0" Width="200" Content="I ACCEPT YOUR APOLOGY" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Click="Ok_Click"/>
+                </Grid>
+            </Border>
+            <Label Content="THAT DIDN'T WORK OUT. WE'RE SORRY..." Margin="10,200,10,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Message}" Margin="10,230,10,0" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="70" HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</local:DialogControl>

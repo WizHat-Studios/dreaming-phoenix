@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DreamingPhoenix.Styles">
+                    xmlns:local="clr-namespace:WizHat.DreamingPhoenix.Styles">
 
 
     <Style x:Key="SliderRepeatButtonIncrease" TargetType="RepeatButton">
@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border Background="{DynamicResource AccentD}" Height="7" CornerRadius="0,3,3,0" Margin="-5,0,0,0"/>
+                    <Border Background="{DynamicResource BackgroundE}" Height="7" CornerRadius="0,3,3,0" Margin="-5,0,0,0"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -47,7 +47,7 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="Slider"  TargetType="Slider">
+    <ControlTemplate x:Key="Slider" TargetType="Slider">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -64,7 +64,6 @@
                 <Track.Thumb>
                     <Thumb Style="{StaticResource SliderThumb}"  />
                 </Track.Thumb>
-             
             </Track>
         </Grid>
     </ControlTemplate>

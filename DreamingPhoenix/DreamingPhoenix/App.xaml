@@ -1,22 +1,40 @@
-﻿<Application x:Class="DreamingPhoenix.App"
+﻿<Application x:Class="WizHat.DreamingPhoenix.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DreamingPhoenix"
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <FontFamily x:Key="Phoenix">pack://application:,,,/Fonts/#PhoenixFont</FontFamily>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="./Styles/Scheme/ColorSchemeDreamland.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="./Styles/Window/CustomWindow.xaml"></ResourceDictionary>
 
+                <ResourceDictionary x:Name="ThemeDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="./Styles/Scheme/ColorSchemeDreamland.xaml"></ResourceDictionary>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+                
+                <!--<ResourceDictionary Source="./Styles/Scheme/ColorSchemePhoenix.xaml"></ResourceDictionary>-->
+                <ResourceDictionary Source="./Styles/Window/CustomWindow.xaml"></ResourceDictionary>
 
                 <ResourceDictionary Source="./Styles/ProgressBar/ProgressBar.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Slider/Slider.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/TextBox/DarkTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ScrollBar/ScrollBar.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ComboBox/ComboBox.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ListBox/ListBox.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/TransparentToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/ConfirmAndRemoveButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/OnOffIndicatorToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/SortIndicatorToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToolTip/ToolTip.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/TabControl/TabItem.xaml"></ResourceDictionary>
+
+                <ResourceDictionary Source="./HotkeyHandling/HotkeySelector/HotkeySelector.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

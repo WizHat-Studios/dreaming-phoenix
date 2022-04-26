@@ -2,23 +2,109 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\DreamingPhoenix.ico</ApplicationIcon>
+    <Authors>WizHat</Authors>
+    <Company>WizHat</Company>
+    <Product>Dreaming Phoenix</Product>
+    <AssemblyName>WizHat.DreamingPhoenix</AssemblyName>
+    <RootNamespace>WizHat.DreamingPhoenix</RootNamespace>
+    <PackageProjectUrl>https://github.com/WizHat-Studios/dreaming-phoenix</PackageProjectUrl>
+    <PackageIcon>DreamingPhoenix.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/WizHat-Studios/dreaming-phoenix</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Version>1.0.0.0</Version>
+    <Description>An open source soundboard for playing music and sound effects in real time.</Description>
+    <Copyright>WizHat</Copyright>
+    <PackageLicenseFile>D:\WizHat Studios\repos\dreaming-phoenix\LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\PhoenixFont-Regular.otf" />
+    <Compile Remove="Data\UserOption\**" />
+    <EmbeddedResource Remove="Data\UserOption\**" />
+    <None Remove="Data\UserOption\**" />
+    <Page Remove="Data\UserOption\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.0.0-beta1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <None Remove="Fonts\PhoenixFont-Regular.otf" />
+    <None Remove="Images\Biscuit\Biscuit_Confused.png" />
+    <None Remove="Images\Biscuit\Biscuit_Guitar.png" />
+    <None Remove="Images\Biscuit\Biscuit_Sad.png" />
+    <None Remove="Images\DreamingPhoenix.ico" />
+    <None Remove="Images\DreamingPhoenix.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Biscuit\Biscuit_Confused.png" />
+    <Resource Include="Images\Biscuit\Biscuit_Guitar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DSaladin.FontAwesome.WPF" Version="6.1.1.2" />
+    <PackageReference Include="NAudio" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SciChart.Wpf.UI.Transitionz" Version="3.1.251" />
+    <PackageReference Include="YoutubeExplode.Converter" Version="6.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Fonts\PhoenixFont-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Biscuit\Biscuit_Sad.png" />
+    <Resource Include="Images\DreamingPhoenix.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+    <EmbeddedResource Include="Images\DreamingPhoenix.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="UserControls\AudioDeletion.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\DreamingPhoenix-0.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\Scheme\ColorSchemeWinterWolf.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\TextBox\DarkTextBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\ToggleButton\SortIndicatorToggleButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\AudioDeletion.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\YouTubeDownloader.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="UserControls\SoundEffectProperties.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

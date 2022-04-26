@@ -1,0 +1,31 @@
+﻿<local:DialogControl x:Class="WizHat.DreamingPhoenix.UserControls.AudioDeletion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             d:DataContext="{d:DesignInstance local:AudioDeletion}"
+             mc:Ignorable="d" d:DesignWidth="500" IsHitTestVisible="True" AllowDrop="True" Height="345" Width="500">
+    <Grid>
+        <Grid x:Name="grd_audio" Visibility="Visible">
+            <Grid Margin="0,20,0,0" Height="100" VerticalAlignment="Top">
+                <fa:FontAwesomeImage Icon="RegularFileAudio" Margin="0,0,0,0" Width="65" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" Height="65"/>
+                <fa:FontAwesomeImage Icon="SolidXmark" Margin="49,60,0,0" Width="42" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ErrorNormal}" Height="30"/>
+            </Grid>
+
+            <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                    Background="{DynamicResource BackgroundA}">
+                <Grid>
+                    <Button Height="40" Click="Abort_Click" Margin="200,0,20,0" Width="120" Content="CANCEL" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    <Button Height="40" Click="Delete_Click" Margin="20,0,200,0" Width="120" Content="DELETE" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Style="{StaticResource RedButton}"/>
+                </Grid>
+            </Border>
+            <Label Content="DO YOU WANT TO DELETE THIS AUDIO FILE?" Margin="10,166,10,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Path=AudioToDelete.Name}" Margin="25,127,25,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" HorizontalAlignment="Center" TextAlignment="Center" Width="450" TextTrimming="CharacterEllipsis"/>
+            <Label Content="TIP: HOLD SHIFT TO SKIP THIS DIALOG" Margin="10,229,10,0" Foreground="{DynamicResource ForegroundDimmed}" VerticalAlignment="Top" Height="22" FontSize="10" HorizontalContentAlignment="Center" FontWeight="Normal"/>
+        </Grid>
+    </Grid>
+</local:DialogControl>

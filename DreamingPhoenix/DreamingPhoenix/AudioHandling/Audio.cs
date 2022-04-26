@@ -1,32 +1,50 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
+using WizHat.DreamingPhoenix.AudioProperties;
 
-namespace DreamingPhoenix.AudioHandling
+namespace WizHat.DreamingPhoenix.AudioHandling
 {
     public abstract class Audio : INotifyPropertyChanged
     {
         private string audioFile;
-        
+
         /// <summary>
         /// Path to the audio file
         /// </summary>
         public string AudioFile
         {
             get { return audioFile; }
-            set { audioFile = value; NotifyPropertyChanged(); }
+            set
+            {
+                audioFile = value;
+                IsAudioFilePathValid = File.Exists(audioFile);
+                NotifyPropertyChanged();
+            }
         }
 
-        private float volume;
+        private bool isAudioFilePathValid;
+
+        [JsonIgnore]
+        public bool IsAudioFilePathValid
+        {
+            get { return isAudioFilePathValid; }
+            set { isAudioFilePathValid = value; NotifyPropertyChanged(); }
+        }
+
+
+        private double volume;
 
         /// <summary>
         /// Volume of the audio file
         /// </summary>
-        public float Volume
+        public double Volume
         {
             get { return volume; }
             set { volume = value; NotifyPropertyChanged(); }
@@ -76,6 +94,36 @@ namespace DreamingPhoenix.AudioHandling
             set { hotkeyModifiers = value; NotifyPropertyChanged(); }
         }
 
+        private ObservableCollection<Tag> tags = new ObservableCollection<Tag>();
+
+        public ObservableCollection<Tag> Tags
+        {
+            get { return tags; }
+            set { tags = value; NotifyPropertyChanged(); }
+        }
+
+        private Category category;
+
+        public Category Category
+        {
+            get
+            {
+                if (category == null)
+                    category = new Category() { Name = "None" };
+                return category;
+            }
+            set { category = value; NotifyPropertyChanged(); }
+        }
+
+
+
+        /// <summary>
+        /// Creates a new empty Audio
+        /// </summary>
+        protected Audio()
+        {
+        }
+
         /// <summary>
         /// Creates a new Audio
         /// </summary>
@@ -85,12 +133,24 @@ namespace DreamingPhoenix.AudioHandling
         {
             if (!File.Exists(audioFile))
                 throw new FileNotFoundException("Audio File not found", audioFile);
+
+            if (audioFile.StartsWith(AppContext.BaseDirectory))
+                audioFile = Path.GetRelativePath(AppContext.BaseDirectory, audioFile);
+
             AudioFile = audioFile;
             Name = name;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Updates the IsAudioFilePathValid parameter
+        /// </summary>
+        public void CheckIfFileExistsOnDisk()
+        {
+            // Set it to itself, so the setter is triggered and checks if it exists
+            AudioFile = AudioFile;
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

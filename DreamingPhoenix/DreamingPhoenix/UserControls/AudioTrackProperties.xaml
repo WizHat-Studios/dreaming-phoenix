@@ -1,50 +1,138 @@
-﻿<UserControl x:Class="DreamingPhoenix.UserControls.AudioTrackProperties"
+﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.AudioTrackProperties"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DreamingPhoenix.UserControls"
-             mc:Ignorable="d" d:Width="500" d:Height="500" >
+             xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
+             xmlns:combobox="clr-namespace:WizHat.DreamingPhoenix.Styles.ComboBox"
+             xmlns:hk="clr-namespace:WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector"
+             xmlns:dp="clr-namespace:WizHat.DreamingPhoenix"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
+             d:DataContext="{d:DesignInstance local:AudioTrackProperties}"
+             mc:Ignorable="d" d:Width="500" d:Height="800">
+    <UserControl.Resources>
+        <converters:DoubleToPercentageConverter x:Key="DoubleToPercentConverter"/>
+        <converters:DoubleToSecondsConverter x:Key="DoubleToSecondsConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ColorMediaBrushConverter x:Key="ColorMediaBrushConverter"/>
+
+        <converters:ValueConverterGroup x:Key="InvertedBooleanVisibilityConverter">
+            <converters:BooleanInvertConverter/>
+            <converters:BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
+
     <Grid Background="{DynamicResource BackgroundB}">
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,70">
             <StackPanel>
-                <Label Content="AUDIOTRACK PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,10,0,20"/>
+                <Label Content="AUDIOTRACK PROPERTIES" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center" 
+                       FontWeight="Bold" FontSize="15" Margin="0,10,0,20" />
 
-                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <TextBox Text="{Binding Track.Name, Mode=TwoWay}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0"/>
+                <DockPanel Background="{DynamicResource BackgroundA}" Visibility="{Binding Path=Track.IsAudioFilePathValid, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Height="50" Margin="5,5,5,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                    <Label Content="AUDIO FILE CANNOT BE FOUND" Foreground="{DynamicResource ErrorNormal}" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="13" />
+                        <fa:FontAwesomeImage Icon="SolidCircleExclamation" Margin="12" Foreground="{DynamicResource ErrorBright}"/>
+                    </StackPanel>
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="VOLUME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <Label Content="100%" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
-                    <Slider Value="{Binding Track.Volume, Mode=TwoWay}" Height="20" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                    <Label Content="NAME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90"
+                           Margin="10,0,0,0" FontSize="13" />
+                    <TextBox Text="{Binding Track.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="FADE SPEED" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <Label Content="10 sec" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
-                    <Slider Value="{Binding Track.FadeOutSpeed, Mode=TwoWay}" Height="20" Minimum="0" Maximum="10000" SmallChange="100" LargeChange="1000" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                    <Label Content="VOLUME" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Label Content="{Binding Path=Track.Volume, Converter={StaticResource DoubleToPercentConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" 
+                           HorizontalContentAlignment="Right" Margin="0,0,10,0" />
+                    <Slider Value="{Binding Track.Volume, Mode=TwoWay}" Height="20" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" 
+                            DockPanel.Dock="Right" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <ComboBox Height="20" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Label Content="FADE SPEED" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Label Content="{Binding Path=Track.FadeOutSpeed, Converter={StaticResource DoubleToSecondsConverter}}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" 
+                           Width="50" HorizontalContentAlignment="Right" Margin="0,0,10,0" />
+                    <Slider Value="{Binding Track.FadeOutSpeed, Mode=TwoWay}" Height="20" Minimum="0" Maximum="10000" SmallChange="100" 
+                            LargeChange="1000" DockPanel.Dock="Right" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
-                    <Label Content="AUDIO FILE" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" Margin="10,0,0,0" FontSize="13"/>
-                    <Button Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Track.AudioFile}" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"/>
+                    <Label Content="NEXT TRACK" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Button  VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" Height="40" Style="{StaticResource TransparentRedButton}" DockPanel.Dock="Right" fa:Content.Icon="SolidXmark" FontSize="16" Click="RemoveNextTrack_Click"/>
+                    <Button Style="{DynamicResource TransparentButton}" Margin="5" Content="{Binding Path=Track.NextAudioTrack.Name, FallbackValue=No Audiotrack selected}" Click="SelectNextAudioTrack_Click"/>
                 </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="AUDIO FILE" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+                    <Button Name="btn_selectFile" Height="30" Content="..." DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,0,10,0"
+                            Click="btn_selectFile_Click" />
+                    <TextBox Name="tbx_audioFile" Text="{Binding Track.AudioFile}" IsReadOnly="True" Foreground="{DynamicResource ForegroundDimmed}" DockPanel.Dock="Right" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Style="{StaticResource TransparentTextBox}" Padding="-5,0,0,0"
+                             AllowDrop="True" Drop="tbx_audioFile_Drop" PreviewDragOver="tbx_audioFile_PreviewDragOver" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="HOTKEY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+
+                    <hk:HotkeySelector DockPanel.Dock="Right" SelectedHotkey="{Binding Track.HotKey, Mode=TwoWay}" ModifierKeys="{Binding Track.HotkeyModifiers, Mode=TwoWay}" Height="35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                </DockPanel>
+
+                <DockPanel Background="{DynamicResource BackgroundA}" Height="50" Margin="5,5,5,0">
+                    <Label Content="CATEGORY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
+                           Margin="10,0,0,0" FontSize="13" />
+
+                    <Ellipse DockPanel.Dock="Right" Fill="{Binding Track.Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}" Height="20" Width="20" Margin="10"/>
+                    
+                    <TextBox Text="{Binding Track.Category.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
+                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                   
+                </DockPanel>
+
+                <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">
+                    <Grid Margin="10,10,0,0" HorizontalAlignment="Stretch">
+                        <Label Content="TAGS" Foreground="{DynamicResource ForegroundHot}" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontSize="13" />
+                        <Button FontSize="13" DockPanel.Dock="Right" fa:Content.Icon="SolidPlus" HorizontalAlignment="Right" Width="30" Style="{StaticResource TransparentButton}" Margin="0,0,5,0" Click="AddNewTag_Click" />
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding Track.Tags}" Margin="10,0,10,10">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="10" BorderBrush="{DynamicResource AccentC}" BorderThickness="1" Margin="5" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource TransparentTextBox}" Margin="5,0,0,0"/>
+                                        <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" fa:Content.Icon="SolidXmark" Width="20" Margin="0,0,5,0" Click="RemoveTag_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
 
             </StackPanel>
         </ScrollViewer>
 
         <Grid Background="{DynamicResource BackgroundC}" Height="70" VerticalAlignment="Bottom" >
-            <Button Height="50" Width="50" Content="D" HorizontalAlignment="Right" Margin="0,0,70,0"/>
-            <Button Height="50" Width="50" Content="P" HorizontalAlignment="Right" Margin="0,0,10,0"/>
-            <ToggleButton Height="50" Width="50" Content="R" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Button Height="50" Width="50" fa:Content.Icon="SolidTrash" HorizontalAlignment="Right" Margin="0,0,10,0"
+                    Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteTrack_Click"/>
+            <Button Height="50" Width="50" fa:Content.Icon="SolidPlay" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="{Binding Path=Track.IsAudioFilePathValid}"
+                    Style="{StaticResource TransparentButton}" FontSize="20" Click="Play_Click"/>
+            <ToggleButton Height="50" Width="50" fa:Content.Icon="SolidRepeat" HorizontalAlignment="Left" Margin="70,0,0,0"
+                          Style="{StaticResource TransparentToggleButton}" IsChecked="{Binding Track.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          FontSize="20"/>
         </Grid>
     </Grid>
 </UserControl>
