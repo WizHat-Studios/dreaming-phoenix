@@ -53,6 +53,11 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             return ((Category)obj).Name == Name;
         }
 
+        public Category Copy()
+        {
+            return new Category() { Name = Name };
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
