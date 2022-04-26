@@ -187,14 +187,18 @@ namespace WizHat.DreamingPhoenix.Data
         /// Add all non existing categories from a list of audios
         /// </summary>
         /// <param name="audios">The list of songs from which the category should be added</param>
-        public void AddCategories(List<Audio> audios)
+        public void AddCategoryFromAudio(List<Audio> audios)
         {
-            throw new NotImplementedException();
-
-            foreach (Audio audio in audios)
+            foreach (Audio audio in audios.Where(a => !a.Category.IsDefault()))
             {
-                Debug.WriteLine($"Does category exist: {Categories.Contains(audio.Category)}");
+                if (!Categories.Contains(audio.Category))
+                    Categories.Add(audio.Category);
             }
+        }
+
+        public void AddCategoryFromAudio(Audio fromAudio)
+        {
+            AddCategoryFromAudio(new List<Audio>() { fromAudio });
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.AudioProperties;
+using System.Diagnostics;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -93,13 +94,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
             Track.Category = Category.Default;
-        }
-        
-        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new AudioDeletion(Track));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
         }
 
         private async void DeleteTrack_Click(object sender, RoutedEventArgs e)

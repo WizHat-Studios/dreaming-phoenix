@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.AudioProperties;
 using WizHat.DreamingPhoenix.Data;
 
 namespace WizHat.DreamingPhoenix.Persistence
@@ -239,6 +240,7 @@ namespace WizHat.DreamingPhoenix.Persistence
 
 
                 AppModel.Instance.AudioList.Add(scene.SceneAudioTrack);
+                AppModel.Instance.AddCategoryFromAudio(scene.SceneAudioTrack);
 
                 foreach (SoundEffect sfx in scene.SceneSoundEffects)
                 {

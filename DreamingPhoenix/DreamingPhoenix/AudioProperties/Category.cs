@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -10,6 +12,7 @@ using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.AudioProperties
 {
+    //[DebuggerDisplay("Name: {Name} - Color: {Color}")]
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
         private static Category defaultCategory = new Category() { Name = "None" };
@@ -30,6 +33,11 @@ namespace WizHat.DreamingPhoenix.AudioProperties
                 string hash = BitConverter.ToUInt32(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name)), 0).ToString();
                 return (Color)ColorConverter.ConvertFromString("#" + hash.Substring(0, 6));
             }
+        }
+
+        public bool IsDefault()
+        {
+            return Equals(Default);
         }
 
         public bool Equals(Category other)
