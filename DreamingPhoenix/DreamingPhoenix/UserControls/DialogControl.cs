@@ -9,16 +9,17 @@ using System.Windows.Controls;
 namespace WizHat.DreamingPhoenix.UserControls
 {
     /// <summary>
-    /// The Dialog Control is a UserControl with special properties to be used with the DialogStack of the ParrotWindow
+    /// The Dialog Control is a UserControl with special properties to be used with the DialogStack of the MainWindow
     /// </summary>
     public class DialogControl : UserControl
     {
         /// <summary>
-        /// ParrotWindow which owns the current control and may displays it.
+        /// MainWindow which owns the current control and may displays it.
         /// </summary>
         internal MainWindow Owner { get; set; }
         internal event DialogClosedEventHandler DialogClosed;
         internal delegate void DialogClosedEventHandler(object sender, DialogClosedEventArgs e);
+        public bool AllowExitOnBackgroundClick = true;
 
         public DialogControl()
         { }

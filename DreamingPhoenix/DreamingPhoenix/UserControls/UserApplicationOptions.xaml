@@ -11,7 +11,7 @@
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              xmlns:options="clr-namespace:WizHat.DreamingPhoenix.Data.UserOptions"
              d:DataContext="{d:DesignInstance local:UserApplicationOptions}"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000" Loaded="uc_mainAppOptions_Loaded">
     <UserControl.Resources>
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
         <converters:DoubleToPercentageConverter x:Key="DoubleToPercentageConverter"/>

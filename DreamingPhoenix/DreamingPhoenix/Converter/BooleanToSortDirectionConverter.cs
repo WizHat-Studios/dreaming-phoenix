@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace WizHat.DreamingPhoenix.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((SortDirection)value == SortDirection.DESCENDING)
+            if ((ListSortDirection)value == ListSortDirection.Descending)
             {
                 return true;
             }
@@ -24,9 +25,9 @@ namespace WizHat.DreamingPhoenix.Converter
         {
             if ((bool)value == true)
             {
-                return SortDirection.DESCENDING;
+                return ListSortDirection.Descending;
             }
-            return SortDirection.ASCENDING;
+            return ListSortDirection.Ascending;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,8 +63,11 @@ namespace WizHat.DreamingPhoenix.Persistence
 
             List<string> filesToZip = new();
 
-            filesToZip.Add(clonedScene.SceneAudioTrack.AudioFile);
-            clonedScene.SceneAudioTrack.AudioFile = Path.GetFileName(clonedScene.SceneAudioTrack.AudioFile);
+            if (clonedScene.SceneAudioTrack != null)
+            {
+                filesToZip.Add(clonedScene.SceneAudioTrack.AudioFile);
+                clonedScene.SceneAudioTrack.AudioFile = Path.GetFileName(clonedScene.SceneAudioTrack.AudioFile);
+            }
 
             foreach (SoundEffect sfx in clonedScene.SceneSoundEffects)
             {
@@ -77,6 +81,8 @@ namespace WizHat.DreamingPhoenix.Persistence
                 {
                     using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
                     {
+                        // Remove duplicates
+                        filesToZip = filesToZip.Distinct().ToList();
                         foreach (var file in filesToZip)
                         {
                             var audioEntry = archive.CreateEntry(Path.GetFileName(file));
@@ -95,23 +101,26 @@ namespace WizHat.DreamingPhoenix.Persistence
                         using (var entryStream = sceneFile.Open())
                         using (var streamWriter = new StreamWriter(entryStream))
                         {
-                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented));
+                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented, jsonSerializerSettings));
                         }
 
-                        using (MemoryStream imgStream = new MemoryStream())
+                        if (sceneToExport.ImageSource != null)
                         {
-                            BitmapEncoder encoder = new PngBitmapEncoder();
-                            encoder.Frames.Add(BitmapFrame.Create((BitmapImage)sceneToExport.ImageSource));
-                            encoder.Save(imgStream);
-                            imgStream.Seek(0, SeekOrigin.Begin);
+                            using (MemoryStream imgStream = new MemoryStream())
+                            {
+                                BitmapEncoder encoder = new PngBitmapEncoder();
+                                encoder.Frames.Add(BitmapFrame.Create((BitmapImage)sceneToExport.ImageSource));
+                                encoder.Save(imgStream);
+                                imgStream.Seek(0, SeekOrigin.Begin);
 
-                            byte[] imageData = new byte[imgStream.Length];
+                                byte[] imageData = new byte[imgStream.Length];
 
-                            var backgroundEntry = archive.CreateEntry("background.png");
-                            imgStream.Read(imageData, 0, imageData.Length);
-                            Stream bgStream = backgroundEntry.Open();
-                            await bgStream.WriteAsync(imageData);
+                                var backgroundEntry = archive.CreateEntry("background.png");
+                                imgStream.Read(imageData, 0, imageData.Length);
+                                Stream bgStream = backgroundEntry.Open();
+                                await bgStream.WriteAsync(imageData);
 
+                            }
                         }
                     }
 
@@ -123,8 +132,9 @@ namespace WizHat.DreamingPhoenix.Persistence
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine("Failed to export scene: Exception " + ex.Message);
                 return false;
             }
 

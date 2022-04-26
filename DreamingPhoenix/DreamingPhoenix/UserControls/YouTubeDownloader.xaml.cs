@@ -123,6 +123,9 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
 
             Close();
+            AppModel.Instance.SaveData();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

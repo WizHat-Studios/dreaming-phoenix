@@ -94,6 +94,13 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             Track.Category = Category.Default;
         }
+        
+        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            await mainWindow.ShowDialog(new AudioDeletion(Track));
+            mainWindow.grid_selectedAudioProperties.Children.Clear();
+        }
 
         private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {

@@ -104,9 +104,12 @@
                     Style="{StaticResource TransparentRedButton}" FontSize="20" Click="DeleteScene_Click" ToolTip="Delete scene"/>
             <Button Height="50" Visibility="{Binding IsExportBusy, Converter={StaticResource InvertedBooleanVisibilityConverter}}" Width="50" fa:Content.Icon="SolidFileExport" HorizontalAlignment="Right" Margin="0,0,70,0"
                     Style="{StaticResource TransparentButton}" FontSize="20" ToolTip="Export scene" Click="ExportScene_Click"/>
-            <local:LoadingSpinner Height="50" Visibility="{Binding IsExportBusy, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentB}" Width="50" HorizontalAlignment="Right" Margin="0,0,74,0"/>
-            <Border x:Name="grid_exportedSuccess" Visibility="Collapsed" Margin="0,0,83,0" Height="30" Width="30" HorizontalAlignment="Right" Background="White" CornerRadius="20">
+            <local:LoadingSpinner Height="40" Visibility="{Binding IsExportBusy, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentB}" Width="50" HorizontalAlignment="Right" Margin="0,0,74,0"/>
+            <Border x:Name="grid_exportedSuccess" Visibility="Collapsed" Margin="0,0,83,0" Height="27" Width="27" HorizontalAlignment="Right" Background="White" CornerRadius="20">
                 <fa:FontAwesomeImage Foreground="{DynamicResource OKNormal}" Icon="SolidCircleCheck"/>
+            </Border>
+            <Border x:Name="grid_exportedFailed" Visibility="Collapsed" Margin="0,0,83,0" Height="27" Width="27" HorizontalAlignment="Right" Background="White" CornerRadius="20">
+                <fa:FontAwesomeImage Foreground="{DynamicResource ErrorNormal}" Icon="SolidCircleXmark"/>
             </Border>
             <Separator RenderTransformOrigin="0.5,0.5" Height="10" HorizontalAlignment="Right" Margin="0,0,45,0" Width="40" Background="{DynamicResource ForegroundDimmed}">
                 <Separator.RenderTransform>

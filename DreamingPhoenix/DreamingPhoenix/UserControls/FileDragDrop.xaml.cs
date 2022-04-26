@@ -29,8 +29,6 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private Persistence.IPersistenceDataManager persistenceDataManager = new Persistence.PersistenceJsonDataManager();
 
-        public event EventHandler AudioFilesProcessed;
-
         private string directoryPath;
 
         public string DirectoryPath
@@ -149,8 +147,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             if (droppedFiles.Count == 0)
             {
-                AudioFilesProcessed?.Invoke(this, EventArgs.Empty);
                 Close();
+                AppModel.Instance.SaveData();
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
                 return;
             }
 

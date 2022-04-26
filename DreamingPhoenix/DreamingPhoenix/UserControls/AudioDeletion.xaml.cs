@@ -62,18 +62,18 @@ namespace WizHat.DreamingPhoenix.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private async void Delete_Click(object sender, RoutedEventArgs e)
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            await Delete(audioToDelete);
+            Delete(audioToDelete);
             Close();
         }
 
-        public async void DeleteWithoutConfirmation()
+        public void DeleteWithoutConfirmation()
         {
-            await Delete(AudioToDelete);
+            Delete(AudioToDelete);
         }
 
-        private async Task Delete(Audio audioToDelete)
+        private void Delete(Audio audioToDelete)
         {
             AppModel.Instance.AudioList.Remove(audioToDelete);
 
@@ -101,7 +101,8 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
 
             AppModel.Instance.SaveData();
-            await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

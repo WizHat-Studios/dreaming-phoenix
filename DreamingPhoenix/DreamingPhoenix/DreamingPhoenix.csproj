@@ -31,12 +31,15 @@
 
   <ItemGroup>
     <None Remove="Fonts\PhoenixFont-Regular.otf" />
+    <None Remove="Images\Biscuit\Biscuit_Confused.png" />
     <None Remove="Images\Biscuit\Biscuit_Guitar.png" />
+    <None Remove="Images\Biscuit\Biscuit_Sad.png" />
     <None Remove="Images\DreamingPhoenix.ico" />
     <None Remove="Images\DreamingPhoenix.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Biscuit\Biscuit_Confused.png" />
     <Resource Include="Images\Biscuit\Biscuit_Guitar.png" />
   </ItemGroup>
 
@@ -52,6 +55,7 @@
     <Resource Include="Fonts\PhoenixFont-Regular.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Biscuit\Biscuit_Sad.png" />
     <Resource Include="Images\DreamingPhoenix.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

@@ -36,98 +36,6 @@ namespace WizHat.DreamingPhoenix.Data
 
         public static event EventHandler Loaded;
 
-        public bool SearchActive { get { return !string.IsNullOrEmpty(Options.FilterOptions.SearchTerm); } }
-
-        private ObservableCollection<Audio> searchResultAudioList;
-        /// <summary>
-        /// List containing all audio which match with the search term
-        /// </summary>
-        public ObservableCollection<Audio> SearchResultAudioList
-        {
-            get
-            {
-                return searchResultAudioList;
-            }
-            private set
-            {
-                searchResultAudioList = value; NotifyPropertyChanged();
-            }
-        }
-
-        public async Task ApplyFilterOptions(FilterOptions filterOtions)
-        {
-            NotifyPropertyChanged("SearchActive");
-
-            await Task.Run(() =>
-            {
-                ObservableCollection<Audio> filteredList = new ObservableCollection<Audio>();
-                bool skipTagCheck = true;
-
-                foreach (var tag in Options.FilterOptions.SelectedTags)
-                {
-                    if (tag.Selected)
-                        skipTagCheck = false;
-                }
-
-                foreach (var audio in AudioList)
-                {
-                    bool matchesTagInSearchTerm = false;
-
-                    foreach (Tag tag in audio.Tags)
-                    {
-                        if (tag.Text.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm))
-                            matchesTagInSearchTerm = true;
-                    }
-
-                    if (!audio.Name.ToLower().Contains(filterOtions.SearchTerm.ToLower()) && !string.IsNullOrWhiteSpace(filterOtions.SearchTerm) && !matchesTagInSearchTerm)
-                        continue;
-
-                    if (!filterOtions.IncludeAudioTracks && audio is AudioTrack)
-                        continue;
-
-                    if (!filterOtions.IncludeSoundEffects && audio is SoundEffect)
-                        continue;
-
-                    if (!skipTagCheck)
-                    {
-                        bool includesRequiredTag = false;
-                        foreach (Tag tag in audio.Tags)
-                        {
-                            foreach (SelectableTag selectedTag in Options.FilterOptions.SelectedTags)
-                            {
-                                if (!selectedTag.Selected)
-                                    continue;
-
-                                if (tag.Text == selectedTag.Text)
-                                    includesRequiredTag = true;
-                            }
-                        }
-
-                        if (!includesRequiredTag)
-                            continue;
-                    }
-
-                    filteredList.Add(audio);
-                }
-
-                switch (filterOtions.SortType)
-                {
-                    case SortType.NAME:
-                        if (filterOtions.SortDirection == SortDirection.ASCENDING)
-                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Name).ToList());
-                        else
-                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Name).ToList());
-                        break;
-                    case SortType.CATEGORY:
-                        if (filterOtions.SortDirection == SortDirection.ASCENDING)
-                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderBy(x => x.Category.Name).ToList());
-                        else
-                            SearchResultAudioList = new ObservableCollection<Audio>(filteredList.OrderByDescending(x => x.Category.Name).ToList());
-                        break;
-                }
-            });
-        }
-
         private ObservableCollection<Audio> audioList = new ObservableCollection<Audio>();
 
         /// <summary>
@@ -136,7 +44,7 @@ namespace WizHat.DreamingPhoenix.Data
         public ObservableCollection<Audio> AudioList
         {
             get { return audioList; }
-            set { audioList = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(SearchResultAudioList)); }
+            set { audioList = value; NotifyPropertyChanged(); }
         }
 
         private ObservableCollection<Scene> sceneList = new ObservableCollection<Scene>();
@@ -219,8 +127,6 @@ namespace WizHat.DreamingPhoenix.Data
         public AppModel()
         {
             LoadData();
-            AudioList.CollectionChanged += (s, e) => { NotifyPropertyChanged(nameof(SearchResultAudioList)); };
-            searchResultAudioList = audioList;
             Loaded?.Invoke(this, EventArgs.Empty);
         }
 

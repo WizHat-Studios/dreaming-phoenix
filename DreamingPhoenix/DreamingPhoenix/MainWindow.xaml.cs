@@ -24,6 +24,7 @@ using WizHat.DreamingPhoenix.ExternalAudio;
 using System.Collections.Specialized;
 using WizHat.DreamingPhoenix.Extensions;
 using WizHat.DreamingPhoenix.UserControls;
+using WizHat.DreamingPhoenix.AudioProperties;
 
 namespace WizHat.DreamingPhoenix
 {
@@ -65,36 +66,82 @@ namespace WizHat.DreamingPhoenix
 
         KeyboardHook HotKeyHook = new WizHat.DreamingPhoenix.HotkeyHandling.KeyboardListener.KeyboardHook();
 
+        public ICollectionView AudioListCollectionView { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
             DialogStack.CollectionChanged += DialogStack_CollectionChanged;
             HotKeyHook.OnKeyboard += HotKeyHook_OnKeyboard;
-
             DialogPanelVisibility = Visibility.Collapsed;
 
-            //uc_DropPanel.AudioFilesProcessed += async (s, e) =>
-            //{
-            //    AudioDropPanelVisibility = Visibility.Hidden;
-            //    AppModelInstance.SaveData();
-            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            //};
-
-            //uc_youtubeDownloader.OperationProcessed += async (s, e) =>
-            //{
-            //    YouTubeDownloaderPanelVisibility = Visibility.Hidden;
-            //    AppModelInstance.SaveData();
-            //    await AppModel.Instance.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
-            //};
 
             // Cast lbox_audioList to get the collection changed.
             // We need to do this as we cannot use the Collection Changed of the AppModel ObservableCollectio due it being reset many times at runtime.
             ((INotifyCollectionChanged)lbox_audioList.Items).CollectionChanged += DetermineAudioListPrompt;
             ((INotifyCollectionChanged)lbox_sceneList.Items).CollectionChanged += DetermineSceneListPrompt;
 
+            AudioListCollectionView = CollectionViewSource.GetDefaultView(AppModelInstance.AudioList);
+            AudioListCollectionView.Filter = FilterAudio;
+            
+
             this.DataContext = this;
             SubscribeToAudioTrack();
+        }
+
+        public void ApplyFilterOptions(FilterOptions filterOptions)
+        {
+            AudioListCollectionView.GroupDescriptions.Clear();
+            AudioListCollectionView.SortDescriptions.Clear();
+
+            switch (filterOptions.SortType)
+            {
+                case Sorting.SortType.NAME:
+                    AudioListCollectionView.SortDescriptions.Add(new SortDescription("Name", filterOptions.SortDirection));
+                    break;
+                case Sorting.SortType.CATEGORY:
+                    AudioListCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Category.Name"));
+                    AudioListCollectionView.SortDescriptions.Add(new SortDescription("Category.Name", filterOptions.SortDirection));
+                    AudioListCollectionView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+                    break;
+                default:
+                    break;
+            }
+
+            AudioListCollectionView.Refresh();
+        }
+
+        private bool FilterAudio(object obj)
+        {
+            if (obj is Audio audio)
+            {
+                bool containsTags = false;
+                bool containsCategory = audio.Category.Name.Contains(AppModelInstance.Options.FilterOptions.SearchTerm, StringComparison.OrdinalIgnoreCase);
+                bool containsString = audio.Name.Contains(AppModelInstance.Options.FilterOptions.SearchTerm, StringComparison.OrdinalIgnoreCase);
+                bool isCorrectAudioType = false;
+
+                if (AppModelInstance.Options.FilterOptions.IncludeAudioTracks && audio is AudioTrack)
+                    isCorrectAudioType = true;
+                if (AppModelInstance.Options.FilterOptions.IncludeSoundEffects && audio is SoundEffect)
+                    isCorrectAudioType = true;
+
+                if (AppModelInstance.Options.FilterOptions.SelectedTags.Where(x => x.Selected).Count() != 0)
+                {
+                    foreach (Tag tag in AppModelInstance.Options.FilterOptions.SelectedTags.Where(x => x.Selected))
+                    {
+                        if (audio.Tags.Contains(tag))
+                            containsTags = true;
+                    }
+                }
+                else
+                {
+                    containsTags = true;
+                }
+
+                return isCorrectAudioType && containsTags && (containsCategory || containsString);
+            }
+            return false;
         }
 
         private async void DialogStack_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -125,7 +172,7 @@ namespace WizHat.DreamingPhoenix
         private void DetermineAudioListPrompt(object sender, NotifyCollectionChangedEventArgs e)
         {
 
-            if (AppModelInstance.SearchResultAudioList.Count == 0)
+            if (AudioListCollectionView.IsEmpty)
             {
                 if (AppModelInstance.AudioList.Count == 0)
                 {
@@ -277,14 +324,11 @@ namespace WizHat.DreamingPhoenix
             item.IsSelected = true;
         }
 
-        private void Window_PreviewDrop(object sender, DragEventArgs e)
+        private async void Window_PreviewDrop(object sender, DragEventArgs e)
         {
             List<string> files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
-
-            
             this.Activate();
-
-            ShowDialog(new FileDragDrop(files));
+            await ShowDialog(new FileDragDrop(files));
         }
 
         private void Window_DragOver(object sender, DragEventArgs e)
@@ -311,7 +355,7 @@ namespace WizHat.DreamingPhoenix
             }
         }
 
-        private void AddNewAudio_Click(object sender, RoutedEventArgs e)
+        private async void AddNewAudio_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog FileDialog = new System.Windows.Forms.OpenFileDialog()
             {
@@ -326,7 +370,7 @@ namespace WizHat.DreamingPhoenix
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 
-                ShowDialog(new FileDragDrop(FileDialog.FileNames.ToList()));
+                await ShowDialog(new FileDragDrop(FileDialog.FileNames.ToList()));
             }
         }
 
@@ -426,20 +470,28 @@ namespace WizHat.DreamingPhoenix
         private async void btn_filterSettings_Click(object sender, RoutedEventArgs e)
         {
             await ShowDialog(new FilterSettings());
-            Stopwatch watch = Stopwatch.StartNew();
-            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
-            watch.Stop();
-            Debug.WriteLine("Elapsed Click: " + watch.ElapsedMilliseconds);
+            //await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+
+            ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
         }
 
-        private async void SearchInput_TextChanged(object sender, TextChangedEventArgs e)
+        private void SearchInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+            AudioListCollectionView.Refresh();
+
+            if (String.IsNullOrEmpty(((TextBox)sender).Text))
+            {
+                tblock_searchPlaceholder.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tblock_searchPlaceholder.Visibility = Visibility.Hidden;
+            }
         }
 
-        private async void window_MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void window_MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await AppModelInstance.ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
+            ApplyFilterOptions(AppModelInstance.Options.FilterOptions);
 
             foreach (Scene scene in AppModelInstance.SceneList)
             {
@@ -497,7 +549,7 @@ namespace WizHat.DreamingPhoenix
             lbox_sceneList.Focus();
         }
 
-        private void btn_addYouTube_Click(object sender, RoutedEventArgs e)
+        private async void btn_addYouTube_Click(object sender, RoutedEventArgs e)
         {
             if (!YouTubeAudio.FFMPEGExists())
             {
@@ -514,8 +566,7 @@ namespace WizHat.DreamingPhoenix
                 }
                 return;
             }
-
-            ShowDialog(new YouTubeDownloader());
+            await ShowDialog(new YouTubeDownloader());
         }
 
         /// <summary>
@@ -553,6 +604,17 @@ namespace WizHat.DreamingPhoenix
         {
             this.Height = AppModelInstance.WindowOptions.Height;
             this.Width = AppModelInstance.WindowOptions.Width;
+        }
+
+        private void DialogBackground_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (TopMostDialog == null)
+                return;
+
+            if (TopMostDialog.AllowExitOnBackgroundClick)
+            {
+                TopMostDialog.Close();
+            }
         }
     }
 }
