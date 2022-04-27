@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -10,10 +12,16 @@ using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.AudioProperties
 {
+    //[DebuggerDisplay("Name: {Name} - Color: {Color}")]
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
-        private static Category defaultCategory = new Category() { Name = "None" };
-        public static Category Default { get { return defaultCategory; } }
+        public static Category Default
+        {
+            get
+            {
+                return new Category() { Name = "None" };
+            }
+        }
 
         private string name;
 
@@ -32,10 +40,28 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             }
         }
 
+        public bool IsDefault()
+        {
+            return Equals(Default);
+        }
+
         public bool Equals(Category other)
         {
             return other.Name == Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not Category)
+                return false;
+
+            return ((Category)obj).Name == Name;
+        }
+
+        //public Category Copy()
+        //{
+        //    return new Category() { Name = Name };
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

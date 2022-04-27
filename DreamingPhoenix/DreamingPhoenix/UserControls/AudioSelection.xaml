@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
              xmlns:audio="clr-namespace:WizHat.DreamingPhoenix.AudioHandling"
-             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml" xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
+             xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              d:DataContext="{d:DesignInstance local:AudioSelection}"
              mc:Ignorable="d" d:DesignWidth="800" Height="600" Width="600">
     <UserControl.Resources>

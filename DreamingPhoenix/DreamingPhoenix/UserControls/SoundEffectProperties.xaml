@@ -72,11 +72,17 @@
                     <Label Content="CATEGORY" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Width="90" 
                            Margin="10,0,0,0" FontSize="13" />
 
-                    <Ellipse DockPanel.Dock="Right" Fill="{Binding Sound.Category.Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource ColorMediaBrushConverter}}" Height="20" Width="20" Margin="10"/>
+                    <Grid DockPanel.Dock="Right" Width="40">
+                        <Ellipse Fill="{Binding Sound.Category.Color, Mode=OneWay,
+                             UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorMediaBrushConverter}}" Height="20" Width="20" />
 
-                    <TextBox Text="{Binding Sound.Category.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Style="{StaticResource TransparentTextBox}" 
-                             VerticalAlignment="Center" Margin="0,0,10,0" Padding="-5,0,0,0" />
+                        <Button VerticalAlignment="Center" HorizontalAlignment="Right" Width="20" Height="20" Margin="10,10,10,10"
+                                Style="{StaticResource TransparentRedButton}" fa:Content.Icon="SolidXmark" FontSize="12" Padding="0,1,0,0"
+                                Click="RemoveCategory_Click" />
+                    </Grid>
 
+                    <Button Style="{DynamicResource TransparentButton}" Margin="5" Content="{Binding Path=Sound.Category.Name, FallbackValue=No Category selected}"
+                            Click="SelectCategory_Click" />
                 </DockPanel>
 
                 <StackPanel Background="{DynamicResource BackgroundA}" Margin="5,5,5,0">
