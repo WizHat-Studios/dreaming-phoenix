@@ -15,8 +15,13 @@ namespace WizHat.DreamingPhoenix.AudioProperties
     //[DebuggerDisplay("Name: {Name} - Color: {Color}")]
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
-        private static Category defaultCategory = new Category() { Name = "None" };
-        public static Category Default { get { return defaultCategory; } }
+        public static Category Default
+        {
+            get
+            {
+                return new Category() { Name = "None" };
+            }
+        }
 
         private string name;
 
@@ -53,10 +58,10 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             return ((Category)obj).Name == Name;
         }
 
-        public Category Copy()
-        {
-            return new Category() { Name = Name };
-        }
+        //public Category Copy()
+        //{
+        //    return new Category() { Name = Name };
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

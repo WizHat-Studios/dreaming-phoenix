@@ -102,19 +102,11 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             set { tags = value; NotifyPropertyChanged(); }
         }
 
-        private Category category;
+        private Category category = Category.Default;
 
         public Category Category
         {
-            get
-            {
-                // Create a copy of the default when null.
-                // If the JsonSerializer overrides the variable the default may be changed.
-                // This would cause unwanted behavior for the default category item.
-                if (category == null)
-                    category = Category.Default.Copy();
-                return category;
-            }
+            get { return category; }
             set { category = value; NotifyPropertyChanged(); }
         }
 
