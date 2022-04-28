@@ -159,11 +159,5 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             Close(SelectedCategory);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 }
