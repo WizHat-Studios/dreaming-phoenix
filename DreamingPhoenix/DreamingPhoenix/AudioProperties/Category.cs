@@ -19,7 +19,7 @@ namespace WizHat.DreamingPhoenix.AudioProperties
         {
             get
             {
-                return new Category() { Name = "None" };
+                return new Category("None");
             }
         }
 
@@ -40,6 +40,11 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             }
         }
 
+        public Category(string name)
+        {
+            Name = name;
+        }
+
         public bool IsDefault()
         {
             return Equals(Default);
@@ -55,13 +60,13 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             if (obj is not Category)
                 return false;
 
-            return ((Category)obj).Name == Name;
+            return Equals((Category)obj);
         }
 
-        //public Category Copy()
-        //{
-        //    return new Category() { Name = Name };
-        //}
+        public override string ToString()
+        {
+            return Name;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

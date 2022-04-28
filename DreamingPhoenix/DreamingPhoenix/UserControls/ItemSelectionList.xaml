@@ -9,7 +9,7 @@
                      xmlns:audioprops="clr-namespace:WizHat.DreamingPhoenix.AudioProperties"
                      d:DataContext="{d:DesignInstance local:ItemSelectionList}"
                      mc:Ignorable="d" 
-                     d:DesignHeight="450" d:DesignWidth="800">
+                     Width="500" Height="550">
     <local:DialogControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
@@ -63,7 +63,7 @@
 
             <Grid x:Name="grid_noSearchListboxPrompt" Visibility="Collapsed" Margin="10,10,10,10" Grid.Row="2">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Image Source="/Images/Biscuit/Biscuit_Sad.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                     <Label d:Content="OOPS, LOOKS LIKE THERE IS NO ITEM FOR THAT" Content="{Binding NoItemsText}" FontWeight="DemiBold"
                            Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                     <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT" FontSize="11" Foreground="{DynamicResource ForegroundDefault}"
@@ -71,12 +71,13 @@
                 </StackPanel>
             </Grid>
 
-            <ListBox Grid.Row="2" x:Name="lbox_selectableCategoryList" ItemsSource="{Binding FilteredSelctionList}" Background="{x:Null}" BorderBrush="{x:Null}"
+            <ListBox Grid.Row="2" x:Name="lbox_selectionList" ItemsSource="{Binding FilteredSelectionList}" Background="{x:Null}" BorderBrush="{x:Null}"
                      ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,10,10,10" SelectionMode="{Binding SelectionMode}">
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,10,10,10" SelectionMode="{Binding SelectionMode}"
+                     SelectionChanged="lbox_selectionList_SelectionChanged">
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="CategoryListBoxItem_MouseDoubleClick" />
+                        <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
                     </Style>
 
                     <DataTemplate DataType="{x:Type audioprops:Category}">
@@ -86,9 +87,32 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="40" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,60,0"
-                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" FontSize="16"
-                                       Foreground="{DynamicResource ForegroundDefault}" />
+                                <CheckBox Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0"
+                                          IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource OnOffIndicatorToggleButton}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                                <Label Grid.Column="0" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       VerticalContentAlignment="Center" FontSize="16" Foreground="{DynamicResource ForegroundDefault}">
+                                    <Label.Style>
+                                        <Style TargetType="{x:Type Label}">
+                                            <Setter Property="Margin" Value="10,0,60,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Margin" Value="45,0,60,0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
                                 <Ellipse Fill="{Binding Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorMediaBrushConverter}}"
                                          Grid.Column="1" Height="20" Width="20" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center"
@@ -114,7 +138,7 @@
                     BorderBrush="{DynamicResource AccentB}" BorderThickness="1" CornerRadius="5">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="SELECTED:" FontWeight="Bold" Foreground="{DynamicResource ForegroundHot}" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                    <Label d:Content="No item selected" Content="{Binding Path=SelectedCategory.Name, FallbackValue={Binding Path=NoItemSelectedText}}"
+                    <Label d:Content="No item selected" Content="{Binding SelectedText}"
                            Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 </StackPanel>
             </Border>

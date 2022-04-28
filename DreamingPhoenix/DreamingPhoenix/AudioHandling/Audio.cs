@@ -143,6 +143,11 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             AudioFile = AudioFile;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {

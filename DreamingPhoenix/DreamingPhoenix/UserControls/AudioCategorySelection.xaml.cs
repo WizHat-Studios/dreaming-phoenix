@@ -104,7 +104,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 Category exactCategory = FilteredCategories.FirstOrDefault(c => c.Name.ToLower() == SearchText.ToLower());
                 if (exactCategory == null)
                 {
-                    exactCategory = new() { Name = SearchText };
+                    exactCategory = new(SearchText);
                     AppModel.Instance.Categories.Add(exactCategory);
                 }
 
@@ -137,7 +137,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void AddCategory_Click(object sender, RoutedEventArgs e)
         {
-            AppModel.Instance.Categories.Add(new() { Name = SearchText });
+            AppModel.Instance.Categories.Add(new(SearchText));
         }
 
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)

@@ -18,14 +18,25 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             set { text = value; NotifyPropertyChanged(); }
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public bool Equals(Tag other)
         {
             return other.Text == Text;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not Tag)
+                return false;
+
+            return Equals((Tag)obj);
+        }
+
+        public override string ToString()
+        {
+            return Text;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

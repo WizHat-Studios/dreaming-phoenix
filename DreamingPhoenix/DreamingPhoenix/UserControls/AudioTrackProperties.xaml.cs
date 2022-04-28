@@ -19,6 +19,7 @@ using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.AudioProperties;
 using System.Diagnostics;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -46,7 +47,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             this.DataContext = this;
             Track = audioTrack;
             Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
-        }       
+        }
 
         private void tbx_audioFile_PreviewDragOver(object sender, DragEventArgs e)
         {
@@ -90,7 +91,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             Track.NextAudioTrack = null;
         }
-        
+
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
             Track.Category = Category.Default;
@@ -124,14 +125,23 @@ namespace WizHat.DreamingPhoenix.UserControls
             if (newNextAudioTrack != null)
                 Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;
         }
-        
+
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Track.Category));
+            ItemSelectionList categorySelection = new("category", Track.Category.IsDefault() ? null : new List<Category>() { Track.Category }, multiSelection: true);
+            categorySelection.OnGetSourceList += (s, e) =>
+            {
+                return AppModel.Instance.Categories.Where(c => !c.IsDefault());
+            };
+            categorySelection.OnAddItem += (s, categoryName) => AppModel.Instance.Categories.Add(new(categoryName));
+            categorySelection.OnRemoveItem += (s, category) => AppModel.Instance.RemoveCategory((Category)category);
 
-            if (newCategory != null)
-                Track.Category = newCategory;
+            //Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Track.Category));
+            List<Category> newCategories = (await mainWindow.ShowDialog<List<object>>(categorySelection)).Cast<Category>().ToList();
+
+            if (!HelperFunctions.IsNullOrEmpty(newCategories))
+                Track.Category = newCategories[0];
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

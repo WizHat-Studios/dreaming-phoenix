@@ -41,7 +41,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             get { return $"Oops, looks like there is no {itemTitle} for that".ToUpper(); }
         }
 
-        public string NoItemSelectedText
+        public string NoItemsSelectedText
         {
             get { return $"No {itemTitle} selected"; }
         }
@@ -70,14 +70,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        private List<object> selectedItems;
-        public List<object> SelectedItems
+        private IEnumerable<object> selectedItems = new List<object>();
+        public IEnumerable<object> SelectedItems
         {
             get { return selectedItems; }
             set
             {
                 selectedItems = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(SelectedText));
             }
         }
 
@@ -122,6 +123,18 @@ namespace WizHat.DreamingPhoenix.UserControls
         public bool SearchActive { get { return !string.IsNullOrEmpty(SearchText); } }
         #endregion
 
+        public string SelectedText
+        {
+            get
+            {
+                if (SelectedItems.Count() == 0)
+                    return NoItemsSelectedText;
+
+                string selectedItems = string.Join(',', SelectedItems);
+                return selectedItems.Replace(",", ", ");
+            }
+        }
+
         #region Events
         public event EventHandler<string> OnAddItem;
         public event EventHandler<object> OnRemoveItem;
@@ -132,12 +145,25 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             DataContext = this;
+
+            ((INotifyCollectionChanged)lbox_selectionList.Items).CollectionChanged += DetermineListPrompt;
+            Loaded += (s, e) =>
+            {
+                FilterList();
+
+                // Select previous items
+                foreach (object item in SelectedItems)
+                {
+                    lbox_selectionList.SelectedItems.Add(item);
+                }
+            };
         }
 
         public ItemSelectionList(string itemTitle, List<Audio> currentAudios, Type audioType = null, List<Audio> selectionList = null, bool multiSelection = false) : this()
         {
             this.itemTitle = itemTitle;
             MultiSelection = multiSelection;
+            SelectedItems = currentAudios;
 
             if (selectionList is null)
                 SelectionList = AppModel.Instance.AudioList;
@@ -152,6 +178,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             this.itemTitle = itemTitle;
             MultiSelection = multiSelection;
+            SelectedItems = currentCategories;
 
             if (selectionList is null)
                 SelectionList = AppModel.Instance.Categories;
@@ -163,6 +190,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             this.itemTitle = itemTitle;
             MultiSelection = multiSelection;
+            SelectedItems = currentTags;
 
             if (selectionList is null)
                 SelectionList = AppModel.Instance.AvailableTags;
@@ -173,8 +201,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void FilterList()
         {
             SelectionList = OnGetSourceList(this, EventArgs.Empty);
-            // TODO: Set filter
-            //FilteredSelectionList = SelectionList.Where(x => !x.Equals(Category.Default) && x.Name.ToLower().Contains(SearchText.ToLower()));
+            FilteredSelectionList = SelectionList.Where(x => x.ToString().ToLower().Contains(SearchText.ToLower()));
         }
 
         private void Search_KeyUp(object sender, KeyEventArgs e)
@@ -186,7 +213,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
         }
 
-        private void DetermineCategoryListPrompt(object sender, NotifyCollectionChangedEventArgs e)
+        private void DetermineListPrompt(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (FilteredSelectionList.Count() == 0)
             {
@@ -210,12 +237,26 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            AppModel.Instance.Categories.Add(new() { Name = SearchText });
+            OnAddItem?.Invoke(this, SearchText);
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            AppModel.Instance.RemoveCategory((Category)((Button)sender).DataContext);
+            OnRemoveItem?.Invoke(this, ((ListBoxItem)sender).DataContext);
+        }
+
+        private void lbox_selectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedItems = lbox_selectionList.SelectedItems.Cast<object>().ToList();
+        }
+
+        private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Deactivated when multiSelection is enabled
+            if (multiSelection)
+                return;
+
+            Close(new List<object> { ((ListBoxItem)sender).DataContext });
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
@@ -225,12 +266,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-
-        private void CategoryListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Close(new List<object> { ((ListBoxItem)sender).DataContext });
+            Close(new List<object>());
         }
     }
 }
