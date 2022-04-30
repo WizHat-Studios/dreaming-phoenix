@@ -27,6 +27,7 @@ namespace WizHat.DreamingPhoenix.Persistence
         }
 
         private readonly JsonSerializerSettings jsonSerializerSettings = new() { TypeNameHandling = TypeNameHandling.Auto, PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+        private readonly JsonSerializerSettings jsonSerializerExportSettings = new() { TypeNameHandling = TypeNameHandling.Auto };
 
         public PersistentData Load()
         {
@@ -102,7 +103,7 @@ namespace WizHat.DreamingPhoenix.Persistence
                         using (var entryStream = sceneFile.Open())
                         using (var streamWriter = new StreamWriter(entryStream))
                         {
-                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented, jsonSerializerSettings));
+                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented, jsonSerializerExportSettings));
                         }
 
                         if (sceneToExport.ImageSource != null)
