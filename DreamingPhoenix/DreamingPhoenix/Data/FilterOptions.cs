@@ -68,10 +68,9 @@ namespace WizHat.DreamingPhoenix.Data
 
         public void UpdateTags()
         {
-            AppModel.Instance.UpdateAvailableTags();
             ObservableCollection<SelectableTag> updatedSelectedTags = new ObservableCollection<SelectableTag>();
 
-            foreach (Tag tag in AppModel.Instance.AvailableTags)
+            foreach (Tag tag in AppModel.Instance.Tags)
             {
                 bool isSelected = false;
                 foreach (SelectableTag selectedTag in selectedTags)
@@ -83,7 +82,7 @@ namespace WizHat.DreamingPhoenix.Data
                     }
                 }
 
-                updatedSelectedTags.Add(new SelectableTag() { Text = tag.Text, Selected = isSelected });
+                updatedSelectedTags.Add(new SelectableTag(tag.Text, isSelected));
             }
 
             SelectedTags = new ObservableCollection<SelectableTag>(updatedSelectedTags.OrderBy(x => x.Text).ToList());

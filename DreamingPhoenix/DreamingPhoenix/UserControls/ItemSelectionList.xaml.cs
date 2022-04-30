@@ -43,7 +43,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         public string NoItemsSelectedText
         {
-            get { return $"No {itemTitle} selected"; }
+            get { return $"No {itemTitle.ToLower()} selected"; }
         }
         #endregion
 
@@ -76,7 +76,10 @@ namespace WizHat.DreamingPhoenix.UserControls
             get { return selectedItems; }
             set
             {
-                selectedItems = value;
+                if (value is null)
+                    selectedItems = new List<object>();
+                else
+                    selectedItems = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(SelectedText));
             }
@@ -123,6 +126,30 @@ namespace WizHat.DreamingPhoenix.UserControls
         public bool SearchActive { get { return !string.IsNullOrEmpty(SearchText); } }
         #endregion
 
+        #region Options
+        private bool isAddEnabled;
+        public bool IsAddEnabled
+        {
+            get { return isAddEnabled; }
+            set
+            {
+                isAddEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isRemoveEnabled;
+        public bool IsRemoveEnabled
+        {
+            get { return isRemoveEnabled; }
+            set
+            {
+                isRemoveEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
         public string SelectedText
         {
             get
@@ -141,6 +168,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         public event ReturnEventHandler<IEnumerable<object>> OnGetSourceList;
         #endregion
 
+        private const string AUDIO_TITLE = "Audio";
+        private const string CATEGORY_TITLE = "Category";
+        private const string TAG_TITLE = "Tag";
+
         private ItemSelectionList()
         {
             InitializeComponent();
@@ -152,50 +183,149 @@ namespace WizHat.DreamingPhoenix.UserControls
                 FilterList();
 
                 // Select previous items
-                foreach (object item in SelectedItems)
+                if (SelectionMode == SelectionMode.Single)
                 {
-                    lbox_selectionList.SelectedItems.Add(item);
+                    lbox_selectionList.SelectedItem = HelperFunctions.IsNullOrEmpty(SelectedItems) ? null : SelectedItems.First();
+                }
+                else
+                {
+                    foreach (object item in SelectedItems)
+                    {
+                        lbox_selectionList.SelectedItems.Add(item);
+                    }
                 }
             };
         }
 
-        public ItemSelectionList(string itemTitle, List<Audio> currentAudios, Type audioType = null, List<Audio> selectionList = null, bool multiSelection = false) : this()
+        public async static Task<Audio> SelectAudio(Audio currentAudio, Type audioType = null, List<Audio> selectionList = null)
         {
-            this.itemTitle = itemTitle;
-            MultiSelection = multiSelection;
-            SelectedItems = currentAudios;
+            ItemSelectionList itemSelectionList = PrepareAudioList(currentAudio is null ? null : new() { currentAudio }, audioType, selectionList, false);
 
-            if (selectionList is null)
-                SelectionList = AppModel.Instance.AudioList;
-            else
-                SelectionList = selectionList;
-
-            if (audioType is not null)
-                SelectionList = SelectionList.Where(a => a.GetType() == audioType);
+            return (Audio)await ShowDialog(currentAudio, itemSelectionList);
         }
 
-        public ItemSelectionList(string itemTitle, List<Category> currentCategories, List<Category> selectionList = null, bool multiSelection = false) : this()
+        public async static Task<List<Audio>> SelectAudios(List<Audio> currentAudios, Type audioType = null, List<Audio> selectionList = null)
         {
-            this.itemTitle = itemTitle;
-            MultiSelection = multiSelection;
-            SelectedItems = currentCategories;
+            ItemSelectionList itemSelectionList = PrepareAudioList(currentAudios, audioType, selectionList, true);
 
-            if (selectionList is null)
-                SelectionList = AppModel.Instance.Categories;
-            else
-                SelectionList = selectionList;
+            return (await ShowDialog(currentAudios, itemSelectionList)).Cast<Audio>().ToList();
         }
 
-        public ItemSelectionList(string itemTitle, List<Tag> currentTags, List<Tag> selectionList = null, bool multiSelection = false) : this()
+        public async static Task<Category> SelectCategory(Category currentCategory, List<Category> selectionList = null)
         {
-            this.itemTitle = itemTitle;
-            MultiSelection = multiSelection;
-            SelectedItems = currentTags;
+            ItemSelectionList itemSelectionList = PrepareCategoryList((currentCategory is null || currentCategory.IsDefault()) ? null : new() { currentCategory }, selectionList, false);
 
-            if (selectionList is null)
-                SelectionList = AppModel.Instance.AvailableTags;
-            else
-                SelectionList = selectionList;
+            return (Category)await ShowDialog(currentCategory, itemSelectionList);
+        }
+
+        public async static Task<List<Category>> SelectCategories(List<Category> currentCategories, List<Category> selectionList = null)
+        {
+            ItemSelectionList itemSelectionList = PrepareCategoryList(currentCategories, selectionList, true);
+
+            return (await ShowDialog(currentCategories, itemSelectionList)).Cast<Category>().ToList();
+        }
+
+        public async static Task<Tag> SelectTag(Tag currentTag, List<Tag> selectionList = null)
+        {
+            ItemSelectionList itemSelectionList = PrepareTagList(currentTag is null ? null : new() { currentTag }, selectionList, false);
+
+            return (Tag)await ShowDialog(currentTag, itemSelectionList);
+        }
+
+        public async static Task<List<Tag>> SelectTags(List<Tag> currentTags, List<Tag> selectionList = null)
+        {
+            ItemSelectionList itemSelectionList = PrepareTagList(currentTags, selectionList, true);
+
+            return (await ShowDialog(currentTags, itemSelectionList)).Cast<Tag>().ToList();
+        }
+
+        #region Prepare Functions
+        private static ItemSelectionList PrepareAudioList(List<Audio> currentAudios, Type audioType, List<Audio> selectionList, bool multiSelection)
+        {
+            ItemSelectionList itemSelectionList = PrepareList(AUDIO_TITLE, currentAudios, selectionList, multiSelection);
+            itemSelectionList.OnGetSourceList += (s, e) =>
+            {
+                List<Audio> audioList = new();
+                if (selectionList is null)
+                    audioList = AppModel.Instance.AudioList.ToList();
+                else
+                    audioList = selectionList;
+
+                if (audioType is not null)
+                    audioList = audioList.Where(a => a.GetType() == audioType).ToList();
+
+                return audioList;
+            };
+
+            return itemSelectionList;
+        }
+
+        private static ItemSelectionList PrepareCategoryList(List<Category> currentCategories, List<Category> selectionList, bool multiSelection)
+        {
+            ItemSelectionList itemSelectionList = PrepareList(CATEGORY_TITLE, currentCategories, selectionList, multiSelection);
+            itemSelectionList.OnGetSourceList += (s, e) =>
+            {
+                if (selectionList is null)
+                    return AppModel.Instance.Categories.Where(c => !c.IsDefault());
+
+                return selectionList;
+            };
+            itemSelectionList.OnAddItem += (s, categoryName) => AppModel.Instance.Categories.Add(new(categoryName));
+            itemSelectionList.OnRemoveItem += (s, category) => AppModel.Instance.RemoveCategory((Category)category);
+            itemSelectionList.IsAddEnabled = true;
+            itemSelectionList.IsRemoveEnabled = true;
+
+            return itemSelectionList;
+        }
+
+        private static ItemSelectionList PrepareTagList(List<Tag> currentTags, List<Tag> selectionList, bool multiSelection)
+        {
+            ItemSelectionList itemSelectionList = PrepareList(TAG_TITLE, currentTags, selectionList, multiSelection);
+            itemSelectionList.OnGetSourceList += (s, e) =>
+            {
+                if (selectionList is null)
+                    return AppModel.Instance.Tags;
+
+                return selectionList;
+            };
+            itemSelectionList.OnAddItem += (s, tagName) => AppModel.Instance.Tags.Add(new(tagName));
+            itemSelectionList.OnRemoveItem += (s, tag) => AppModel.Instance.Tags.Remove((Tag)tag);
+            itemSelectionList.IsAddEnabled = true;
+            itemSelectionList.IsRemoveEnabled = true;
+
+            return itemSelectionList;
+        }
+
+        private static ItemSelectionList PrepareList(string title, IEnumerable<object> currentValues, IEnumerable<object> selectionList, bool multiSelection)
+        {
+            ItemSelectionList itemSelectionList = new();
+            itemSelectionList.itemTitle = title;
+            itemSelectionList.SelectedItems = currentValues;
+            itemSelectionList.SelectionList = selectionList;
+            itemSelectionList.MultiSelection = multiSelection;
+            return itemSelectionList;
+        }
+        #endregion
+
+        private async static Task<object> ShowDialog(object currentValue, ItemSelectionList itemSelectionList)
+        {
+            IEnumerable<object> newValues = await ShowDialog(new List<object>() { currentValue }, itemSelectionList);
+
+            if (!HelperFunctions.IsNullOrEmpty(newValues))
+                return newValues.First();
+
+            return currentValue;
+        }
+
+        private async static Task<IEnumerable<object>> ShowDialog(IEnumerable<object> currentValues, ItemSelectionList itemSelectionList)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            List<object> newValues = (await mainWindow.ShowDialog<List<object>>(itemSelectionList));
+
+            if (!HelperFunctions.IsNullOrEmpty(newValues))
+                return newValues;
+
+            return currentValues;
         }
 
         private void FilterList()
@@ -206,6 +336,9 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void Search_KeyUp(object sender, KeyEventArgs e)
         {
+            if (!IsAddEnabled)
+                return;
+
             if (e.Key == Key.Enter)
             {
                 OnAddItem?.Invoke(this, SearchText);
@@ -238,11 +371,13 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
             OnAddItem?.Invoke(this, SearchText);
+            FilterList();
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            OnRemoveItem?.Invoke(this, ((ListBoxItem)sender).DataContext);
+            OnRemoveItem?.Invoke(this, ((Control)sender).DataContext);
+            FilterList();
         }
 
         private void lbox_selectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)

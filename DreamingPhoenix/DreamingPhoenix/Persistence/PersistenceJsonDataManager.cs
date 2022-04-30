@@ -180,7 +180,6 @@ namespace WizHat.DreamingPhoenix.Persistence
 
             return scene;
         }
-
         
         public async Task ImportScene(string packageFile, string saveDirectory)
         {
@@ -241,6 +240,7 @@ namespace WizHat.DreamingPhoenix.Persistence
 
                 AppModel.Instance.AudioList.Add(scene.SceneAudioTrack);
                 AppModel.Instance.AddCategoryFromAudio(scene.SceneAudioTrack);
+                AppModel.Instance.AddTagsFromAudio(scene.SceneAudioTrack);
 
                 foreach (SoundEffect sfx in scene.SceneSoundEffects)
                 {
@@ -250,6 +250,8 @@ namespace WizHat.DreamingPhoenix.Persistence
                         sfx.AudioFile = Path.GetRelativePath(AppContext.BaseDirectory, sfx.AudioFile);
                     
                     AppModel.Instance.AudioList.Add(sfx);
+                    AppModel.Instance.AddCategoryFromAudio(sfx);
+                    AppModel.Instance.AddTagsFromAudio(sfx);
                 }
             }
 

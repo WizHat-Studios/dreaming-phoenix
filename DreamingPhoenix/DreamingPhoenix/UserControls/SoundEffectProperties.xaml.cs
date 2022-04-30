@@ -95,18 +95,12 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Sound.Category));
-
-            if (newCategory != null)
-                Sound.Category = newCategory;
+            Sound.Category = await ItemSelectionList.SelectCategory(Sound.Category);
         }
 
-        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
-            if (Sound.Tags == null)
-                Sound.Tags = new ObservableCollection<Tag>();
-            Sound.Tags.Add(new Tag() { Text = "New Tag" });
+            Sound.Tags = new(await ItemSelectionList.SelectTags(Sound.Tags.ToList()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

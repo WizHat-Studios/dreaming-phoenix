@@ -18,6 +18,11 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             set { text = value; NotifyPropertyChanged(); }
         }
 
+        public Tag(string text)
+        {
+            Text = text;
+        }
+
         public bool Equals(Tag other)
         {
             return other.Text == Text;
@@ -51,6 +56,11 @@ namespace WizHat.DreamingPhoenix.AudioProperties
         {
             get { return selected; }
             set { selected = value; NotifyPropertyChanged(); }
+        }
+
+        public SelectableTag(string text, bool selected) : base(text)
+        {
+            Selected = selected;
         }
     }
 }

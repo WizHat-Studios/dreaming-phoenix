@@ -31,7 +31,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         public FilterSettings()
         {
             InitializeComponent();
-            AppModel.Instance.UpdateAvailableTags();
             NewFilterOptions.UpdateTags();
             DataContext = this;
         }

@@ -9,7 +9,7 @@ namespace WizHat.DreamingPhoenix.Extensions
 {
     internal static class HelperFunctions
     {
-        public static bool IsNullOrEmpty(IList list)
+        public static bool IsNullOrEmpty(ICollection list)
         {
             if (list is null)
                 return true;
@@ -18,6 +18,11 @@ namespace WizHat.DreamingPhoenix.Extensions
                 return true;
 
             return false;
+        }
+
+        public static bool IsNullOrEmpty(IEnumerable list)
+        {
+            return IsNullOrEmpty((ICollection)list);
         }
     }
 }

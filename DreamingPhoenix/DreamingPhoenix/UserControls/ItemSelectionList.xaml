@@ -6,6 +6,7 @@
                      xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
                      xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls"
                      xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
+                     xmlns:audio="clr-namespace:WizHat.DreamingPhoenix.AudioHandling"
                      xmlns:audioprops="clr-namespace:WizHat.DreamingPhoenix.AudioProperties"
                      d:DataContext="{d:DesignInstance local:ItemSelectionList}"
                      mc:Ignorable="d" 
@@ -44,12 +45,24 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center"
-                         Margin="10,0,10,0" Style="{DynamicResource DarkTextBox}" KeyUp="Search_KeyUp" />
+                         Margin="10,0,10,0" KeyUp="Search_KeyUp">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DarkTextBox}">
+                            <Setter Property="Grid.ColumnSpan" Value="1" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=IsAddEnabled}" Value="False">
+                                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="19,0,19,0" Text="Search..." TextWrapping="Wrap" VerticalAlignment="Center"
                            FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}"
                            Visibility="{Binding Path=SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}" />
                 <Button Grid.Column="1" Margin="10,6,10,6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" fa:Content.Icon="SolidPlus"
-                        Style="{DynamicResource GreenButton}" Padding="0,0,0,0" Click="AddItem_Click" />
+                        Style="{DynamicResource GreenButton}" Padding="0,0,0,0" Click="AddItem_Click"
+                        Visibility="{Binding Converter={StaticResource BooleanToVisibilityConverter}, Path=IsAddEnabled}" />
             </Grid>
 
             <Grid x:Name="grid_emptyListboxPrompt" Visibility="Collapsed" d:Visibility="Visible" Margin="10,10,10,10" Grid.Row="2">
@@ -90,7 +103,7 @@
                                 <CheckBox Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0"
                                           IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
                                     <CheckBox.Style>
-                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource OnOffIndicatorToggleButton}">
+                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckToggleButton}">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
@@ -100,23 +113,123 @@
                                         </Style>
                                     </CheckBox.Style>
                                 </CheckBox>
-                                <Label Grid.Column="0" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                       VerticalContentAlignment="Center" FontSize="16" Foreground="{DynamicResource ForegroundDefault}">
-                                    <Label.Style>
-                                        <Style TargetType="{x:Type Label}">
-                                            <Setter Property="Margin" Value="10,0,60,0" />
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                           FontSize="16" Foreground="{DynamicResource ForegroundDefault}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="10,0,0,0" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
-                                                    <Setter Property="Margin" Value="45,0,60,0" />
+                                                    <Setter Property="Margin" Value="45,0,0,0" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Label.Style>
-                                </Label>
-                                <Ellipse Fill="{Binding Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorMediaBrushConverter}}"
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Ellipse Fill="{Binding Color, Mode=OneWay, Converter={StaticResource ColorMediaBrushConverter}}"
                                          Grid.Column="1" Height="20" Width="20" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click">
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
+                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentButton}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type audioprops:Tag}">
+                        <Border Background="{DynamicResource BackgroundC}" CornerRadius="5" Margin="5,2.5,5,2.5" Height="40">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0"
+                                          IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckToggleButton}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                                <TextBlock Grid.Column="0" Text="{Binding Text}" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                           FontSize="16" Foreground="{DynamicResource ForegroundDefault}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="10,0,0,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Margin" Value="45,0,0,0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
+                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentButton}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type audio:Audio}">
+                        <Border Background="{DynamicResource BackgroundC}" CornerRadius="5" Margin="5,2.5,5,2.5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0"
+                                          IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckToggleButton}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                           FontSize="16" Foreground="{DynamicResource ForegroundDefault}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="10,0,0,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=MultiSelection}" Value="True">
+                                                    <Setter Property="Margin" Value="45,0,0,0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Ellipse Fill="{Binding Category.Color, Mode=OneWay, Converter={StaticResource ColorMediaBrushConverter}}"
+                                         Grid.Column="1" Height="20" Width="20" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
+                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentButton}">
                                             <Setter Property="Visibility" Value="Hidden" />

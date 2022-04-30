@@ -110,38 +110,19 @@ namespace WizHat.DreamingPhoenix.UserControls
             Track.Tags.Remove(tag);
         }
 
-        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
-            if (Track.Tags == null)
-                Track.Tags = new ObservableCollection<Tag>();
-            Track.Tags.Add(new Tag() { Text = "New Tag" });
+            Track.Tags = new(await ItemSelectionList.SelectTags(Track.Tags.ToList()));
         }
 
         private async void SelectNextAudioTrack_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newNextAudioTrack = await mainWindow.ShowDialog<Audio>(new AudioSelection(typeof(AudioTrack), Track.NextAudioTrack));
-
-            if (newNextAudioTrack != null)
-                Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;
+            Track.NextAudioTrack = (AudioTrack)await ItemSelectionList.SelectAudio(Track.NextAudioTrack, typeof(AudioTrack));
         }
 
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            ItemSelectionList categorySelection = new("category", Track.Category.IsDefault() ? null : new List<Category>() { Track.Category }, multiSelection: true);
-            categorySelection.OnGetSourceList += (s, e) =>
-            {
-                return AppModel.Instance.Categories.Where(c => !c.IsDefault());
-            };
-            categorySelection.OnAddItem += (s, categoryName) => AppModel.Instance.Categories.Add(new(categoryName));
-            categorySelection.OnRemoveItem += (s, category) => AppModel.Instance.RemoveCategory((Category)category);
-
-            //Category newCategory = await mainWindow.ShowDialog<Category>(new AudioCategorySelection(Track.Category));
-            List<Category> newCategories = (await mainWindow.ShowDialog<List<object>>(categorySelection)).Cast<Category>().ToList();
-
-            if (!HelperFunctions.IsNullOrEmpty(newCategories))
-                Track.Category = newCategories[0];
+            Track.Category = await ItemSelectionList.SelectCategory(Track.Category);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
