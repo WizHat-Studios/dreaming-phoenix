@@ -224,26 +224,33 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         public bool ConvertToSampleRate(ref string fileName)
         {
             WaveStream readerStream = null;
-            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                readerStream = new WaveFileReader(fileName);
-                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
                 {
-                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
-                    readerStream = new BlockAlignReductionStream(readerStream);
+                    readerStream = new WaveFileReader(fileName);
+                    if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                    {
+                        readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                        readerStream = new BlockAlignReductionStream(readerStream);
+                    }
+                }
+                else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+                {
+                    readerStream = new Mp3FileReader(fileName);
+                }
+                else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+                {
+                    readerStream = new AiffFileReader(fileName);
+                }
+                else
+                {
+                    // fall back to media foundation reader, see if that can play it
+                    readerStream = new MediaFoundationReader(fileName);
                 }
             }
-            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            catch (Exception)
             {
-                readerStream = new Mp3FileReader(fileName);
-            }
-            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
-            {
-                readerStream = new AiffFileReader(fileName);
-            }
-            else
-            {
-                // fall back to media foundation reader, see if that can play it
                 readerStream = new MediaFoundationReader(fileName);
             }
 
@@ -274,7 +281,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             resampler.Dispose();
             readerStream.Close();
             File.Delete(fileName);
-            File.Move(outFile, Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "." + Path.GetExtension(outFile)));
+            File.Move(outFile, Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Path.GetExtension(outFile)));
+            fileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Path.GetExtension(outFile));
 
             return true;
         }
