@@ -31,6 +31,7 @@
                 <ResourceDictionary Source="./Styles/Button/ConfirmAndRemoveButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/OnOffIndicatorToggleButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/SortIndicatorToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/CheckToggleButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToolTip/ToolTip.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TabControl/TabItem.xaml"></ResourceDictionary>
 
