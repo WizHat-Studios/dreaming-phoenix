@@ -100,7 +100,7 @@
                             <DataTemplate>
                                 <Border CornerRadius="10" BorderBrush="{DynamicResource AccentC}" BorderThickness="1" Margin="5" HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding Path=Text}" Margin="5,0,0,0"/>
+                                        <Label Content="{Binding Path=Text}" Margin="5,0,0,0" Foreground="{DynamicResource ForegroundDefault}" />
                                         <Button Tag="{Binding}" Style="{StaticResource TransparentRedButton}" fa:Content.Icon="SolidXmark" Width="20" Margin="0,0,5,0" Click="RemoveTag_Click"/>
                                     </StackPanel>
                                 </Border>

@@ -96,11 +96,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void AddSoundEffect_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newSoundEffect = await mainWindow.ShowDialog<Audio>(new AudioSelection((typeof(SoundEffect))));
-
-            if (newSoundEffect != null)
-                Scene.SceneSoundEffects.Add((SoundEffect)newSoundEffect);                
+            Scene.SceneSoundEffects = new((await ItemSelectionList.SelectAudios(Scene.SceneSoundEffects.Cast<Audio>().ToList(), typeof(SoundEffect))).Cast<SoundEffect>().ToList());
         }
 
         private void RemoveSoundEffect_Click(object sender, RoutedEventArgs e)
@@ -156,11 +152,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void SelectAudioTrack_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newAudioTrack = await mainWindow.ShowDialog<Audio>(new AudioSelection(typeof(AudioTrack), Scene.SceneAudioTrack));
-
-            if (newAudioTrack != null)
-                Scene.SceneAudioTrack = (AudioTrack)newAudioTrack;
+            Scene.SceneAudioTrack = (AudioTrack)await ItemSelectionList.SelectAudio(Scene.SceneAudioTrack, typeof(AudioTrack));
         }
 
         private async void ExportScene_Click(object sender, RoutedEventArgs e)
