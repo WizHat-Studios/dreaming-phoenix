@@ -107,6 +107,8 @@ namespace WizHat.DreamingPhoenix.UserControls
                 return SelectionMode.Single;
             }
         }
+
+        private IEnumerable<object> previousItems;
         #endregion
 
         #region Search
@@ -191,7 +193,9 @@ namespace WizHat.DreamingPhoenix.UserControls
                 {
                     foreach (object item in SelectedItems)
                     {
-                        lbox_selectionList.SelectedItems.Add(item);
+                        object listItem = SelectionList.FirstOrDefault(s => s.Equals(item));
+                        if (listItem is not null)
+                            lbox_selectionList.SelectedItems.Add(listItem);
                     }
                 }
             };
@@ -215,7 +219,11 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             ItemSelectionList itemSelectionList = PrepareCategoryList((currentCategory is null || currentCategory.IsDefault()) ? null : new() { currentCategory }, selectionList, false);
 
-            return (Category)await ShowDialog(currentCategory, itemSelectionList);
+            Category newCategory = (Category)await ShowDialog(currentCategory, itemSelectionList);
+            if (newCategory is null)
+                return Category.Default;
+
+            return newCategory;
         }
 
         public async static Task<List<Category>> SelectCategories(List<Category> currentCategories, List<Category> selectionList = null)
@@ -300,6 +308,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             ItemSelectionList itemSelectionList = new();
             itemSelectionList.itemTitle = title;
+            itemSelectionList.previousItems = currentValues;
             itemSelectionList.SelectedItems = currentValues;
             itemSelectionList.SelectionList = selectionList;
             itemSelectionList.MultiSelection = multiSelection;
@@ -310,22 +319,20 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async static Task<object> ShowDialog(object currentValue, ItemSelectionList itemSelectionList)
         {
             IEnumerable<object> newValues = await ShowDialog(new List<object>() { currentValue }, itemSelectionList);
+            if (newValues.Count() == 0)
+                return null;
 
-            if (!HelperFunctions.IsNullOrEmpty(newValues))
-                return newValues.First();
-
-            return currentValue;
+            return newValues.First();
         }
 
         private async static Task<IEnumerable<object>> ShowDialog(IEnumerable<object> currentValues, ItemSelectionList itemSelectionList)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            List<object> newValues = (await mainWindow.ShowDialog<List<object>>(itemSelectionList));
+            List<object> newValues = await mainWindow.ShowDialog<List<object>>(itemSelectionList);
+            if (newValues is null)
+                return currentValues;
 
-            if (!HelperFunctions.IsNullOrEmpty(newValues))
-                return newValues;
-
-            return currentValues;
+            return newValues;
         }
 
         private void FilterList()
@@ -401,7 +408,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            Close(new List<object>());
+            Close();
         }
     }
 }
