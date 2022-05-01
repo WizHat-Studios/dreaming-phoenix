@@ -10,6 +10,7 @@ namespace WizHat.DreamingPhoenix.Persistence
     public class PersistentData
     {
         public List<Category> Categories = new();
+        public List<Tag> Tags = new();
         public List<Audio> AudioList = new();
         public List<Scene> SceneList = new();
         public AppOptions AppOptions = new();
