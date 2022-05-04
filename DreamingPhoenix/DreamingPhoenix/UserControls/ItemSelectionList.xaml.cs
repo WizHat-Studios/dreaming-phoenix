@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -411,9 +412,23 @@ namespace WizHat.DreamingPhoenix.UserControls
             Close();
         }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        Category categoryToSelectColor = null;
 
+        private void PickNewColor_Click(object sender, RoutedEventArgs e)
+        {
+            popup_colorPicker.IsOpen = true;
+            categoryToSelectColor = ((sender as Button).Tag as Category);
+            colpck_popUpColorPicker.PickNewColor(categoryToSelectColor.Color);
+        }
+
+        private void popup_colorPicker_Closed(object sender, EventArgs e)
+        {
+            if (categoryToSelectColor == null)
+                return;
+
+            categoryToSelectColor.Color = colpck_popUpColorPicker.NewColor.Color;
+            AppModel.Instance.Categories.Where(x => x.Name == categoryToSelectColor.Name).First().Color = colpck_popUpColorPicker.NewColor.Color;
+            categoryToSelectColor = null;
         }
     }
 }

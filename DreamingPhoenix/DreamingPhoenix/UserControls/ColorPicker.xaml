@@ -42,7 +42,7 @@
         </VisualBrush>
     </UserControl.Resources>
     <Grid>
-        <Grid>
+        <Grid Margin="10,0,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid Width="265" Height="265">
                     <Rectangle Fill="{StaticResource LevelSaturationBrush}" Margin="5,5,5,5" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" />

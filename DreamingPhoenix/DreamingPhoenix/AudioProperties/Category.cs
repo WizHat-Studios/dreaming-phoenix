@@ -19,7 +19,7 @@ namespace WizHat.DreamingPhoenix.AudioProperties
         {
             get
             {
-                return new Category("None");
+                return new Category("None") { Color = Colors.DarkGray };
             }
         }
 
@@ -28,15 +28,20 @@ namespace WizHat.DreamingPhoenix.AudioProperties
         public string Name
         {
             get { return name; }
-            set { name = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(Color)); }
+            set { name = value; NotifyPropertyChanged(); }
         }
+
+        private Color color = Colors.DarkGray;
 
         public Color Color
         {
             get
             {
-                string hash = BitConverter.ToUInt32(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name)), 0).ToString();
-                return (Color)ColorConverter.ConvertFromString("#" + hash.Substring(0, 6));
+                return color;
+            }
+            set 
+            {
+                color = value; NotifyPropertyChanged(); 
             }
         }
 

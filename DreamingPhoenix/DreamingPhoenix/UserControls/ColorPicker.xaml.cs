@@ -44,7 +44,11 @@ namespace WizHat.DreamingPhoenix.UserControls
         public SolidColorBrush NewColor
         {
             get { return newColor; }
-            set { newColor = value; NotifyPropertyChanged(); }
+            set 
+            { 
+                newColor = value; 
+                NotifyPropertyChanged();
+            }
         }
 
         private ObservableCollection<Color> predefinedColors = new ObservableCollection<Color>()
@@ -101,13 +105,20 @@ namespace WizHat.DreamingPhoenix.UserControls
             
         }
 
-        public ColorPicker(string oldColor = "#FFFFFF")
+        public ColorPicker(Color oldColor)
         {
             InitializeComponent();
             this.DataContext = this;
-            OldColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(oldColor));
+            OldColor = new SolidColorBrush(oldColor);
             NewColor = OldColor;
             SetHSVFromColor(NewColor.Color);
+        }
+
+        public void PickNewColor(Color oldColor)
+        {
+            OldColor = new SolidColorBrush(oldColor);
+            NewColor = new SolidColorBrush(oldColor);
+            SetHSVFromColor(OldColor.Color);
         }
 
         private static Color GetColorFromHex(string hex)
