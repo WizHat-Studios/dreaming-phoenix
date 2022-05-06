@@ -178,14 +178,16 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
-                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentRedButton}">
                                             <Setter Property="Visibility" Value="Hidden" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
                                                     <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=IsRemoveEnabled}" Value="False">
+                                                    <Setter Property="Visibility" Value="Hidden" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

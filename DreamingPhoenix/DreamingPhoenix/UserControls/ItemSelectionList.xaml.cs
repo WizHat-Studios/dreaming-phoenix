@@ -426,8 +426,9 @@ namespace WizHat.DreamingPhoenix.UserControls
             if (categoryToSelectColor == null)
                 return;
 
-            categoryToSelectColor.Color = colpck_popUpColorPicker.NewColor.Color;
-            AppModel.Instance.Categories.Where(x => x.Name == categoryToSelectColor.Name).First().Color = colpck_popUpColorPicker.NewColor.Color;
+            // TODO: Create method in AppModel for this
+            categoryToSelectColor.Color = colpck_popUpColorPicker.NewColor;
+            AppModel.Instance.Categories.Where(x => x.Name == categoryToSelectColor.Name).First().Color = colpck_popUpColorPicker.NewColor;
             categoryToSelectColor = null;
         }
     }
