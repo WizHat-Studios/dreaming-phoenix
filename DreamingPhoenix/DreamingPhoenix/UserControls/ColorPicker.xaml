@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="WizHat.DreamingPhoenix.UserControls.ColorPicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:fa="https://dsaladin.dev/products/fontawesome/wpf/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizHat.DreamingPhoenix.UserControls" xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              d:DataContext="{d:DesignInstance local:ColorPicker}"
@@ -69,7 +70,17 @@
                     </Border>
                 </Grid>
                 <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75">
-                    <Ellipse Fill="{Binding NewColor}" Height="50" Width="50"/>
+                    <Grid>
+                        <Ellipse Height="50" Width="50">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
+                                    <GradientStop Color="{Binding OldColor}" d:Color="Red" Offset="0.5"/>
+                                    <GradientStop Color="{Binding NewColor}" d:Color="DarkRed" Offset="0.5"/>
+                                </LinearGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Button Style="{DynamicResource TransparentButton}" FontSize="14" Height="25" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetColor_Click" />
+                    </Grid>
                     <Label x:Name="lbl_newHexColorText" FontWeight="SemiBold" Foreground="{DynamicResource ForegroundDefault}" Content="#000000" HorizontalAlignment="Center"/>
 
                     <ItemsControl ItemsSource="{Binding PredefinedColors}" HorizontalAlignment="Center">
@@ -83,6 +94,22 @@
                                 <Ellipse Height="15" Width="15" Tag="{Binding .}" Fill="{Binding ., Converter={StaticResource ColorMediaBrushConverter}}" Margin="2" MouseLeftButtonUp="PredefinedColor_MouseLeftButtonUp" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
+                        <d:ItemsControl.ItemsSource>
+                            <x:Array Type="{x:Type Color}">
+                                <Color>#FF0000</Color>
+                                <Color>#00FF00</Color>
+                                <Color>#0000FF</Color>
+                                <Color>#FF0000</Color>
+                                <Color>#00FF00</Color>
+                                <Color>#0000FF</Color>
+                                <Color>#FF0000</Color>
+                                <Color>#00FF00</Color>
+                                <Color>#0000FF</Color>
+                                <Color>#FF0000</Color>
+                                <Color>#00FF00</Color>
+                                <Color>#0000FF</Color>
+                            </x:Array>
+                        </d:ItemsControl.ItemsSource>
                     </ItemsControl>
                 </StackPanel>
             </StackPanel>

@@ -33,15 +33,15 @@ namespace WizHat.DreamingPhoenix.UserControls
         // Hue from 0 to 1
         private double CurrentHue { get; set; }
 
-        private SolidColorBrush oldColor = new SolidColorBrush(Colors.White);
-        public SolidColorBrush OldColor
+        private Color oldColor = Colors.White;
+        public Color OldColor
         {
             get { return oldColor; }
             set { oldColor = value; NotifyPropertyChanged(); }
         }
 
-        private SolidColorBrush newColor;
-        public SolidColorBrush NewColor
+        private Color newColor;
+        public Color NewColor
         {
             get { return newColor; }
             set 
@@ -99,9 +99,9 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
-            OldColor = new SolidColorBrush(Colors.Red);
+            OldColor = Colors.Red;
             NewColor = OldColor;
-            SetHSVFromColor(NewColor.Color);
+            SetHSVFromColor(NewColor);
             
         }
 
@@ -109,16 +109,16 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
-            OldColor = new SolidColorBrush(oldColor);
+            OldColor = oldColor;
             NewColor = OldColor;
-            SetHSVFromColor(NewColor.Color);
+            SetHSVFromColor(NewColor);
         }
 
         public void PickNewColor(Color oldColor)
         {
-            OldColor = new SolidColorBrush(oldColor);
-            NewColor = new SolidColorBrush(oldColor);
-            SetHSVFromColor(OldColor.Color);
+            OldColor = oldColor;
+            NewColor = oldColor;
+            SetHSVFromColor(OldColor);
         }
 
         private static Color GetColorFromHex(string hex)
@@ -166,10 +166,9 @@ namespace WizHat.DreamingPhoenix.UserControls
 
             brd_mouse.Margin = new Thickness(saturation, lightness, 0, 0);
             double l = ((lightness / 255.0) - 1.0) * -1;
-            Color color = ConvertHSVToRGB(CurrentHue, saturation / 255.0, l);
-            NewColor = new SolidColorBrush(color);
+            NewColor = ConvertHSVToRGB(CurrentHue, saturation / 255.0, l);
 
-            if ((NewColor.Color.R * 0.299 + NewColor.Color.G * 0.587 + NewColor.Color.B * 0.114) > 149)
+            if ((NewColor.R * 0.299 + NewColor.G * 0.587 + NewColor.B * 0.114) > 149)
             {
                 brd_mouse.Stroke = new SolidColorBrush(Colors.Black);
             }
@@ -178,7 +177,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 brd_mouse.Stroke = new SolidColorBrush(Colors.White);
             }
 
-            lbl_newHexColorText.Content = HexConverter(NewColor.Color);
+            lbl_newHexColorText.Content = HexConverter(NewColor);
 
         }
 
@@ -288,8 +287,6 @@ namespace WizHat.DreamingPhoenix.UserControls
             double t = step % (1.0 / 6);
             byte i = (byte)(255 / (1.0 / 6) * t);
 
-            Debug.WriteLine(step + " / " + i);
-
             if (step < 0.166666666666)
                 return Color.FromRgb(255, i, 0);
             if (step < 0.333333333333)
@@ -306,16 +303,21 @@ namespace WizHat.DreamingPhoenix.UserControls
             return Colors.Black;
         }
 
+        private void PredefinedColor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SetHSVFromColor((Color)(sender as Ellipse).Tag);
+        }
+
+        private void ResetColor_Click(object sender, RoutedEventArgs e)
+        {
+            NewColor = OldColor;
+            SetHSVFromColor(NewColor);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        private void PredefinedColor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            SetHSVFromColor((Color)(sender as Ellipse).Tag);
         }
     }
 }
