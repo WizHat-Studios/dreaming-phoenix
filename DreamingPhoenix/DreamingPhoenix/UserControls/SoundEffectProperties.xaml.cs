@@ -85,22 +85,34 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
             Sound.Category = Category.Default;
+
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
         {
             Tag tag = ((Button)sender).Tag as Tag;
             Sound.Tags.Remove(tag);
+
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
             Sound.Category = await ItemSelectionList.SelectCategory(Sound.Category);
+
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
             Sound.Tags = new(await ItemSelectionList.SelectTags(Sound.Tags.ToList()));
+
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
