@@ -35,7 +35,8 @@
                             <Setter TargetName="lbl_checkTglBtn" Property="Foreground" Value="{DynamicResource OKNormal}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="lbl_checkTglBtn" Property="fa:Content.Icon" Value="None" />
+                            <Setter TargetName="lbl_checkTglBtn" Property="fa:Content.Icon" Value="SolidCircleMinus" />
+                            <Setter TargetName="lbl_checkTglBtn" Property="Foreground" Value="{DynamicResource ForegroundDimmedVariant}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
                         </Trigger>
