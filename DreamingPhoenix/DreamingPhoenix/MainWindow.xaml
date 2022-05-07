@@ -99,7 +99,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
+                                <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" d:Visibility="Hidden" Visibility="Visible">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="OOPS, WHATEVER YOU WERE LOOKING FOR IS NOT HERE." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
@@ -252,12 +252,14 @@
                                     </ListBox.Resources>
                                     <d:ListBox.ItemsSource>
                                         <CompositeCollection>
-                                            <audio:AudioTrack Name="Never Gonna Give You Up - Rick Astley" Volume="0.5" />
+                                            <audio:AudioTrack Name="Never Gonna Give You Up - Rick Astley" Volume="0.50" />
                                             <audio:AudioTrack Name="We are Number One - Lazy Town" Volume="0.65" />
                                             <audio:AudioTrack Name="Astronomia - Vicetone &amp; Tony Igy" Volume="0.25" />
+                                            <audio:AudioTrack Name="The Sounds of Silence - Simon &amp; Garfunkel" Volume="0.30" />
                                             <audio:AudioTrack Name="Spooky Scary Skeletons - Andrew Gold" Volume="0.10" />
                                             <audio:AudioTrack Name="Wii Theme - Nintendo" Volume="0.80" />
                                             <audio:AudioTrack Name="Bitch Lasagna - PewDiePie" Volume="1.00" />
+                                            <audio:AudioTrack Name="Green Gang - The Boys" Volume="0.40" />
                                         </CompositeCollection>
                                     </d:ListBox.ItemsSource>
                                 </ListBox>
@@ -282,7 +284,7 @@
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
 
-                                <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" Visibility="Visible">
+                                <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" d:Visibility="Hidden" Visibility="Visible">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY SCENES YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
@@ -359,6 +361,15 @@
                                             </Border>
                                         </DataTemplate>
                                     </ListBox.Resources>
+                                    <d:ListBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <audio:Scene SceneName="My Friends">
+                                                <audio:Scene.SceneAudioTrack>
+                                                    <audio:AudioTrack Name="The Sounds of Silence - Simon &amp; Garfunkel" />
+                                                </audio:Scene.SceneAudioTrack>
+                                            </audio:Scene>
+                                        </CompositeCollection>
+                                    </d:ListBox.ItemsSource>
                                 </ListBox>
                             </Grid>
                         </Grid>
