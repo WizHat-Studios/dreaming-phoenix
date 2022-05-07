@@ -171,6 +171,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         public event ReturnEventHandler<IEnumerable<object>> OnGetSourceList;
         #endregion
 
+        #region Category
+        private Category categoryToSelectColor = null;
+        #endregion
+
         private const string AUDIO_TITLE = "Audio";
         private const string CATEGORY_TITLE = "Category";
         private const string TAG_TITLE = "Tag";
@@ -402,18 +406,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             Close(new List<object> { ((ListBoxItem)sender).DataContext });
         }
 
-        private void ButtonOk_Click(object sender, RoutedEventArgs e)
-        {
-            Close(SelectedItems);
-        }
-
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        Category categoryToSelectColor = null;
-
+        #region Category
         private void PickNewColor_Click(object sender, RoutedEventArgs e)
         {
             popup_colorPicker.IsOpen = true;
@@ -426,10 +419,20 @@ namespace WizHat.DreamingPhoenix.UserControls
             if (categoryToSelectColor == null)
                 return;
 
-            // TODO: Create method in AppModel for this
             categoryToSelectColor.Color = colpck_popUpColorPicker.NewColor;
-            AppModel.Instance.Categories.Where(x => x.Name == categoryToSelectColor.Name).First().Color = colpck_popUpColorPicker.NewColor;
+            AppModel.Instance.ChangeCategoryColor(categoryToSelectColor, colpck_popUpColorPicker.NewColor);
             categoryToSelectColor = null;
+        }
+        #endregion
+
+        private void ButtonOk_Click(object sender, RoutedEventArgs e)
+        {
+            Close(SelectedItems);
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

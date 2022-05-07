@@ -12,36 +12,46 @@ using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.AudioProperties
 {
-    //[DebuggerDisplay("Name: {Name} - Color: {Color}")]
+    [DebuggerDisplay("Name: {Name} - Color: {Color}")]
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
+        private static Color DefaultColor = Colors.DarkGray;
         public static Category Default
         {
             get
             {
-                return new Category("None") { Color = Colors.DarkGray };
+                return new Category("None") { color = DefaultColor };
             }
         }
 
         private string name;
-
         public string Name
         {
-            get { return name; }
-            set { name = value; NotifyPropertyChanged(); }
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private Color color = Colors.DarkGray;
-
+        private Color color = DefaultColor;
         public Color Color
         {
             get
             {
                 return color;
             }
-            set 
+            set
             {
-                color = value; NotifyPropertyChanged(); 
+                if (IsDefault())
+                    return;
+
+                color = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -74,11 +84,9 @@ namespace WizHat.DreamingPhoenix.AudioProperties
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }
