@@ -62,7 +62,7 @@
                            FontFamily="Trebuchet MS" IsHitTestVisible="False" Foreground="{DynamicResource ForegroundDimmed}"
                            Visibility="{Binding Path=SearchActive, Converter={StaticResource InvertedBooleanVisibilityConverter}}" />
                 <Button Grid.Column="1" Margin="10,6,10,6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" fa:Content.Icon="SolidPlus"
-                        Style="{DynamicResource GreenButton}" Padding="0,0,0,0" Click="AddItem_Click"
+                        Padding="0,0,0,0" Click="AddItem_Click"
                         Visibility="{Binding Converter={StaticResource BooleanToVisibilityConverter}, Path=IsAddEnabled}" />
             </Grid>
 
@@ -77,10 +77,10 @@
 
             <Grid x:Name="grid_noSearchListboxPrompt" Visibility="Collapsed" Margin="10,10,10,10" Grid.Row="2">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Images/Biscuit/Biscuit_Sad.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                     <Label d:Content="OOPS, LOOKS LIKE THERE IS NO ITEM FOR THAT" Content="{Binding NoItemsText}" FontWeight="DemiBold"
                            Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
-                    <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT" FontSize="11" Foreground="{DynamicResource ForegroundDefault}"
+                    <Label Content="MAYBE TRY SEARCHING FOR SOMETHING DIFFERENT OR HIT ENTER TO ADD YOUR SEARCH" FontSize="11" Foreground="{DynamicResource ForegroundDefault}"
                            HorizontalContentAlignment="Center"/>
                 </StackPanel>
             </Grid>

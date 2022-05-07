@@ -313,6 +313,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             ItemSelectionList itemSelectionList = new();
             itemSelectionList.itemTitle = title;
+            itemSelectionList.NotifyPropertyChanged(nameof(PageTitle));
+            itemSelectionList.NotifyPropertyChanged(nameof(NoItemsText));
+            itemSelectionList.NotifyPropertyChanged(nameof(NoItemsFoundText));
+            itemSelectionList.NotifyPropertyChanged(nameof(NoItemsSelectedText));
             itemSelectionList.previousItems = currentValues;
             itemSelectionList.SelectedItems = currentValues;
             itemSelectionList.SelectionList = selectionList;
