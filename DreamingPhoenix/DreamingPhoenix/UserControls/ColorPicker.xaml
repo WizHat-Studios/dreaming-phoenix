@@ -46,8 +46,8 @@
         <Grid Margin="10,0,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid Width="265" Height="265">
-                    <Rectangle Fill="{StaticResource LevelSaturationBrush}" Margin="5,5,5,5" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" />
-                    <Rectangle Cursor="Cross" Margin="5,5,5,5" Stroke="Black" MouseDown="Rectangle_MouseDown" MouseMove="Rectangle_MouseMove" MouseLeave="Rectangle_MouseLeave">
+                    <Rectangle x:Name="rec_saturationValuePanel" Fill="{StaticResource LevelSaturationBrush}" Margin="5,5,5,5" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" />
+                    <Rectangle Cursor="Cross" Margin="5,5,5,5" Stroke="Black" MouseDown="rec_saturationValuePanel_MouseDown" MouseMove="rec_saturationValuePanel_MouseMove" MouseLeave="rec_saturationValuePanel_MouseLeave">
                         <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <LinearGradientBrush.GradientStops>
@@ -57,15 +57,15 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Path x:Name="brd_mouse" IsHitTestVisible="False" Height="12" Width="12" Fill="Transparent" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" >
+                    <Path x:Name="path_colorSelector" IsHitTestVisible="False" Height="12" Width="12" Fill="Transparent" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" >
                         <Path.Data>
                             <EllipseGeometry Center="6,6" RadiusX="5" RadiusY="5" />
                         </Path.Data>
                     </Path>
                 </Grid>
                 <Grid Margin="0,10,0,10" Height="265" Width="30">
-                    <Rectangle x:Name="rect_hue" Fill="{StaticResource HueBrush}" Margin="0,5,0,5" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" MouseMove="rect_hue_MouseMove" PreviewMouseLeftButtonDown="rect_hue_MouseDown"/>
-                    <Border x:Name="brd_huePos" Height="10" BorderThickness="1" BorderBrush="White" Margin="2,0,2,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                    <Rectangle x:Name="rec_huePanel" Fill="{StaticResource HueBrush}" Margin="0,5,0,5" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" MouseMove="rec_huePanel_MouseMove" PreviewMouseLeftButtonDown="rec_huePanel_MouseDown"/>
+                    <Border x:Name="brd_huePanelSelector" Height="10" BorderThickness="1" BorderBrush="White" Margin="2,0,2,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                         <Border BorderThickness="1" BorderBrush="Black"/>
                     </Border>
                 </Grid>
@@ -81,7 +81,7 @@
                         </Ellipse>
                         <Button Style="{DynamicResource TransparentButton}" FontSize="14" Height="25" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetColor_Click" />
                     </Grid>
-                    <Label x:Name="lbl_newHexColorText" FontWeight="SemiBold" Foreground="{DynamicResource ForegroundDefault}" Content="#000000" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="tbx_hexColor" FontWeight="SemiBold" Style="{DynamicResource TransparentTextBox}" d:Text="#000000" HorizontalAlignment="Center" TextChanged="tbx_hexColor_TextChanged" />
 
                     <ItemsControl ItemsSource="{Binding PredefinedColors}" HorizontalAlignment="Center">
                         <ItemsControl.ItemsPanel>
@@ -91,7 +91,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Ellipse Height="15" Width="15" Tag="{Binding .}" Fill="{Binding ., Converter={StaticResource ColorMediaBrushConverter}}" Margin="2" MouseLeftButtonUp="PredefinedColor_MouseLeftButtonUp" />
+                                <Button Height="15" Width="15" Tag="{Binding .}" Background="{Binding ., Converter={StaticResource ColorMediaBrushConverter}}" Margin="2" Style="{DynamicResource RoundButton}" Click="PredefinedColor_Click" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <d:ItemsControl.ItemsSource>

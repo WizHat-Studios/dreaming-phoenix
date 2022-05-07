@@ -24,14 +24,14 @@ namespace WizHat.DreamingPhoenix.UserControls
     /// </summary>
     public partial class ColorPicker : UserControl, INotifyPropertyChanged
     {
-        // Saturation from 0 to 255
-        public byte CurrentSaturation { get; set; }
+        // Hue from 0 to 360
+        private int CurrentHue { get; set; }
 
-        // Lightness from 0 to 255
-        public byte CurrentLightness { get; set; }
+        // Saturation from 0 to 1
+        public double CurrentSaturation { get; set; }
 
-        // Hue from 0 to 1
-        private double CurrentHue { get; set; }
+        // Lightness from 0 to 1
+        public double CurrentValue { get; set; }
 
         private Color oldColor = Colors.White;
         public Color OldColor
@@ -53,41 +53,41 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private ObservableCollection<Color> predefinedColors = new ObservableCollection<Color>()
         {
-            GetColorFromHex("#FFFFBE"),
-            GetColorFromHex("#FFFE4F"),
-            GetColorFromHex("#FFFE06"),
+            ConvertHexToColor("#FFFFBE"),
+            ConvertHexToColor("#FFFE4F"),
+            ConvertHexToColor("#FFFE06"),
 
-            GetColorFromHex("#FEE7BC"),
-            GetColorFromHex("#FFC250"),
-            GetColorFromHex("#FDA602"),
+            ConvertHexToColor("#FEE7BC"),
+            ConvertHexToColor("#FFC250"),
+            ConvertHexToColor("#FDA602"),
 
-            GetColorFromHex("#F7D8C9"),
-            GetColorFromHex("#E99A60"),
-            GetColorFromHex("#E06F21"),
+            ConvertHexToColor("#F7D8C9"),
+            ConvertHexToColor("#E99A60"),
+            ConvertHexToColor("#E06F21"),
 
-            GetColorFromHex("#FFBFC1"),
-            GetColorFromHex("#FE4C4B"),
-            GetColorFromHex("#FF0502"),
+            ConvertHexToColor("#FFBFC1"),
+            ConvertHexToColor("#FE4C4B"),
+            ConvertHexToColor("#FF0502"),
 
-            GetColorFromHex("#FFB4C0"),
-            GetColorFromHex("#FF6683"),
-            GetColorFromHex("#FF1A41"),
+            ConvertHexToColor("#FFB4C0"),
+            ConvertHexToColor("#FF6683"),
+            ConvertHexToColor("#FF1A41"),
 
-            GetColorFromHex("#FFC1FD"),
-            GetColorFromHex("#FF4CFF"),
-            GetColorFromHex("#FF00FE"),
+            ConvertHexToColor("#FFC1FD"),
+            ConvertHexToColor("#FF4CFF"),
+            ConvertHexToColor("#FF00FE"),
 
-            GetColorFromHex("#E1CAF9"),
-            GetColorFromHex("#A561E8"),
-            GetColorFromHex("#8A2AE5"),
+            ConvertHexToColor("#E1CAF9"),
+            ConvertHexToColor("#A561E8"),
+            ConvertHexToColor("#8A2AE5"),
 
-            GetColorFromHex("#C4C4FF"),
-            GetColorFromHex("#504CFF"),
-            GetColorFromHex("#1700FF"),
+            ConvertHexToColor("#C4C4FF"),
+            ConvertHexToColor("#504CFF"),
+            ConvertHexToColor("#1700FF"),
 
-            GetColorFromHex("#C2FEC3"),
-            GetColorFromHex("#4FFE4F"),
-            GetColorFromHex("#02FE05")
+            ConvertHexToColor("#C2FEC3"),
+            ConvertHexToColor("#4FFE4F"),
+            ConvertHexToColor("#02FE05")
         };
         public ObservableCollection<Color> PredefinedColors
         {
@@ -102,7 +102,6 @@ namespace WizHat.DreamingPhoenix.UserControls
             OldColor = Colors.Red;
             NewColor = OldColor;
             SetHSVFromColor(NewColor);
-            
         }
 
         public ColorPicker(Color oldColor)
@@ -121,64 +120,38 @@ namespace WizHat.DreamingPhoenix.UserControls
             SetHSVFromColor(OldColor);
         }
 
-        private static Color GetColorFromHex(string hex)
+        private void UpdateHue(int newHue)
         {
-            return (Color)ColorConverter.ConvertFromString(hex);
+            CurrentHue = newHue;
+            brd_huePanelSelector.Margin = new Thickness(2, newHue * rec_huePanel.ActualHeight / 360, 2, 0);
+            Resources["CurrentColor"] = GetColorForHueStep(CurrentHue / 360.0);
+            UpdateSaturationValuePanel(CurrentSaturation, CurrentValue);
         }
 
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        private void UpdateSaturationValuePanel(double saturation, double value)
         {
-            Point point = Mouse.GetPosition((Rectangle)sender);
-            UpdateColorRectangle(ClampByte(point.X), ClampByte(point.Y));
-        }
+            if (saturation < 0)
+                saturation = 0;
+            else if (saturation > 1)
+                saturation = 1;
 
-        private void Rectangle_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                e.Handled = true;
-                Point point = Mouse.GetPosition((Rectangle)sender);
-                UpdateColorRectangle(ClampByte(point.X), ClampByte(point.Y));
-            }
-        }
-        private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                Point point = Mouse.GetPosition((Rectangle)sender);
-                UpdateColorRectangle(ClampByte(point.X), ClampByte(point.Y));
-            }
-        }
+            if (value < 0)
+                value = 0;
+            else if (value > 1)
+                value = 1;
 
-        private byte ClampByte(double doubleToClamp)
-        {
-            if (doubleToClamp < 0)
-                return (byte)0;
-            else if (doubleToClamp > 255)
-                return (byte)255;
-            return (byte)doubleToClamp;
-        }
-
-        private void UpdateColorRectangle(byte saturation, byte lightness)
-        {
             CurrentSaturation = saturation; 
-            CurrentLightness = lightness;
+            CurrentValue = value;
 
-            brd_mouse.Margin = new Thickness(saturation, lightness, 0, 0);
-            double l = ((lightness / 255.0) - 1.0) * -1;
-            NewColor = ConvertHSVToRGB(CurrentHue, saturation / 255.0, l);
+            path_colorSelector.Margin = new Thickness(saturation * rec_saturationValuePanel.ActualWidth, Math.Abs(value - 1) * rec_saturationValuePanel.ActualHeight, 0, 0);
+            NewColor = ConvertHSVToRGB(CurrentHue, CurrentSaturation, CurrentValue);
 
             if ((NewColor.R * 0.299 + NewColor.G * 0.587 + NewColor.B * 0.114) > 149)
-            {
-                brd_mouse.Stroke = new SolidColorBrush(Colors.Black);
-            }
+                path_colorSelector.Stroke = new SolidColorBrush(Colors.Black);
             else
-            {
-                brd_mouse.Stroke = new SolidColorBrush(Colors.White);
-            }
+                path_colorSelector.Stroke = new SolidColorBrush(Colors.White);
 
-            lbl_newHexColorText.Content = HexConverter(NewColor);
-
+            tbx_hexColor.Text = ConvertColorToHex(NewColor);
         }
 
         public void SetHSVFromColor(Color color)
@@ -187,25 +160,27 @@ namespace WizHat.DreamingPhoenix.UserControls
             int min = Math.Min(color.R, Math.Min(color.G, color.B));
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(color.R, color.G, color.B);
-            double hue = drawingColor.GetHue() / 360;
-            byte saturation = (byte)(((max == 0) ? 0 : 1d - (1d * min / max)) * 255);
-            byte value = (byte)max;
-
-            CurrentHue = hue;
-            CurrentLightness = (byte)Math.Abs(value - 255);
-            CurrentSaturation = saturation;
+            CurrentHue = (int)drawingColor.GetHue();
+            CurrentSaturation = (max == 0) ? 0 : 1d - (1d * min / max);
+            CurrentValue = max / 255.0;
 
             UpdateHue(CurrentHue);
-            UpdateColorRectangle(CurrentSaturation, CurrentLightness);
+            UpdateSaturationValuePanel(CurrentSaturation, CurrentValue);
         }
 
-        private static String HexConverter(Color c)
+        private static Color ConvertHexToColor(string hex)
+        {
+            return (Color)ColorConverter.ConvertFromString(hex);
+        }
+
+        private static string ConvertColorToHex(Color c)
         {
             return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
         }
 
-        private Color ConvertHSVToRGB(double h, double s, double v)
+        private Color ConvertHSVToRGB(int hue, double s, double v)
         {
+            double h = hue / 360.0;
             double r, g, b, i, f, p, q, t;
             r = 0;
             g = 0;
@@ -251,32 +226,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                     break;
             }
 
-            return Color.FromScRgb(1, (float)r, (float)g, (float)b);
-
-        }
-
-        private void rect_hue_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-
-                Point point = Mouse.GetPosition((Rectangle)sender);
-                UpdateHue(point.Y / 255.0);
-            }
-        }
-
-        private void rect_hue_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point point = Mouse.GetPosition((Rectangle)sender);
-            UpdateHue(point.Y / 255.0);
-        }
-
-        private void UpdateHue(double newHue)
-        {
-            brd_huePos.Margin = new Thickness(2, newHue * 255, 2, 0);
-            CurrentHue = newHue;
-            this.Resources["CurrentColor"] = GetColorForHueStep(CurrentHue);
-            UpdateColorRectangle(CurrentSaturation, CurrentLightness);
+            return Color.FromRgb((byte)Math.Round(r * 255), (byte)Math.Round(g * 255), (byte)Math.Round(b * 255));
         }
 
         private Color GetColorForHueStep(double step)
@@ -303,15 +253,74 @@ namespace WizHat.DreamingPhoenix.UserControls
             return Colors.Black;
         }
 
-        private void PredefinedColor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            SetHSVFromColor((Color)(sender as Ellipse).Tag);
-        }
-
         private void ResetColor_Click(object sender, RoutedEventArgs e)
         {
             NewColor = OldColor;
             SetHSVFromColor(NewColor);
+        }
+
+        private void tbx_hexColor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbx_hexColor.Text == ConvertColorToHex(NewColor))
+                return;
+
+            if (tbx_hexColor.Text.StartsWith("#") && tbx_hexColor.Text.Length != 7)
+                return;
+
+            if (!tbx_hexColor.Text.StartsWith("#") && tbx_hexColor.Text.Length != 6)
+                return;
+
+            if (tbx_hexColor.Text.Length == 6)
+                tbx_hexColor.Text = "#" + tbx_hexColor.Text;
+
+            NewColor = ConvertHexToColor(tbx_hexColor.Text);
+            SetHSVFromColor(NewColor);
+        }
+
+        private void rec_huePanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+
+                Point point = Mouse.GetPosition((Rectangle)sender);
+                UpdateHue((int)Math.Round(point.Y / rec_huePanel.ActualHeight * 360));
+            }
+        }
+
+        private void rec_huePanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point point = Mouse.GetPosition((Rectangle)sender);
+            UpdateHue((int)Math.Round(point.Y / rec_huePanel.ActualHeight * 360));
+        }
+
+        private void PredefinedColor_Click(object sender, RoutedEventArgs e)
+        {
+            NewColor = (Color)(sender as Button).Tag;
+            SetHSVFromColor(NewColor);
+        }
+
+        private void rec_saturationValuePanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point point = Mouse.GetPosition((Rectangle)sender);
+            UpdateSaturationValuePanel(point.X / ((Rectangle)sender).ActualWidth, Math.Abs((point.Y / ((Rectangle)sender).ActualHeight) - 1.0));
+        }
+
+        private void rec_saturationValuePanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                e.Handled = true;
+                Point point = Mouse.GetPosition((Rectangle)sender);
+                UpdateSaturationValuePanel(point.X / ((Rectangle)sender).ActualWidth, Math.Abs((point.Y / ((Rectangle)sender).ActualHeight) - 1.0));
+            }
+        }
+        private void rec_saturationValuePanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                Point point = Mouse.GetPosition((Rectangle)sender);
+                UpdateSaturationValuePanel(point.X / ((Rectangle)sender).ActualWidth, Math.Abs((point.Y / ((Rectangle)sender).ActualHeight) - 1.0));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
