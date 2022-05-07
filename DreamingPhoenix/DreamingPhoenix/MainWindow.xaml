@@ -331,7 +331,8 @@
                                                         </Border.Background>
                                                         <Border.OpacityMask>
                                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                                <GradientStop Color="Black" Offset="1" />
+                                                                <GradientStop Offset="1" />
+                                                                <GradientStop Color="Black" Offset="0.8" />
                                                                 <GradientStop Color="Black" Offset="0.5" />
                                                                 <GradientStop Offset="0.2" />
                                                             </LinearGradientBrush>
