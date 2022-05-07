@@ -114,7 +114,7 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding OptionName}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundDefault}"
+                                <TextBlock Text="{Binding OptionName}" ToolTip="{Binding ToolTip}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundDefault}"
                                            VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
                                 <ContentControl Grid.Column="1" DataContext="{Binding}" Content="{Binding}" Margin="50,0,20,0" />
                             </Grid>
@@ -132,36 +132,48 @@
                 </ListBox.GroupStyle>
                 <ListBox.ItemsSource>
                     <x:Array Type="{x:Type options:UserOption}">
-                        <options:UserOnOffOption Category="Audio" OptionName="Compact Audio List" Invert="True"
+                        <options:UserOnOffOption Category="Audio" OptionName="Compact Audio List" Invert="True" 
+                                                 ToolTip="Hides unnesessary options from the items in the audio list to make them more compact."
                                                  Value="{Binding Path=Options.ExtendedModeEnabled, ElementName=uc_mainAppOptions}" />
                         <options:UserOnOffOption Category="Audio" OptionName="Fade Audiotrack on Pause"
+                                                 ToolTip="Enables a short fade when the audio track is paused."
                                                  Value="{Binding Path=Options.FadeAudioOnPause, ElementName=uc_mainAppOptions}" />
                         <options:UserOnOffOption Category="Audio" OptionName="Fade Sound Effects on Stop"
+                                                 ToolTip="Enables a short fade when an sound effect is stopped."
                                                  Value="{Binding Path=Options.FadeSoundEffectsOnStop, ElementName=uc_mainAppOptions}" />
                         <options:UserSliderOption Category="Audio" OptionName="Default Audiotrack Volume"
+                                                  ToolTip="The default volume of an audio track when imported into Dreaming Phoenix."
                                                   Value="{Binding Path=Options.DefaultAudioTrackVolume, ElementName=uc_mainAppOptions}" />
                         <options:UserSliderOption Category="Audio" OptionName="Default Sound Effect Volume"
+                                                  ToolTip="The default volume of an sound effect when imported into Dreaming Phoenix."
                                                   Value="{Binding Path=Options.DefaultSoundEffectVolume, ElementName=uc_mainAppOptions}" />
                         <options:UserHotKeyOption Category="Audio" OptionName="Stop all Audio HotKey"
+                                                  ToolTip="The hotkey to forcefully stop all audio playing in Dreaming Phoenix. Shortcut does also work when the application isn't focused."
                                                   SelectedHotKey="{Binding Path=Options.StopAllAudioHotKey, ElementName=uc_mainAppOptions}"
                                                   ModifierKeys="{Binding Path=Options.StopAllAudioHotKeyModifier, ElementName=uc_mainAppOptions}" />
 
                         <options:UserOnOffOption Category="Scene" OptionName="Use full height for scene Background"
+                                                 ToolTip="Enables full height background images for the scenes."
                                                  Value="{Binding Path=Options.UseFullHeightForSceneBackground, ElementName=uc_mainAppOptions}" />
                         <options:UserSliderOption Category="Scene" OptionName="Full height scene background opacity"
+                                                  ToolTip="If 'Use full height for scene Background' is enabled this determines the opacity for the background to make text better readable."
                                                   Value="{Binding Path=Options.FullHeightSceneBackgroundOpacity, ElementName=uc_mainAppOptions}" />
 
                         <options:UserDropDownOption Category="OutputDevice" OptionName="Default Output Device"
+                                                  ToolTip="The output device the audio is streamed to."
                                                   Value="{Binding Path=Options.DefaultOutputDeviceIndex, ElementName=uc_mainAppOptions}"
                                                   List="{Binding Path=Outputs, ElementName=uc_mainAppOptions}" />
 
                         <options:UserDropDownOption Category="UI" OptionName="Theme"
+                                                  ToolTip="The UI theme of the application."
                                                   Value="{Binding Path=Options.SelectedColorScheme, ElementName=uc_mainAppOptions}"
                                                   List="{Binding Path=Themes, ElementName=uc_mainAppOptions}" />
 
                         <options:UserActionOption Category="Others" OptionName="Reread all files from disk" ActionText="Read files"
+                                                  ToolTip="Rereads all files from disk."
                                                   ActionCommand="{Binding Path=ReadAllFilesFromDiskCommand, ElementName=uc_mainAppOptions}" />
                         <options:UserActionOption Category="Others" OptionName="Clean up image cache" ActionText="Clear cache"
+                                                  ToolTip="Clears all unused images from the application cache."
                                                   ActionCommand="{Binding Path=CleanCacheCommand, ElementName=uc_mainAppOptions}" />
                     </x:Array>
                 </ListBox.ItemsSource>
