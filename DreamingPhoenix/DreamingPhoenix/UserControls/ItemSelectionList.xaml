@@ -68,7 +68,7 @@
 
             <Grid x:Name="grid_emptyListboxPrompt" Visibility="Collapsed" d:Visibility="Visible" Margin="10,10,10,10" Grid.Row="2">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
+                    <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                     <Label Content="SEEMS LIKE THERE ISN'T ANY ITEM TO SELECT FROM HERE." FontWeight="DemiBold"
                            Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
                     <Label Content="" FontSize="11" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
