@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="./Styles/Slider/Slider.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/RoundButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/DarkTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>

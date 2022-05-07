@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -149,8 +150,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 Close();
                 AppModel.Instance.SaveData();
-                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+                HelperFunctions.RefreshAudioListView();
                 return;
             }
 

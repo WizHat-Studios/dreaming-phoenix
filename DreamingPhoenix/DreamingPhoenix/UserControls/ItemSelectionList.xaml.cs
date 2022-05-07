@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -168,6 +169,10 @@ namespace WizHat.DreamingPhoenix.UserControls
         public event EventHandler<string> OnAddItem;
         public event EventHandler<object> OnRemoveItem;
         public event ReturnEventHandler<IEnumerable<object>> OnGetSourceList;
+        #endregion
+
+        #region Category
+        private Category categoryToSelectColor = null;
         #endregion
 
         private const string AUDIO_TITLE = "Audio";
@@ -400,6 +405,25 @@ namespace WizHat.DreamingPhoenix.UserControls
 
             Close(new List<object> { ((ListBoxItem)sender).DataContext });
         }
+
+        #region Category
+        private void PickNewColor_Click(object sender, RoutedEventArgs e)
+        {
+            popup_colorPicker.IsOpen = true;
+            categoryToSelectColor = ((sender as Button).Tag as Category);
+            colpck_popUpColorPicker.PickNewColor(categoryToSelectColor.Color);
+        }
+
+        private void popup_colorPicker_Closed(object sender, EventArgs e)
+        {
+            if (categoryToSelectColor == null)
+                return;
+
+            categoryToSelectColor.Color = colpck_popUpColorPicker.NewColor;
+            AppModel.Instance.ChangeCategoryColor(categoryToSelectColor, colpck_popUpColorPicker.NewColor);
+            categoryToSelectColor = null;
+        }
+        #endregion
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {

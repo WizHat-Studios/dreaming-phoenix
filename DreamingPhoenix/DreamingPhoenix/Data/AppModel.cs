@@ -13,6 +13,7 @@ using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.AudioProperties;
 using WizHat.DreamingPhoenix.Sorting;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.Data
 {
@@ -167,6 +168,7 @@ namespace WizHat.DreamingPhoenix.Data
             AudioManager.OutputDevice.Play();
         }
 
+        #region Category
         /// <summary>
         /// Add all non existing categories from a list of audios
         /// </summary>
@@ -189,6 +191,26 @@ namespace WizHat.DreamingPhoenix.Data
             AddCategoryFromAudio(new List<Audio>() { fromAudio });
         }
 
+        /// <summary>
+        /// Remove a category globally (Includes all audios)
+        /// </summary>
+        /// <param name="category">The category to remove</param>
+        public void RemoveCategory(Category category)
+        {
+            AudioList.Where(a => a.Category.Equals(category)).ToList().ForEach(a => a.Category = Category.Default);
+            Categories.Remove(category);
+        }
+
+        public void ChangeCategoryColor(Category category, Color newColor)
+        {
+            if (!Categories.Contains(category))
+                return;
+
+            Categories.First(c => c.Equals(category)).Color = newColor;
+        }
+        #endregion
+
+        #region Tag
         /// <summary>
         /// Add all non existing tags from a list of audios
         /// </summary>
@@ -215,16 +237,6 @@ namespace WizHat.DreamingPhoenix.Data
         }
 
         /// <summary>
-        /// Remove a category globally (Includes all audios)
-        /// </summary>
-        /// <param name="category">The category to remove</param>
-        public void RemoveCategory(Category category)
-        {
-            AudioList.Where(a => a.Category.Equals(category)).ToList().ForEach(a => a.Category = Category.Default);
-            Categories.Remove(category);
-        }
-
-        /// <summary>
         /// Remove a tag globally (Includes all audios)
         /// </summary>
         /// <param name="tag">The tag to remove</param>
@@ -237,6 +249,7 @@ namespace WizHat.DreamingPhoenix.Data
 
             Tags.Remove(tag);
         }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

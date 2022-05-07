@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using WizHat.DreamingPhoenix.Data;
 
 namespace WizHat.DreamingPhoenix.Extensions
 {
@@ -23,6 +25,12 @@ namespace WizHat.DreamingPhoenix.Extensions
         public static bool IsNullOrEmpty(IEnumerable list)
         {
             return IsNullOrEmpty((ICollection)list);
+        }
+
+        public static void RefreshAudioListView()
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
     }
 }

@@ -99,7 +99,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
                                 <CheckBox Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0"
                                           IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}">
@@ -127,9 +127,9 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Ellipse Fill="{Binding Color, Mode=OneWay, Converter={StaticResource ColorMediaBrushConverter}}"
-                                         Grid.Column="1" Height="20" Width="20" Margin="10,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
+
+                                <Button Width="25" Height="25" Click="PickNewColor_Click" Tag="{Binding .}"  Grid.Column="1" Margin="10,10,50,10" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{Binding Color, Mode=OneWay, Converter={StaticResource ColorMediaBrushConverter}}" BorderThickness="0"/>
+                                <Button Grid.Column="1" fa:Content.Icon="SolidTrash" VerticalAlignment="Center" Margin="0,0,20,0" HorizontalAlignment="Right" Padding="0,1,0,0" Click="RemoveItem_Click"
                                         Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentRedButton}">
@@ -178,14 +178,16 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click"
-                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Converter={StaticResource BooleanToVisibilityConverter}, Path=IsRemoveEnabled}">
+                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentRedButton}">
                                             <Setter Property="Visibility" Value="Hidden" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
                                                     <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ItemSelectionList}}, Path=IsRemoveEnabled}" Value="False">
+                                                    <Setter Property="Visibility" Value="Hidden" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -266,6 +268,13 @@
                             HorizontalAlignment="Center" Style="{StaticResource GreenButton}" Click="ButtonOk_Click"/>
                 </Grid>
             </Border>
+
+            <Popup x:Name="popup_colorPicker" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Closed="popup_colorPicker_Closed">
+                <Border Background="{DynamicResource BackgroundA}" Margin="10" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource AccentD}">
+                    <local:ColorPicker x:Name="colpck_popUpColorPicker"/>
+                </Border>
+            </Popup>
+
         </Grid>
     </Grid>
 </local:DialogControl>
