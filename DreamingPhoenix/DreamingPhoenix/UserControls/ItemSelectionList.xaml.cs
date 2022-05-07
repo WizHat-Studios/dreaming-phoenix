@@ -302,7 +302,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 return selectionList;
             };
             itemSelectionList.OnAddItem += (s, tagName) => AppModel.Instance.Tags.Add(new(tagName));
-            itemSelectionList.OnRemoveItem += (s, tag) => AppModel.Instance.Tags.Remove((Tag)tag);
+            itemSelectionList.OnRemoveItem += (s, tag) => AppModel.Instance.RemoveTag((Tag)tag);
             itemSelectionList.IsAddEnabled = true;
             itemSelectionList.IsRemoveEnabled = true;
 

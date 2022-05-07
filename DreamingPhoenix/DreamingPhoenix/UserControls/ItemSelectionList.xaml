@@ -178,7 +178,7 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Button Grid.Column="1" fa:Content.Icon="SolidXmark" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click">
+                                <Button Grid.Column="1" fa:Content.Icon="SolidTrash" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,1,0,0" Click="RemoveItem_Click">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TransparentRedButton}">
                                             <Setter Property="Visibility" Value="Hidden" />
