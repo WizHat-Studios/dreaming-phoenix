@@ -39,9 +39,9 @@ namespace WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector
         public static readonly DependencyProperty SelectedHotkeyProperty = DependencyProperty.Register("SelectedHotkey", typeof(Key), typeof(HotkeySelector), new FrameworkPropertyMetadata(Key.NoName, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedHotkeyPropertyChanged));
         public static readonly DependencyProperty ModifierKeysProperty = DependencyProperty.Register("ModifierKeys", typeof(ModifierKeys), typeof(HotkeySelector), new FrameworkPropertyMetadata(ModifierKeys.None, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnModifierKeysPropertyChanged));
 
-        private string SelectedHotkeyText => (ModifierKeys.HasFlag(ModifierKeys.Shift) ? "[Shift]+" : "") +
-                                             (ModifierKeys.HasFlag(ModifierKeys.Control) ? "[Ctrl]+" : "") +
-                                             (ModifierKeys.HasFlag(ModifierKeys.Alt) ? "[Alt]+" : "") +
+        private string SelectedHotkeyText => (ModifierKeys.HasFlag(ModifierKeys.Shift) ? "Shift +" : "") +
+                                             (ModifierKeys.HasFlag(ModifierKeys.Control) ? "Ctrl +" : "") +
+                                             (ModifierKeys.HasFlag(ModifierKeys.Alt) ? "Alt +" : "") +
                                              SelectedHotkey.ToString();
 
         static HotkeySelector()
@@ -68,14 +68,6 @@ namespace WizHat.DreamingPhoenix.HotkeyHandling.HotkeySelector
                 {
                     return;
                 }
-
-                /*
-                if (e.Key == Key.Escape)
-                {
-                    IsSelectingHotkey = false;
-                    Content = SelectedHotkeyText;
-                    return;
-                }*/
 
                 SelectedHotkey = e.Key;
                 ModifierKeys = Keyboard.Modifiers;
