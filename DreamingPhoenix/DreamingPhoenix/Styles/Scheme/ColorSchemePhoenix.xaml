@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="AccentD" Color="#FFD4260B"></SolidColorBrush>
     <SolidColorBrush x:Key="AccentE" Color="#FFAB0911"></SolidColorBrush>
 
-    <SolidColorBrush x:Key="BackgroundA" Color="#FF1B1B1B"></SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundA" Color="#FF151515"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundB" Color="#FF1D1D1D"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundC" Color="#FF292929"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundD" Color="#FF272727"></SolidColorBrush>
