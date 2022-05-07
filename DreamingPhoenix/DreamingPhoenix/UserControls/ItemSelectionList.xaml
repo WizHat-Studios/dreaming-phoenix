@@ -85,13 +85,13 @@
                 </StackPanel>
             </Grid>
 
-            <ListBox Grid.Row="2" x:Name="lbox_selectionList" ItemsSource="{Binding FilteredSelectionList}" Background="{x:Null}" BorderBrush="{x:Null}"
+            <ListBox Grid.Row="2" x:Name="lbox_selectionList" ItemsSource="{Binding SelectionListCollectionView}" Background="{x:Null}" BorderBrush="{x:Null}"
                      ScrollViewer.CanContentScroll="False" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Stretch"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,10,10,10" SelectionMode="{Binding SelectionMode}"
-                     SelectionChanged="lbox_selectionList_SelectionChanged">
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10,10,10,10" SelectionMode="{Binding SelectionMode}">
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource TransparentListBoxItem}">
                         <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
+                        <EventSetter Event="PreviewMouseDown" Handler="ListBoxItem_PreviewMouseDown" />
                     </Style>
 
                     <DataTemplate DataType="{x:Type audioprops:Category}">

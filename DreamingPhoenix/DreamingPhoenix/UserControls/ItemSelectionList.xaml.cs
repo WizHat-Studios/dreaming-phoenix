@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,22 +59,18 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 selectionList = value;
                 NotifyPropertyChanged();
+
+                if (SelectionList is null)
+                    return;
+
+                SelectionListCollectionView = CollectionViewSource.GetDefaultView(SelectionList);
+                SelectionListCollectionView.Filter = FilterItem;
+                NotifyPropertyChanged(nameof(SelectionListCollectionView));
             }
         }
 
-        private IEnumerable<object> filteredSelectionList;
-        public IEnumerable<object> FilteredSelectionList
-        {
-            get { return filteredSelectionList; }
-            set
-            {
-                filteredSelectionList = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private IEnumerable<object> selectedItems = new List<object>();
-        public IEnumerable<object> SelectedItems
+        private List<object> selectedItems = new List<object>();
+        public List<object> SelectedItems
         {
             get { return selectedItems; }
             set
@@ -85,6 +83,8 @@ namespace WizHat.DreamingPhoenix.UserControls
                 NotifyPropertyChanged(nameof(SelectedText));
             }
         }
+
+        public ICollectionView SelectionListCollectionView { get; set; }
 
         private bool multiSelection;
         public bool MultiSelection
@@ -127,6 +127,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         }
 
         public bool SearchActive { get { return !string.IsNullOrEmpty(SearchText); } }
+        public Func<object, string, bool> SearchItem { get; set; }
         #endregion
 
         #region Options
@@ -187,6 +188,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             ((INotifyCollectionChanged)lbox_selectionList.Items).CollectionChanged += DetermineListPrompt;
             Loaded += (s, e) =>
             {
+                SelectionList = OnGetSourceList(this, EventArgs.Empty);
                 FilterList();
 
                 // Select previous items
@@ -196,12 +198,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 }
                 else
                 {
-                    foreach (object item in SelectedItems)
-                    {
-                        object listItem = SelectionList.FirstOrDefault(s => s.Equals(item));
-                        if (listItem is not null)
-                            lbox_selectionList.SelectedItems.Add(listItem);
-                    }
+                    UpdateSelectedItems();
                 }
             };
         }
@@ -318,7 +315,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             itemSelectionList.NotifyPropertyChanged(nameof(NoItemsFoundText));
             itemSelectionList.NotifyPropertyChanged(nameof(NoItemsSelectedText));
             itemSelectionList.previousItems = currentValues;
-            itemSelectionList.SelectedItems = currentValues;
+            itemSelectionList.SelectedItems = currentValues.ToList();
             itemSelectionList.SelectionList = selectionList;
             itemSelectionList.MultiSelection = multiSelection;
             return itemSelectionList;
@@ -344,10 +341,34 @@ namespace WizHat.DreamingPhoenix.UserControls
             return newValues;
         }
 
+        private bool FilterItem(object obj)
+        {
+            if (SearchItem is null)
+                return obj.ToString().ToLower().Contains(SearchText.ToLower());
+
+            return SearchItem(obj, SearchText);
+        }
+
         private void FilterList()
         {
-            SelectionList = OnGetSourceList(this, EventArgs.Empty);
-            FilteredSelectionList = SelectionList.Where(x => x.ToString().ToLower().Contains(SearchText.ToLower()));
+            if (SelectionListCollectionView is null)
+                return;
+
+            SelectionListCollectionView.Refresh();
+            UpdateSelectedItems();
+        }
+
+        private void UpdateSelectedItems()
+        {
+            NotifyPropertyChanged(nameof(SelectedItems));
+            NotifyPropertyChanged(nameof(SelectedText));
+
+            foreach (object item in SelectedItems)
+            {
+                object listItem = SelectionList.FirstOrDefault(s => s.Equals(item));
+                if (listItem is not null)
+                    lbox_selectionList.SelectedItems.Add(listItem);
+            }
         }
 
         private void Search_KeyUp(object sender, KeyEventArgs e)
@@ -364,9 +385,9 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void DetermineListPrompt(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (FilteredSelectionList.Count() == 0)
+            if (SelectionListCollectionView.IsEmpty)
             {
-                if (SelectionList.Count() == 0)
+                if (SelectionList.Any())
                 {
                     grid_emptyListboxPrompt.Visibility = Visibility.Visible;
                     grid_noSearchListboxPrompt.Visibility = Visibility.Collapsed;
@@ -396,9 +417,18 @@ namespace WizHat.DreamingPhoenix.UserControls
             FilterList();
         }
 
-        private void lbox_selectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            SelectedItems = lbox_selectionList.SelectedItems.Cast<object>().ToList();
+            e.Handled = true;
+            ListBoxItem listBoxItem = sender as ListBoxItem;
+            listBoxItem.IsSelected = !listBoxItem.IsSelected;
+
+            if (listBoxItem.IsSelected)
+                SelectedItems.Add(listBoxItem.DataContext);
+            else
+                SelectedItems.Remove(listBoxItem.DataContext);
+
+            UpdateSelectedItems();
         }
 
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
