@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.AudioProperties;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -85,9 +86,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
             Sound.Category = Category.Default;
-
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
@@ -95,24 +94,19 @@ namespace WizHat.DreamingPhoenix.UserControls
             Tag tag = ((Button)sender).Tag as Tag;
             Sound.Tags.Remove(tag);
 
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
             Sound.Category = await ItemSelectionList.SelectCategory(Sound.Category);
-
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
             Sound.Tags = new(await ItemSelectionList.SelectTags(Sound.Tags.ToList()));
-
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

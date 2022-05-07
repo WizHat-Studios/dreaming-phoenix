@@ -95,9 +95,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
             Track.Category = Category.Default;
-
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
@@ -112,13 +110,13 @@ namespace WizHat.DreamingPhoenix.UserControls
             Tag tag = ((Button)sender).Tag as Tag;
             Track.Tags.Remove(tag);
 
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
             Track.Tags = new(await ItemSelectionList.SelectTags(Track.Tags.ToList()));
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void SelectNextAudioTrack_Click(object sender, RoutedEventArgs e)
@@ -129,9 +127,7 @@ namespace WizHat.DreamingPhoenix.UserControls
         private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
             Track.Category = await ItemSelectionList.SelectCategory(Track.Category);
-
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
