@@ -11,7 +11,7 @@
              xmlns:converters="clr-namespace:WizHat.DreamingPhoenix.Converter"
              xmlns:options="clr-namespace:WizHat.DreamingPhoenix.Data.UserOptions"
              d:DataContext="{d:DesignInstance local:UserApplicationOptions}"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000" Loaded="uc_mainAppOptions_Loaded">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000" Loaded="uc_mainAppOptions_Loaded" MinWidth="750">
     <UserControl.Resources>
         <converters:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
         <converters:DoubleToPercentageConverter x:Key="DoubleToPercentageConverter"/>
@@ -46,8 +46,8 @@
                     <ControlTemplate TargetType="{x:Type options:UserSliderOption}">
                         <Grid HorizontalAlignment="Stretch">
                             <Slider Height="20" VerticalAlignment="Center" Maximum="1" Minimum="0" SmallChange="0.05" LargeChange="0.1" Grid.Column="1" Value="{Binding Value}"
-                                    HorizontalAlignment="Stretch" Margin="0,0,45,0" />
-                            <Label Content="{Binding Value, Converter={StaticResource DoubleToPercentageConverter}}" Height="30" VerticalAlignment="Center" Margin="0,0,5,0"
+                                    HorizontalAlignment="Stretch" Margin="0,0,50,0" />
+                            <Label Content="{Binding Value, Converter={StaticResource DoubleToPercentageConverter}}" Height="30" VerticalAlignment="Center" Margin="5,0,5,0"
                                    HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
