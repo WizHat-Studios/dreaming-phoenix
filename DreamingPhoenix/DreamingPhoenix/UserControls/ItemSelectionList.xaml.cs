@@ -192,14 +192,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 FilterList();
 
                 // Select previous items
-                if (SelectionMode == SelectionMode.Single)
-                {
-                    lbox_selectionList.SelectedItem = HelperFunctions.IsNullOrEmpty(SelectedItems) ? null : SelectedItems.First();
-                }
-                else
-                {
-                    UpdateSelectedItems();
-                }
+                UpdateSelectedItems();
             };
         }
 
@@ -315,7 +308,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             itemSelectionList.NotifyPropertyChanged(nameof(NoItemsFoundText));
             itemSelectionList.NotifyPropertyChanged(nameof(NoItemsSelectedText));
             itemSelectionList.previousItems = currentValues;
-            itemSelectionList.SelectedItems = currentValues.ToList();
+            itemSelectionList.SelectedItems = currentValues is null? new() : currentValues.ToList();
             itemSelectionList.SelectionList = selectionList;
             itemSelectionList.MultiSelection = multiSelection;
             return itemSelectionList;
@@ -363,11 +356,18 @@ namespace WizHat.DreamingPhoenix.UserControls
             NotifyPropertyChanged(nameof(SelectedItems));
             NotifyPropertyChanged(nameof(SelectedText));
 
-            foreach (object item in SelectedItems)
+            if (SelectionMode == SelectionMode.Single)
             {
-                object listItem = SelectionList.FirstOrDefault(s => s.Equals(item));
-                if (listItem is not null)
-                    lbox_selectionList.SelectedItems.Add(listItem);
+                lbox_selectionList.SelectedItem = HelperFunctions.IsNullOrEmpty(SelectedItems) ? null : SelectedItems.First();
+            }
+            else
+            {
+                foreach (object item in SelectedItems)
+                {
+                    object listItem = SelectionList.FirstOrDefault(s => s.Equals(item));
+                    if (listItem is not null)
+                        lbox_selectionList.SelectedItems.Add(listItem);
+                }
             }
         }
 
@@ -413,22 +413,47 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            OnRemoveItem?.Invoke(this, ((Control)sender).DataContext);
+            object item = ((Control)sender).DataContext;
+
+            if (SelectedItems.Contains(item))
+                SelectedItems.Remove(item);
+
+            OnRemoveItem?.Invoke(this, item);
             FilterList();
         }
 
         private void ListBoxItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
             ListBoxItem listBoxItem = sender as ListBoxItem;
-            listBoxItem.IsSelected = !listBoxItem.IsSelected;
+
+            if (SelectionMode == SelectionMode.Single)
+            {
+                if (SelectedItems.Contains(listBoxItem.DataContext))
+                {
+                    SelectedItems.Clear();
+                    NotifyPropertyChanged(nameof(SelectedText));
+                    lbox_selectionList.UnselectAll();
+                }
+                else
+                {
+                    SelectedItems.Clear();
+                    SelectedItems.Add(listBoxItem.DataContext);
+                    NotifyPropertyChanged(nameof(SelectedText));
+                }
+
+                return;
+            }
 
             if (listBoxItem.IsSelected)
-                SelectedItems.Add(listBoxItem.DataContext);
-            else
+            {
                 SelectedItems.Remove(listBoxItem.DataContext);
+                NotifyPropertyChanged(nameof(SelectedText));
 
-            UpdateSelectedItems();
+                return;
+            }
+
+            SelectedItems.Add(listBoxItem.DataContext);
+            NotifyPropertyChanged(nameof(SelectedText));
         }
 
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
