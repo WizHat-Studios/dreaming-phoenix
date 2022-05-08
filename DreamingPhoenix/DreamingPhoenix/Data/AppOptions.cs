@@ -27,7 +27,14 @@ namespace WizHat.DreamingPhoenix.Data
         public double DefaultAudioTrackVolume
         {
             get { return defaultAudioTrackVolume; }
-            set { defaultAudioTrackVolume = value; NotifyPropertyChanged(); }
+            set
+            {
+                if (value > 1)
+                    value = 1;
+
+                defaultAudioTrackVolume = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private double defaultSoundEffectVolume = 0.25;
@@ -35,7 +42,14 @@ namespace WizHat.DreamingPhoenix.Data
         public double DefaultSoundEffectVolume
         {
             get { return defaultSoundEffectVolume; }
-            set { defaultSoundEffectVolume = value; NotifyPropertyChanged(); }
+            set
+            {
+                if (value > 1)
+                    value = 1;
+
+                defaultSoundEffectVolume = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private int defaultOutputDevice = 0;
@@ -68,9 +82,11 @@ namespace WizHat.DreamingPhoenix.Data
             get { return selectedColorScheme; }
             set
             {
+                if (value < 0 || value >= ColorScheme.Themes.Count)
+                    value = 0;
+
                 selectedColorScheme = value;
-                if (value >= 0 && value < ColorScheme.Themes.Count)
-                    ((App)Application.Current).ChangeTheme(ColorScheme.Themes[value].ThemeDestination);
+                ((App)Application.Current).ChangeTheme(ColorScheme.Themes[value].ThemeDestination);
                 NotifyPropertyChanged();
             }
         }

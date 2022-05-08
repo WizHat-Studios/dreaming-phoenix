@@ -404,6 +404,9 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Foreground" Value="{DynamicResource ForegroundHot}"/>
                                         </Trigger>
+                                        <DataTrigger Binding="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Name}" Value="">
+                                            <Setter Property="Foreground" Value="{DynamicResource ForegroundDefault}"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
