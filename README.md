@@ -62,7 +62,7 @@ Currently the following features are supported:
 * [.NET Core 5.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/5.0) installed
 ### Installation
 
-1. Download the [latest release](https://github.com/WizHat-Studios/dreaming-phoenix/releases/lastest) from the release page.
+1. Download the [latest release](https://github.com/WizHat-Studios/dreaming-phoenix/releases/latest) from the release page.
 2. Extract the downloaded `.zip` file to a directory of your choice.
 3. Start the `WizHat.DreamingPhoenix.exe` in the directory.
 4. Optionally add a shortcut to your desktop.
@@ -83,7 +83,7 @@ This project is distributed under the GPL-3.0 License. See the [LICENSE](./LICEN
 
 ## Changelog
 
-See the [CHANGELOG](./CHANGELOG) file for more information.
+See the [CHANGELOG](./CHANGELOG.md) file for more information.
 
 ## Acknowledgments
 This project has been made possible with the help of the following resources and people.
