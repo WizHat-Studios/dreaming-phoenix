@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -62,6 +63,15 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 audioName = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(AudioNameTrimmed));
+            }
+        }
+
+        public string AudioNameTrimmed
+        {
+            get
+            {
+                return tbox_newFileName.Text.Trim();
             }
         }
 
@@ -139,6 +149,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private void Abort_Click(object sender, RoutedEventArgs e)
         {
+            AudioName = "-";
             droppedFiles.RemoveAt(0);
             ProcessNextFile();
         }
@@ -149,8 +160,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 Close();
                 AppModel.Instance.SaveData();
-                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+                HelperFunctions.RefreshAudioListView();
                 return;
             }
 
@@ -168,11 +178,11 @@ namespace WizHat.DreamingPhoenix.UserControls
                 grd_audio.Visibility = Visibility.Hidden;
                 grd_convert.Visibility = Visibility.Hidden;
 
-                
+
                 ImportedScene = await persistenceDataManager.PeekScene(path);
             }
             else
-            { 
+            {
                 FileName = Path.GetFileNameWithoutExtension(path);
                 AudioName = Path.GetFileNameWithoutExtension(path);
                 FileNameExt = Path.GetFileName(path);
@@ -266,7 +276,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             IsImportBusy = false;
             droppedFiles.RemoveAt(0);
             ProcessNextFile();
-            
+
         }
 
         private void btn_browseSceneStoragePath_Click(object sender, RoutedEventArgs e)
@@ -280,6 +290,11 @@ namespace WizHat.DreamingPhoenix.UserControls
                     ImportedSceneStoragePath = dialog.SelectedPath;
                 }
             }
+        }
+
+        private void tbox_newFileName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(AudioNameTrimmed));
         }
     }
 }

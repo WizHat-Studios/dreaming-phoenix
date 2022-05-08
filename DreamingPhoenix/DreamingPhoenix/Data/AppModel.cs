@@ -12,12 +12,13 @@ using System.Windows;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.AudioProperties;
 using WizHat.DreamingPhoenix.Sorting;
+using System.Diagnostics;
+using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.Data
 {
     public class AppModel : INotifyPropertyChanged
     {
-
         private static AppModel instance;
 
         /// <summary>
@@ -35,7 +36,6 @@ namespace WizHat.DreamingPhoenix.Data
         }
 
         public static event EventHandler Loaded;
-
 
         private ObservableCollection<Audio> audioList = new ObservableCollection<Audio>();
 
@@ -56,8 +56,6 @@ namespace WizHat.DreamingPhoenix.Data
             set { sceneList = value; NotifyPropertyChanged(); }
         }
 
-
-
         private AppOptions options = new AppOptions();
 
         /// <summary>
@@ -77,54 +75,20 @@ namespace WizHat.DreamingPhoenix.Data
             set { windowOptions= value; NotifyPropertyChanged(); }
         }
 
+        private ObservableCollection<Tag> tags = new ObservableCollection<Tag>();
 
-        private ObservableCollection<Tag> availableTags = new ObservableCollection<Tag>();
-
-        public ObservableCollection<Tag> AvailableTags
+        public ObservableCollection<Tag> Tags
         {
-            get { return availableTags; }
-            set { availableTags = value; NotifyPropertyChanged(); }
+            get { return tags; }
+            set { tags = value; NotifyPropertyChanged(); }
         }
 
-        private ObservableCollection<Category> availableCategories = new ObservableCollection<Category>();
+        private ObservableCollection<Category> categories = new();
 
-        public ObservableCollection<Category> AvailableCategories
+        public ObservableCollection<Category> Categories
         {
-            get { return availableCategories; }
-            set { availableCategories = value; NotifyPropertyChanged(); }
-        }
-
-        public void UpdateAvailableTags()
-        {
-            ObservableCollection<Tag> newTags = new ObservableCollection<Tag>();
-
-            foreach (Audio audio in AudioList)
-            {
-                foreach (Tag tag in audio.Tags)
-                {
-                    if (!newTags.Contains(tag))
-                    {
-                        newTags.Add(tag);
-                    }
-                }
-            }
-
-            AvailableTags = newTags;
-        }
-
-        public void UpdateAvailableCategories()
-        {
-            ObservableCollection<Category> newCategories = new ObservableCollection<Category>();
-
-            foreach (Audio audio in AudioList)
-            {
-                if (!newCategories.Contains(audio.Category))
-                {
-                    newCategories.Add(audio.Category);
-                }
-            }
-
-            AvailableCategories = newCategories;
+            get { return categories; }
+            set { categories = value; NotifyPropertyChanged(); }
         }
 
         public AudioManager AudioManager { get; set; } = new AudioManager();
@@ -160,8 +124,10 @@ namespace WizHat.DreamingPhoenix.Data
 
             Persistence.PersistentData persistentData = new Persistence.PersistentData()
             {
-                AudioList = new List<Audio>(AudioList),
-                SceneList = new List<Scene>(SceneList),
+                Categories = new(Categories),
+                Tags = new(Tags),
+                AudioList = new(AudioList),
+                SceneList = new(SceneList),
                 AppOptions = Options,
                 WindowOptions = WindowOptions
             };
@@ -176,8 +142,10 @@ namespace WizHat.DreamingPhoenix.Data
 
             if (data != null)
             {
-                data.AudioList.ForEach(x => AudioList.Add(x));
-                data.SceneList.ForEach(x => SceneList.Add(x));
+                data.Categories.ForEach(c => Categories.Add(c));
+                data.Tags.ForEach(t => Tags.Add(t));
+                data.AudioList.ForEach(a => AudioList.Add(a));
+                data.SceneList.ForEach(s => SceneList.Add(s));
                 Options = data.AppOptions;
                 WindowOptions = data.WindowOptions;
 
@@ -199,6 +167,89 @@ namespace WizHat.DreamingPhoenix.Data
             AudioManager.OutputDevice.Init(AudioManager.MixingProvider);
             AudioManager.OutputDevice.Play();
         }
+
+        #region Category
+        /// <summary>
+        /// Add all non existing categories from a list of audios
+        /// </summary>
+        /// <param name="audios">The list of songs from which the category should be added</param>
+        public void AddCategoryFromAudio(List<Audio> audios)
+        {
+            foreach (Audio audio in audios.Where(a => !a.Category.IsDefault()))
+            {
+                if (!Categories.Contains(audio.Category))
+                    Categories.Add(audio.Category);
+            }
+        }
+
+        /// <summary>
+        /// Add the category from a audio if it does not exist
+        /// </summary>
+        /// <param name="fromAudio">The audio from which the category should be added</param>
+        public void AddCategoryFromAudio(Audio fromAudio)
+        {
+            AddCategoryFromAudio(new List<Audio>() { fromAudio });
+        }
+
+        /// <summary>
+        /// Remove a category globally (Includes all audios)
+        /// </summary>
+        /// <param name="category">The category to remove</param>
+        public void RemoveCategory(Category category)
+        {
+            AudioList.Where(a => a.Category.Equals(category)).ToList().ForEach(a => a.Category = Category.Default);
+            Categories.Remove(category);
+        }
+
+        public void ChangeCategoryColor(Category category, Color newColor)
+        {
+            if (!Categories.Contains(category))
+                return;
+
+            Categories.First(c => c.Equals(category)).Color = newColor;
+        }
+        #endregion
+
+        #region Tag
+        /// <summary>
+        /// Add all non existing tags from a list of audios
+        /// </summary>
+        /// <param name="audios">The list of songs from which the tags should be added</param>
+        public void AddTagsFromAudio(List<Audio> audios)
+        {
+            foreach (Audio audio in audios.Where(a => a.Tags.Count > 0))
+            {
+                foreach (Tag tag in audio.Tags)
+                {
+                    if (!Tags.Contains(tag))
+                        Tags.Add(tag);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add the tags from a audio if it does not exist
+        /// </summary>
+        /// <param name="fromAudio">The audio from which the tags should be added</param>
+        public void AddTagsFromAudio(Audio fromAudio)
+        {
+            AddTagsFromAudio(new List<Audio>() { fromAudio });
+        }
+
+        /// <summary>
+        /// Remove a tag globally (Includes all audios)
+        /// </summary>
+        /// <param name="tag">The tag to remove</param>
+        public void RemoveTag(Tag tag)
+        {
+            foreach (Audio audio in AudioList)
+            {
+                audio.Tags.Remove(tag);
+            }
+
+            Tags.Remove(tag);
+        }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.UserControls;
 
 namespace WizHat.DreamingPhoenix.AudioHandling
 {
@@ -70,7 +71,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             if (!File.Exists(audioToPlay.AudioFile))
             {
                 audioToPlay.IsAudioFilePathValid = false;
-                MessageBox.Show(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                MainWindow.Current.ShowDialog(new ErrorMessage(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "FAILED TO PLAY AUDIO")).Wait();
                 return;
             }
 
@@ -224,33 +226,40 @@ namespace WizHat.DreamingPhoenix.AudioHandling
         public bool ConvertToSampleRate(ref string fileName)
         {
             WaveStream readerStream = null;
-            if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                readerStream = new WaveFileReader(fileName);
-                if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                if (fileName.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
                 {
-                    readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
-                    readerStream = new BlockAlignReductionStream(readerStream);
+                    readerStream = new WaveFileReader(fileName);
+                    if (readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                    {
+                        readerStream = WaveFormatConversionStream.CreatePcmStream(readerStream);
+                        readerStream = new BlockAlignReductionStream(readerStream);
+                    }
+                }
+                else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+                {
+                    readerStream = new Mp3FileReader(fileName);
+                }
+                else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
+                {
+                    readerStream = new AiffFileReader(fileName);
+                }
+                else
+                {
+                    // fall back to media foundation reader, see if that can play it
+                    readerStream = new MediaFoundationReader(fileName);
                 }
             }
-            else if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+            catch (Exception)
             {
-                readerStream = new Mp3FileReader(fileName);
-            }
-            else if (fileName.EndsWith(".aiff", StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(".aif", StringComparison.OrdinalIgnoreCase))
-            {
-                readerStream = new AiffFileReader(fileName);
-            }
-            else
-            {
-                // fall back to media foundation reader, see if that can play it
                 readerStream = new MediaFoundationReader(fileName);
             }
 
             string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Converted.wav");
             if (File.Exists(outFile))
             {
-                MessageBox.Show(string.Format("File {0} already exists", outFile));
+                MainWindow.Current.ShowDialog(new ErrorMessage(string.Format("File {0} already exists", outFile), "FILE ALREADY EXISTS")).Wait();
                 return false;
             }
 
@@ -274,7 +283,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             resampler.Dispose();
             readerStream.Close();
             File.Delete(fileName);
-            File.Move(outFile, Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "." + Path.GetExtension(outFile)));
+            File.Move(outFile, Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Path.GetExtension(outFile)));
+            fileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Path.GetExtension(outFile));
 
             return true;
         }

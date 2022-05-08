@@ -99,7 +99,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" Visibility="Collapsed">
+                                <Grid x:Name="grid_noSearchListboxPrompt" Margin="0,43,0,0" d:Visibility="Hidden" Visibility="Visible">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="/Images/Biscuit/Biscuit_Confused.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="OOPS, WHATEVER YOU WERE LOOKING FOR IS NOT HERE." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
@@ -133,10 +133,10 @@
                                                             Converter={StaticResource ColorMediaBrushConverter}}" />
                                                     <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" CornerRadius="5">
                                                         <Grid>
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                            <fa:FontAwesomeImage d:Visibility="Visible" Visibility="{Binding IsAudioFilePathValid,
                                                                                  Converter={StaticResource BooleanToVisibilityConverter}}"
                                                                                  Icon="SolidMusic" Foreground="{DynamicResource ForegroundDefault}" Margin="5,8,10,5" />
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                            <fa:FontAwesomeImage d:Visibility="Collapsed" Visibility="{Binding IsAudioFilePathValid,
                                                                                  Converter={StaticResource InvertedBooleanVisibilityConverter}}"
                                                                                  Icon="SolidCircleExclamation" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                                         </Grid>
@@ -148,12 +148,12 @@
                                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                                             Click="RemoveAudio_Click" />
                                                     <Button Width="30" fa:Content.Icon="SolidPlay"  FontSize="18" Margin="0,5,35,0"
-                                                            IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
+                                                            d:IsEnabled="True" IsEnabled="{Binding IsAudioFilePathValid}" HorizontalAlignment="Right"
                                                             Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top"
                                                             Click="PlayAudioTrack_Click" />
 
                                                     <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}"
-                                                            Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                            d:Visibility="Collapsed" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
                                                         <Grid>
@@ -197,10 +197,10 @@
                                                             Converter={StaticResource ColorMediaBrushConverter}}" />
                                                     <Border Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,5,5,5" CornerRadius="5">
                                                         <Grid>
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                            <fa:FontAwesomeImage d:Visibility="Visible" Visibility="{Binding IsAudioFilePathValid,
                                                                                  Converter={StaticResource BooleanToVisibilityConverter}}" 
                                                                                  Icon="SolidBolt" Foreground="{DynamicResource ForegroundDefault}" Margin="11,8,11,5" />
-                                                            <fa:FontAwesomeImage Visibility="{Binding IsAudioFilePathValid,
+                                                            <fa:FontAwesomeImage d:Visibility="Collapsed" Visibility="{Binding IsAudioFilePathValid,
                                                                                  Converter={StaticResource InvertedBooleanVisibilityConverter}}"
                                                                                  Icon="SolidCircleExclamation" Foreground="{DynamicResource ErrorNormal}" Margin="7,8,7,5" />
                                                         </Grid>
@@ -211,11 +211,11 @@
                                                             Style="{StaticResource TransparentRedButton}" Height="30" VerticalAlignment="Top"
                                                             Click="RemoveAudio_Click" />
                                                     <Button Width="30" fa:Content.Icon="SolidPlay"  FontSize="18" Margin="0,5,35,0" HorizontalAlignment="Right"
-                                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top" IsEnabled="{Binding IsAudioFilePathValid}"
+                                                            Style="{StaticResource TransparentButton}" Height="30" VerticalAlignment="Top" d:IsEnabled="True" IsEnabled="{Binding IsAudioFilePathValid}"
                                                             Click="PlaySoundEffect_Click" />
 
                                                     <Border Margin="0,38,0,0" CornerRadius="0,0,5,5" Background="{DynamicResource BackgroundA}"
-                                                            Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
+                                                            d:Visibility="Collapsed" Visibility="{Binding Path=AppModelInstance.Options.ExtendedModeEnabled,
                                                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
                                                         <Grid>
@@ -250,6 +250,18 @@
                                             </Border>
                                         </DataTemplate>
                                     </ListBox.Resources>
+                                    <d:ListBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <audio:AudioTrack Name="Never Gonna Give You Up - Rick Astley" Volume="0.50" />
+                                            <audio:AudioTrack Name="We are Number One - Lazy Town" Volume="0.65" />
+                                            <audio:AudioTrack Name="Astronomia - Vicetone &amp; Tony Igy" Volume="0.25" />
+                                            <audio:AudioTrack Name="The Sounds of Silence - Simon &amp; Garfunkel" Volume="0.30" />
+                                            <audio:AudioTrack Name="Spooky Scary Skeletons - Andrew Gold" Volume="0.10" />
+                                            <audio:AudioTrack Name="Wii Theme - Nintendo" Volume="0.80" />
+                                            <audio:AudioTrack Name="Bitch Lasagna - PewDiePie" Volume="1.00" />
+                                            <audio:AudioTrack Name="Green Gang - The Boys" Volume="0.40" />
+                                        </CompositeCollection>
+                                    </d:ListBox.ItemsSource>
                                 </ListBox>
                                 <Grid Height="Auto" />
                                 <TextBox Margin="8,10,34,0" Text="{Binding Path=AppModelInstance.Options.FilterOptions.SearchTerm, Mode=TwoWay,
@@ -272,7 +284,7 @@
                         <Grid>
                             <Grid Background="{DynamicResource BackgroundC}">
 
-                                <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" Visibility="Visible">
+                                <Grid x:Name="grid_emptySceneListboxPrompt" Margin="0,43,0,0" d:Visibility="Hidden" Visibility="Visible">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="/Images/Biscuit/Biscuit_Guitar.png" Width="150" Height="150" RenderOptions.BitmapScalingMode="Fant" />
                                         <Label Content="SEEMS LIKE YOU HAVEN'T ADDED ANY SCENES YET." FontWeight="DemiBold" Foreground="{DynamicResource ForegroundDefault}" HorizontalContentAlignment="Center"/>
@@ -319,7 +331,8 @@
                                                         </Border.Background>
                                                         <Border.OpacityMask>
                                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                                <GradientStop Color="Black" Offset="1" />
+                                                                <GradientStop Offset="1" />
+                                                                <GradientStop Color="Black" Offset="0.8" />
                                                                 <GradientStop Color="Black" Offset="0.5" />
                                                                 <GradientStop Offset="0.2" />
                                                             </LinearGradientBrush>
@@ -349,6 +362,15 @@
                                             </Border>
                                         </DataTemplate>
                                     </ListBox.Resources>
+                                    <d:ListBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <audio:Scene SceneName="My Friends">
+                                                <audio:Scene.SceneAudioTrack>
+                                                    <audio:AudioTrack Name="The Sounds of Silence - Simon &amp; Garfunkel" />
+                                                </audio:Scene.SceneAudioTrack>
+                                            </audio:Scene>
+                                        </CompositeCollection>
+                                    </d:ListBox.ItemsSource>
                                 </ListBox>
                             </Grid>
                         </Grid>
@@ -366,16 +388,28 @@
                     <Grid Grid.Row="0">
                         <Label Content="CURRENTLY PLAYING" Foreground="{DynamicResource ForegroundDimmed}" Height="20" VerticalAlignment="Top"
                                FontSize="9" Margin="10,10,10,0" />
-                        <TextBlock Foreground="{DynamicResource ForegroundDefault}"
-                                   Height="30" VerticalAlignment="Top" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis"
-                                   Padding="4" FontWeight="Bold" MouseLeftButtonUp="AudioTrackNameDisplay_MouseLeftButtonUp">
+                        <TextBlock Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,25,10,0" FontSize="17" TextTrimming="CharacterEllipsis"
+                                   Padding="4" FontWeight="Bold" MouseLeftButtonUp="AudioTrackNameDisplay_MouseLeftButtonUp" d:Text="Rick Astley - Never Gonna Give You Up">
                             <TextBlock.Text>
-                                <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio"  UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.Converter>
                                         <converters:ObjectToPlayingStringConverter />
                                     </Binding.Converter>
                                 </Binding>
                             </TextBlock.Text>
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{DynamicResource ForegroundDefault}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource ForegroundHot}"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Name}" Value="">
+                                            <Setter Property="Foreground" Value="{DynamicResource ForegroundDefault}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
                         </TextBlock>
 
                         <Grid Margin="10" VerticalAlignment="Bottom" Height="20">
@@ -387,7 +421,7 @@
                             <Label Content="{Binding ElementName=pgb_audioTrack, Path=Value, Converter={StaticResource DecimalToAudioTimeConverter}}"
                                Foreground="{DynamicResource ForegroundDefault}" FontSize="10" FontFamily="Consolas"
                                HorizontalContentAlignment="Center" />
-                            <ProgressBar Name="pgb_audioTrack" Height="10" VerticalAlignment="Center" Value="0" Grid.Column="1" Maximum="0" />
+                            <ProgressBar Name="pgb_audioTrack" Height="10" VerticalAlignment="Center" d:Value="43" Value="0" Grid.Column="1" d:Maximum="212" Maximum="0" />
                             <Label Content="{Binding ElementName=pgb_audioTrack, Path=Maximum, Converter={StaticResource DecimalToAudioTimeConverter}}"
                                Foreground="{DynamicResource ForegroundDefault}" FontSize="10" Grid.Column="2"
                                HorizontalContentAlignment="Center" FontFamily="Consolas" />
@@ -395,14 +429,14 @@
 
                         <StackPanel Margin="10,25,10,0" Orientation="Horizontal" Height="30">
                             <ToggleButton Style="{StaticResource TransparentToggleButton}" fa:Content.Icon="SolidRepeat" Width="23" FontSize="20" Margin="5,0,15,0"
-                                          IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat,
+                                          d:IsChecked="True" IsChecked="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio.Repeat,
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,
                                           Converter={StaticResource IsDefaultAudioToBooleanConverter}}" />
                             <Button Name="btn_PauseAudioTrack" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidPause" Width="20" FontSize="20"
-                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" Visibility="Collapsed" />
+                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" d:Visibility="Visible" Visibility="Collapsed" />
                             <Button Name="btn_PlayAudioTrack" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidPlay" Width="20" FontSize="20"
-                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" IsEnabled="False" />
+                                    Margin="0,0,15,0" Click="PlayPauseAudioTrack_Click" d:Visibility="Collapsed" IsEnabled="False" />
                             <Button Name="btn_PlayNextAudio" Style="{StaticResource TransparentButton}" fa:Content.Icon="SolidForward" Width="22" FontSize="20"
                                     Margin="0,0,15,0" Click="btn_PlayNextAudio_Click"
                                     IsEnabled="{Binding Path=AppModelInstance.AudioManager.CurrentlyPlayingAudioTrack.CurrentAudio,

@@ -59,7 +59,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="SORT BY" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Center" Margin="20,0,20,0" HorizontalAlignment="Stretch"/>
-                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type sorting:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0"/>
+                        <ComboBox Margin="0,0,45,0" VerticalAlignment="Center" Style="{StaticResource ComboBox}" ItemsSource="{Binding Source={enumExtension:EnumerationBindingExtension {x:Type sorting:SortType}}}" DisplayMemberPath="Description" SelectedValuePath="Value" SelectedValue="{Binding NewFilterOptions.SortType}" Grid.Column="1" SelectedIndex="0" IsReadOnly="True"/>
                         <ToggleButton Margin="0,0,10,0" FontSize="20" fa:Content.Icon="SolidArrowDownAZ" HorizontalAlignment="Right" Width="30" IsChecked="{Binding Path=NewFilterOptions.SortDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SortDirectionConverter}}" VerticalAlignment="Center" Style="{StaticResource SortIndicatorToggleButton}" Grid.Column="1" Height="30"/>
                     </Grid>
                 </Border>

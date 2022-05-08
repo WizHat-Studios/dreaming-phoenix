@@ -31,16 +31,37 @@ namespace WizHat.DreamingPhoenix.UserControls
         }
 
 
-        public ErrorMessage(string message)
+        public ErrorMessage(string message, string title = "THAT DIDN'T WORK OUT. WE'RE SORRY...", MessageBoxButton messageBoxButton = MessageBoxButton.OK)
         {
             InitializeComponent();
             this.DataContext = this;
             Message = message;
+
+            lbl_title.Content = title;
+
+            switch (messageBoxButton)
+            {
+                case MessageBoxButton.OK:
+                    btn_ok.Visibility = Visibility.Visible;
+                    btn_cancel.Visibility = Visibility.Collapsed;
+                    break;
+                case MessageBoxButton.OKCancel:
+                    btn_ok.Visibility = Visibility.Visible;
+                    btn_cancel.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Close(MessageBoxResult.OK);
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close(MessageBoxResult.Cancel);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

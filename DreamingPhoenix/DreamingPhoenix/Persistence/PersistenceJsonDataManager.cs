@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WizHat.DreamingPhoenix.AudioHandling;
+using WizHat.DreamingPhoenix.AudioProperties;
 using WizHat.DreamingPhoenix.Data;
 
 namespace WizHat.DreamingPhoenix.Persistence
@@ -26,6 +27,7 @@ namespace WizHat.DreamingPhoenix.Persistence
         }
 
         private readonly JsonSerializerSettings jsonSerializerSettings = new() { TypeNameHandling = TypeNameHandling.Auto, PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+        private readonly JsonSerializerSettings jsonSerializerExportSettings = new() { TypeNameHandling = TypeNameHandling.Auto };
 
         public PersistentData Load()
         {
@@ -101,7 +103,7 @@ namespace WizHat.DreamingPhoenix.Persistence
                         using (var entryStream = sceneFile.Open())
                         using (var streamWriter = new StreamWriter(entryStream))
                         {
-                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented, jsonSerializerSettings));
+                            await streamWriter.WriteAsync(JsonConvert.SerializeObject(clonedScene, Formatting.Indented, jsonSerializerExportSettings));
                         }
 
                         if (sceneToExport.ImageSource != null)
@@ -179,7 +181,6 @@ namespace WizHat.DreamingPhoenix.Persistence
 
             return scene;
         }
-
         
         public async Task ImportScene(string packageFile, string saveDirectory)
         {
@@ -239,6 +240,8 @@ namespace WizHat.DreamingPhoenix.Persistence
 
 
                 AppModel.Instance.AudioList.Add(scene.SceneAudioTrack);
+                AppModel.Instance.AddCategoryFromAudio(scene.SceneAudioTrack);
+                AppModel.Instance.AddTagsFromAudio(scene.SceneAudioTrack);
 
                 foreach (SoundEffect sfx in scene.SceneSoundEffects)
                 {
@@ -248,6 +251,8 @@ namespace WizHat.DreamingPhoenix.Persistence
                         sfx.AudioFile = Path.GetRelativePath(AppContext.BaseDirectory, sfx.AudioFile);
                     
                     AppModel.Instance.AudioList.Add(sfx);
+                    AppModel.Instance.AddCategoryFromAudio(sfx);
+                    AppModel.Instance.AddTagsFromAudio(sfx);
                 }
             }
 

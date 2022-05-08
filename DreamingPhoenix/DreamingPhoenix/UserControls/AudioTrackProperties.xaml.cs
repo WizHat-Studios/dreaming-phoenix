@@ -18,6 +18,8 @@ using System.Runtime.CompilerServices;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.AudioProperties;
+using System.Diagnostics;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -43,10 +45,9 @@ namespace WizHat.DreamingPhoenix.UserControls
         {
             InitializeComponent();
             this.DataContext = this;
-            AppModel.Instance.UpdateAvailableCategories();
             Track = audioTrack;
             Tracks = AppModel.Instance.AudioList.Where(a => a.GetType() == typeof(AudioTrack) && a != Track).ToList();
-        }       
+        }
 
         private void tbx_audioFile_PreviewDragOver(object sender, DragEventArgs e)
         {
@@ -91,39 +92,47 @@ namespace WizHat.DreamingPhoenix.UserControls
             Track.NextAudioTrack = null;
         }
 
-        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
+        private void RemoveCategory_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new AudioDeletion(Track));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            Track.Category = Category.Default;
+            HelperFunctions.RefreshAudioListView();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
+        private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            await MainWindow.Current.ShowDialog(new AudioDeletion(Track));
+            MainWindow.Current.grid_selectedAudioProperties.Children.Clear();
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
         {
             Tag tag = ((Button)sender).Tag as Tag;
             Track.Tags.Remove(tag);
+
+            HelperFunctions.RefreshAudioListView();
         }
 
-        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        private async void AddNewTag_Click(object sender, RoutedEventArgs e)
         {
-            if (Track.Tags == null)
-                Track.Tags = new ObservableCollection<Tag>();
-            Track.Tags.Add(new Tag() { Text = "New Tag" });
+            Track.Tags = new(await ItemSelectionList.SelectTags(Track.Tags.ToList()));
+            HelperFunctions.RefreshAudioListView();
         }
 
         private async void SelectNextAudioTrack_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            Audio newNextAudioTrack = await mainWindow.ShowDialog<Audio>(new AudioSelection(typeof(AudioTrack), Track.NextAudioTrack));
+            Track.NextAudioTrack = (AudioTrack)await ItemSelectionList.SelectAudio(Track.NextAudioTrack, typeof(AudioTrack));
+        }
 
-            if (newNextAudioTrack != null)
-                Track.NextAudioTrack = (AudioTrack)newNextAudioTrack;
+        private async void SelectCategory_Click(object sender, RoutedEventArgs e)
+        {
+            Track.Category = await ItemSelectionList.SelectCategory(Track.Category);
+            HelperFunctions.RefreshAudioListView();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

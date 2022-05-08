@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using WizHat.DreamingPhoenix.AudioHandling;
 using WizHat.DreamingPhoenix.Data;
 using WizHat.DreamingPhoenix.AudioProperties;
+using WizHat.DreamingPhoenix.Extensions;
 
 namespace WizHat.DreamingPhoenix.UserControls
 {
@@ -75,24 +76,34 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void DeleteSound_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new AudioDeletion(Sound));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
-            /*AppModel.Instance.AudioList.Remove(Sound);
-            this.Visibility = Visibility.Collapsed;*/
+            await MainWindow.Current.ShowDialog(new AudioDeletion(Sound));
+            MainWindow.Current.grid_selectedAudioProperties.Children.Clear();
+        }
+
+        private void RemoveCategory_Click(object sender, RoutedEventArgs e)
+        {
+            Sound.Category = Category.Default;
+            HelperFunctions.RefreshAudioListView();
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)
         {
             Tag tag = ((Button)sender).Tag as Tag;
             Sound.Tags.Remove(tag);
+
+            HelperFunctions.RefreshAudioListView();
         }
 
-        private void AddNewTag_Click(object sender, RoutedEventArgs e)
+        private async void SelectCategory_Click(object sender, RoutedEventArgs e)
         {
-            if (Sound.Tags == null)
-                Sound.Tags = new ObservableCollection<Tag>();
-            Sound.Tags.Add(new Tag() { Text = "New Tag" });
+            Sound.Category = await ItemSelectionList.SelectCategory(Sound.Category);
+            HelperFunctions.RefreshAudioListView();
+        }
+
+        private async void AddNewTag_Click(object sender, RoutedEventArgs e)
+        {
+            Sound.Tags = new(await ItemSelectionList.SelectTags(Sound.Tags.ToList()));
+            HelperFunctions.RefreshAudioListView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

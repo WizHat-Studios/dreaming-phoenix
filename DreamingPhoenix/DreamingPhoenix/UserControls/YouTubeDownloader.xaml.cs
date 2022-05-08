@@ -92,6 +92,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 grid_youtubeUrl.Visibility = Visibility.Visible;
                 btn_downloadVideo.IsEnabled = true;
+                await MainWindow.Current.ShowDialog(new ErrorMessage($"Youtube video with the url '{YouTubeURL}' could not be found. Please try a different url."));
             }    
         }
 
@@ -124,8 +125,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
             Close();
             AppModel.Instance.SaveData();
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            HelperFunctions.RefreshAudioListView();
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e)

@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:WizHat.DreamingPhoenix.Styles">
 
-    <SolidColorBrush x:Key="AccentA" Color="#0088F1"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentB" Color="#005DDB"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentC" Color="#1B5CB4"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentD" Color="#1B71B4"></SolidColorBrush>
-    <SolidColorBrush x:Key="AccentE" Color="#35A0F3"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentA" Color="#3DCBEF"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentB" Color="#648AB5"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentC" Color="#5699C0"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentD" Color="#6EB2D9"></SolidColorBrush>
+    <SolidColorBrush x:Key="AccentE" Color="#86C4E8"></SolidColorBrush>
 
     <SolidColorBrush x:Key="BackgroundA" Color="#FFFFFF"></SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundB" Color="#E4E4E4"></SolidColorBrush>
@@ -21,20 +21,20 @@
     <SolidColorBrush x:Key="ForegroundDefaultVariant"   Color="#1D1D1D"></SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundDimmed"           Color="#424242"></SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundDimmedVariant"    Color="#5C5C5C"></SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundHot"              Color="#03AEFD"></SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundHyperlink"        Color="#45AAFF"></SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundHot"              Color="#24BFEC"></SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundHyperlink"        Color="#0CAAD8"></SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundInvert"           Color="#F1F1F1"></SolidColorBrush>
 
-    <SolidColorBrush x:Key="ErrorDark"      Color="#FFB00707"></SolidColorBrush>
-    <SolidColorBrush x:Key="ErrorNormal"    Color="#FFE20000"></SolidColorBrush>
-    <SolidColorBrush x:Key="ErrorBright"    Color="#FFFF1C1C"></SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorDark"      Color="#B52626"></SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorNormal"    Color="#D03C3C"></SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorBright"    Color="#F48F8F"></SolidColorBrush>
 
     <SolidColorBrush x:Key="WarningDark"    Color="#FFBDA400"></SolidColorBrush>
     <SolidColorBrush x:Key="WarningNormal"  Color="#FFF0DA00"></SolidColorBrush>
     <SolidColorBrush x:Key="WarningBright"  Color="#FFF3FF00"></SolidColorBrush>
 
-    <SolidColorBrush x:Key="OKDark"         Color="#FF008506"></SolidColorBrush>
-    <SolidColorBrush x:Key="OKNormal"       Color="#FF08B910"></SolidColorBrush>
-    <SolidColorBrush x:Key="OKBright"       Color="#FF0BE515"></SolidColorBrush>
+    <SolidColorBrush x:Key="OKDark"         Color="#30B526"></SolidColorBrush>
+    <SolidColorBrush x:Key="OKNormal"       Color="#3CD058"></SolidColorBrush>
+    <SolidColorBrush x:Key="OKBright"       Color="#A0FCB8"></SolidColorBrush>
 
 </ResourceDictionary>

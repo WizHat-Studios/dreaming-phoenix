@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -10,26 +12,57 @@ using System.Windows.Media;
 
 namespace WizHat.DreamingPhoenix.AudioProperties
 {
+    [DebuggerDisplay("Name: {Name} - Color: {Color}")]
     public class Category : INotifyPropertyChanged, IEquatable<Category>
     {
-        private static Category defaultCategory = new Category() { Name = "None" };
-        public static Category Default { get { return defaultCategory; } }
-
-        private string name;
-
-        public string Name
+        private static Color DefaultColor = Colors.DarkGray;
+        public static Category Default
         {
-            get { return name; }
-            set { name = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(Color)); }
+            get
+            {
+                return new Category("None") { color = DefaultColor };
+            }
         }
 
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Color color = DefaultColor;
         public Color Color
         {
             get
             {
-                string hash = BitConverter.ToUInt32(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(Name)), 0).ToString();
-                return (Color)ColorConverter.ConvertFromString("#" + hash.Substring(0, 6));
+                return color;
             }
+            set
+            {
+                if (IsDefault())
+                    return;
+
+                color = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Category(string name)
+        {
+            Name = name;
+        }
+
+        public bool IsDefault()
+        {
+            return Equals(Default);
         }
 
         public bool Equals(Category other)
@@ -37,12 +70,23 @@ namespace WizHat.DreamingPhoenix.AudioProperties
             return other.Name == Name;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override bool Equals(object obj)
+        {
+            if (obj is not Category)
+                return false;
 
+            return Equals((Category)obj);
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }

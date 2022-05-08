@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="./Styles/Slider/Slider.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/Button.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/Button/TransparentButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/Button/RoundButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/DarkTextBox.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TextBox/TransparentTextBox.xaml"></ResourceDictionary>
@@ -31,6 +32,7 @@
                 <ResourceDictionary Source="./Styles/Button/ConfirmAndRemoveButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/OnOffIndicatorToggleButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToggleButton/SortIndicatorToggleButton.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ToggleButton/CheckToggleButton.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/ToolTip/ToolTip.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="./Styles/TabControl/TabItem.xaml"></ResourceDictionary>
 

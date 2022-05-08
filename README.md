@@ -53,7 +53,7 @@ Currently the following features are supported:
 * Play a music track and sound effects simultaneously
 * Fading between music tracks while playing
 * Configurable global hotkeys for each music track and sound effect
-* Choose from three different themes
+* Choose from four different themes
 * Add Scenes to switch between a collection of sounds instantly
 
 
@@ -71,7 +71,7 @@ Currently the following features are supported:
 ## Tips & Tricks
 
 ### Adding Audio
-If you add audio which is contained in the base- or subfolder of the `WizHat.DreamingPhoenix.exe` file, the programm will still be able to find your audio when the location of the program has changed.
+If you add audio which is contained in the base- or subfolder of the `WizHat.DreamingPhoenix.exe` file, the program will still be able to find your audio when the location of the program has changed.
 
 ### Categories
 If you give your audio file a category, it will be marked by a specific color. Use these colors to quickly determine at what kind of audio you're looking at.
@@ -80,6 +80,10 @@ If you give your audio file a category, it will be marked by a specific color. U
 ## License
 
 This project is distributed under the GPL-3.0 License. See the [LICENSE](./LICENSE) file for more information.
+
+## Changelog
+
+See the [CHANGELOG](./CHANGELOG) file for more information.
 
 ## Acknowledgments
 This project has been made possible with the help of the following resources and people.
