@@ -61,9 +61,6 @@ namespace WizHat.DreamingPhoenix.ExternalAudio
             }
             catch
             {
-                if (showYouTubeErrors)
-                    MessageBox.Show($"The youtube video with the url {url} could not be found", "Video not found");
-
                 return false;
             }
 

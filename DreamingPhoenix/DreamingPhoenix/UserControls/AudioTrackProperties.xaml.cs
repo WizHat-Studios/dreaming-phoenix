@@ -100,9 +100,8 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void DeleteTrack_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new AudioDeletion(Track));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            await MainWindow.Current.ShowDialog(new AudioDeletion(Track));
+            MainWindow.Current.grid_selectedAudioProperties.Children.Clear();
         }
 
         private void RemoveTag_Click(object sender, RoutedEventArgs e)

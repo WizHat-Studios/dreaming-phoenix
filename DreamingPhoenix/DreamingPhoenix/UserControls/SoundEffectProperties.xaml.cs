@@ -76,11 +76,8 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void DeleteSound_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new AudioDeletion(Sound));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
-            /*AppModel.Instance.AudioList.Remove(Sound);
-            this.Visibility = Visibility.Collapsed;*/
+            await MainWindow.Current.ShowDialog(new AudioDeletion(Sound));
+            MainWindow.Current.grid_selectedAudioProperties.Children.Clear();
         }
 
         private void RemoveCategory_Click(object sender, RoutedEventArgs e)

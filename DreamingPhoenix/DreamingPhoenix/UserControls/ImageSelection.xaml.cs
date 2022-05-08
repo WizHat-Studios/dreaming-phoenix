@@ -78,7 +78,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             Close();
         }
 
-        private void ChooseImageFromDisk_Click(object sender, RoutedEventArgs e)
+        private async void ChooseImageFromDisk_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog FileDialog = new System.Windows.Forms.OpenFileDialog()
             {
@@ -92,8 +92,16 @@ namespace WizHat.DreamingPhoenix.UserControls
             FileDialog.Title = "Select Image File";
             if (FileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var uri = new Uri("file://" + FileDialog.FileName);
-                SelectedImage = new BitmapImage(uri);
+                try
+                {
+                    var uri = new Uri("file://" + FileDialog.FileName);
+                    SelectedImage = new BitmapImage(uri);
+                }
+                catch (Exception)
+                {
+                    await MainWindow.Current.ShowDialog(new ErrorMessage("Looks like this image is corrupted or its type is not supported. Please use a different image.", "IMAGE IS UNKNOWN TYPE"));
+                }
+                
             }
         }
 
@@ -130,6 +138,7 @@ namespace WizHat.DreamingPhoenix.UserControls
             }
             catch (Exception)
             {
+                await MainWindow.Current.ShowDialog(new ErrorMessage("Looks like this image is corrupted or its type is not supported. Please use a different image.", "IMAGE IS UNKNOWN TYPE"));
             }
             IsDownloadBusy = false;
         }
@@ -142,7 +151,6 @@ namespace WizHat.DreamingPhoenix.UserControls
         private void PasteLink_Click(object sender, RoutedEventArgs e)
         {
             tbox_webLink.Text = Clipboard.GetText(TextDataFormat.Text);
-            DownloadWebImage_Click(this, null);
         }
 
         private void tbox_webLink_TextChanged(object sender, TextChangedEventArgs e)

@@ -12,6 +12,7 @@ using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.UserControls;
 
 namespace WizHat.DreamingPhoenix.AudioHandling
 {
@@ -104,7 +105,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             CurrentAudio.CheckIfFileExistsOnDisk();
             if (!CurrentAudio.IsAudioFilePathValid)
             {
-                MessageBox.Show(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Current.ShowDialog(new ErrorMessage(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", CurrentAudio.Name, CurrentAudio.AudioFile), "FAILED TO PLAY AUDIO")).Wait();
                 return;
             }
 
