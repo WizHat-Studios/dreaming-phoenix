@@ -92,6 +92,8 @@ namespace WizHat.DreamingPhoenix.UserControls
             {
                 grid_youtubeUrl.Visibility = Visibility.Visible;
                 btn_downloadVideo.IsEnabled = true;
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                await mainWindow.ShowDialog(new ErrorMessage($"Youtube video with the url '{YouTubeURL}' could not be found. Please try a different url."));
             }    
         }
 

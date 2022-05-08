@@ -14,11 +14,16 @@
             <Border CornerRadius="0,0,5,5" Margin="1,1,1,1" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                     Background="{DynamicResource BackgroundA}">
                 <Grid>
-                    <Button Height="40" Margin="0,0,0,0" Width="200" Content="I ACCEPT YOUR APOLOGY" VerticalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="btn_ok" Height="40" Margin="5" Width="150" Content="OK" VerticalAlignment="Center"
                             HorizontalAlignment="Center" Click="Ok_Click"/>
+                        <Button x:Name="btn_cancel" Height="40" Margin="5" Width="150" Content="Cancel" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Click="Cancel_Click"/>
+                    </StackPanel>
+                    
                 </Grid>
             </Border>
-            <Label Content="THAT DIDN'T WORK OUT. WE'RE SORRY..." Margin="10,200,10,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <Label x:Name="lbl_title" Content="THAT DIDN'T WORK OUT. WE'RE SORRY..." Margin="10,200,10,0" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="30" FontSize="15" HorizontalContentAlignment="Center" FontWeight="Bold"/>
             <TextBlock Text="{Binding Message}" Margin="10,230,10,0" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource ForegroundDefault}" VerticalAlignment="Top" Height="70" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>

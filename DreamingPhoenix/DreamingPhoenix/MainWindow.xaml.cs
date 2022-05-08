@@ -148,7 +148,19 @@ namespace WizHat.DreamingPhoenix
         {
             if (DialogStack.Count > 0)
             {
+                // Wait animation first on remove
+                if (e.Action == NotifyCollectionChangedAction.Remove)
+                    await Task.Delay(200);
+
                 TopMostDialog = DialogStack.Peek();
+
+                if (e.Action == NotifyCollectionChangedAction.Add && DialogStack.Count > 1)
+                {
+                    DialogPanelVisibility = Visibility.Collapsed;
+                    await Task.Delay(200);
+                }
+
+                DialogPanelVisibility = Visibility.Visible;
             }
             else
             {
@@ -554,8 +566,8 @@ namespace WizHat.DreamingPhoenix
             if (!YouTubeAudio.FFMPEGExists())
             {
                 string downloadLink = "https://ffbinaries.com/downloads";
-                string text = $"To download audio from youtube, you have to download ffmpeg. \r\nDownload link: {downloadLink} \r\nPlease place the downloaded exe file in the same directory as Dreaming Phoenix";
-                MessageBoxResult result = MessageBox.Show(text, "ffmpeg.exe missing", MessageBoxButton.OKCancel);
+                string text = $"To download audio from youtube, you have to download ffmpeg. \r\nDownload it here: '{downloadLink}' or click 'OK' to open the website. \r\nPlease place the downloaded exe file in the same directory as Dreaming Phoenix";
+                MessageBoxResult result = await ShowDialog<MessageBoxResult>(new ErrorMessage(text, "FFMPEG MISSING", MessageBoxButton.OKCancel));
                 if (result == MessageBoxResult.OK)
                 {
                     Process.Start(new ProcessStartInfo
