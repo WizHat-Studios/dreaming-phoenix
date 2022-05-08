@@ -83,7 +83,7 @@ This project is distributed under the GPL-3.0 License. See the [LICENSE](./LICEN
 
 ## Changelog
 
-See the [CHANGELOG](./CHANGELOG) file for more information.
+See the [CHANGELOG](./CHANGELOG.md) file for more information.
 
 ## Acknowledgments
 This project has been made possible with the help of the following resources and people.
