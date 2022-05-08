@@ -111,9 +111,8 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void DeleteScene_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new SceneDeletion(Scene));
-            mainWindow.grid_selectedAudioProperties.Children.Clear();
+            await MainWindow.Current.ShowDialog(new SceneDeletion(Scene));
+            MainWindow.Current.grid_selectedAudioProperties.Children.Clear();
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
@@ -126,8 +125,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async void ReloadImage_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            await mainWindow.ShowDialog(new ImageSelection(Scene));
+            await MainWindow.Current.ShowDialog(new ImageSelection(Scene));
         }
 
         private void BackgroundImage_MouseEnter(object sender, MouseEventArgs e)
@@ -178,8 +176,7 @@ namespace WizHat.DreamingPhoenix.UserControls
                 else
                 {
                     grid_exportedFailed.Visibility = Visibility.Visible;
-                    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                    await mainWindow.ShowDialog(new ErrorMessage("The export of the scene failed. Please make sure the directory you're trying to export to is not protected and the scene is properly configured."));
+                    await MainWindow.Current.ShowDialog(new ErrorMessage("The export of the scene failed. Please make sure the directory you're trying to export to is not protected and the scene is properly configured."));
                     await Task.Delay(5000);
                     grid_exportedFailed.Visibility = Visibility.Collapsed;
                 }

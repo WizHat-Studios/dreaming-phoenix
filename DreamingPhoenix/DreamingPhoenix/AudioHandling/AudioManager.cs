@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
 using WizHat.DreamingPhoenix.Data;
+using WizHat.DreamingPhoenix.UserControls;
 
 namespace WizHat.DreamingPhoenix.AudioHandling
 {
@@ -70,7 +71,8 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             if (!File.Exists(audioToPlay.AudioFile))
             {
                 audioToPlay.IsAudioFilePathValid = false;
-                MessageBox.Show(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "Failed to play audio", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                MainWindow.Current.ShowDialog(new ErrorMessage(string.Format("Failed to play the audio '{0}' because the file at '{1}' could not be found! Please check if the file exist or reimport the file in the properties.", audioToPlay.Name, audioToPlay.AudioFile), "FAILED TO PLAY AUDIO")).Wait();
                 return;
             }
 
@@ -257,7 +259,7 @@ namespace WizHat.DreamingPhoenix.AudioHandling
             string outFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Converted.wav");
             if (File.Exists(outFile))
             {
-                MessageBox.Show(string.Format("File {0} already exists", outFile));
+                MainWindow.Current.ShowDialog(new ErrorMessage(string.Format("File {0} already exists", outFile), "FILE ALREADY EXISTS")).Wait();
                 return false;
             }
 

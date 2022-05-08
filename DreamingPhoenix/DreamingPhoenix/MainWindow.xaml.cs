@@ -33,6 +33,8 @@ namespace WizHat.DreamingPhoenix
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public static MainWindow Current = (MainWindow)Application.Current.MainWindow;
+
         private bool pausePlayEnabled = true;
         public AppModel AppModelInstance { get; set; } = AppModel.Instance;
 

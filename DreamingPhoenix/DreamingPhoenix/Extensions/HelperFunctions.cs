@@ -29,8 +29,7 @@ namespace WizHat.DreamingPhoenix.Extensions
 
         public static void RefreshAudioListView()
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
+            MainWindow.Current.ApplyFilterOptions(AppModel.Instance.Options.FilterOptions);
         }
     }
 }

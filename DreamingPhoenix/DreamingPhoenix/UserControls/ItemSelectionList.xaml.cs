@@ -326,8 +326,7 @@ namespace WizHat.DreamingPhoenix.UserControls
 
         private async static Task<IEnumerable<object>> ShowDialog(IEnumerable<object> currentValues, ItemSelectionList itemSelectionList)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            List<object> newValues = await mainWindow.ShowDialog<List<object>>(itemSelectionList);
+            List<object> newValues = await MainWindow.Current.ShowDialog<List<object>>(itemSelectionList);
             if (newValues is null)
                 return currentValues;
 
