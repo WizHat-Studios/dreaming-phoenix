@@ -30,7 +30,7 @@
 [![GitHub license](https://img.shields.io/badge/Contact-support%40wizhat.net-blue?style=for-the-badge)](mailto:support@wizhat.net)
 
 </div>
-    <a href="https://github.com/WizHat-Studios/dreaming-phoenix/releases/lastest">Download Latest Release</a>
+    <a href="https://github.com/WizHat-Studios/dreaming-phoenix/releases/latest">Download Latest Release</a>
     ·
     <a href="https://github.com/WizHat-Studios/dreaming-phoenix/issues">Report Bug</a>
     ·
