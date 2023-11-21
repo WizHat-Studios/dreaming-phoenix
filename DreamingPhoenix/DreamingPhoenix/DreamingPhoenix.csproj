@@ -39,7 +39,7 @@
     <Resource Include="Images\Biscuit\Biscuit_Guitar.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DSaladin.FontAwesome.WPF" Version="6.1.1.2" />
+    <PackageReference Include="DSaladin.FontAwesome.WPF" Version="6.3.0" />
     <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="SciChart.Wpf.UI.Transitionz" Version="3.1.251" />
     <PackageReference Include="YoutubeExplode.Converter" Version="6.3.7" />
