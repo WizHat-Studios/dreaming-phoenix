@@ -14,7 +14,7 @@ namespace WizHat.DreamingPhoenix.ValidationRules
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value.ToString().Trim() == "")
+            if (value == null || value.ToString().Trim() == "")
                 return new(false, "The value can't be empty");
 
             if (CheckForNull && value is null)

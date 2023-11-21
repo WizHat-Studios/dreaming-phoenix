@@ -59,7 +59,7 @@ Currently the following features are supported:
 
 ## Getting Started
 ### Prerequisites
-* [.NET Core 5.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/5.0) installed
+* [.NET Core 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed
 ### Installation
 
 1. Download the [latest release](https://github.com/WizHat-Studios/dreaming-phoenix/releases/latest) from the release page.
