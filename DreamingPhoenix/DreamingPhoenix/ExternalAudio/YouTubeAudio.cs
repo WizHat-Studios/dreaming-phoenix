@@ -69,7 +69,7 @@ namespace WizHat.DreamingPhoenix.ExternalAudio
             OnGatheredInformations?.Invoke(this, new(downloadedPath));
 
             StreamManifest streamManifest = await youtube.Videos.Streams.GetManifestAsync(youtubeVideo.Id);
-            AudioOnlyStreamInfo audioStreamInfo = (AudioOnlyStreamInfo)streamManifest.GetAudioStreams().First(audioStream => audioStream.GetType() == typeof(AudioOnlyStreamInfo) && audioStream.AudioCodec == "mp4a.40.5");
+            IStreamInfo audioStreamInfo = streamManifest.GetAudioStreams().GetWithHighestBitrate();
             IStreamInfo[] streamInfos = new IStreamInfo[] { audioStreamInfo };
 
             ConversionRequestBuilder conversionRequest = new(downloadedPath);
